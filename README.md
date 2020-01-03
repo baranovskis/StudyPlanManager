@@ -9,3 +9,10 @@
 
 + Run `npm run build-dev` to build in development mode application
 + Run `npm run build-prod` - build in production mode application
+
+## Helpful links
+
++ [Vue Argon Design System](https://demos.creative-tim.com/vue-argon-design-system/documentation/)
++ [Vddl - Vue components for modifying lists with the HTML5 drag & drop API.](https://github.com/hejianxian/vddl)
++ [SlimGrid - A wrapper for SlickGrid to slim down the amount of time and code required to create a grid.](https://github.com/rob-white/SlimGrid)
++ [SlickGrid - Advanced JavaScript grid/spreadsheet component.](https://github.com/mleibman/SlickGrid)
