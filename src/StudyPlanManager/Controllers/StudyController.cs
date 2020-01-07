@@ -1,9 +1,6 @@
 ﻿using StudyPlanManager.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace StudyPlanManager.Controllers
@@ -11,6 +8,7 @@ namespace StudyPlanManager.Controllers
     public class StudyController : ApiController
     {
         // GET api/study
+        [HttpGet]
         public IEnumerable<StudyCourse> Get()
         {
             var courses = new List<StudyCourse>

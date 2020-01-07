@@ -20,6 +20,10 @@
 + Run `npm run build-dev` to build in development mode application
 + Run `npm run build-prod` - build in production mode application
 
+## API
+- http://localhost:9000/api/study - Get study tree.
+- http://localhost:9000/api/export/{id} - Get excel document.
+
 ## Helpful links
 
 + [Vue Argon Design System](https://demos.creative-tim.com/vue-argon-design-system/documentation/)

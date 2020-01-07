@@ -82,6 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\StudyController.cs" />
     <Compile Include="CustomContext.cs" />
     <Compile Include="Models\Study.cs" />
