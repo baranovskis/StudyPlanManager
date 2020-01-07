@@ -1,17 +1,18 @@
 ## TODO
-
+- [x] Check if web server is already running.
 - [ ] Create & connect to a local database.
 - [ ] Retrieve data from database in API controller.
 - [ ] Drag&drop study tree builder (StudyCourse -> StudyGroup -> Study).
 - [ ] Save changes from frontend to database.
 - [ ] Data validation (min/max points ...).
-- [ ] Export
+- [ ] Excel export.
+- [ ] Error logging.
 
 ## Quick start (frontend)
 
 1) Make sure you have [Node.js](https://nodejs.org/en/) installed.
 2) Navigate to the application main directory (`src/App`) from terminal where package.json is located.
-3) Run `npm install`
+3) Run `npm install` (**run as administrator**)
 4) Run `npm run serve` to start the local development server and start prototyping.
 
 #### Additional commands

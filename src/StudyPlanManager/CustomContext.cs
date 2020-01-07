@@ -12,7 +12,7 @@ namespace StudyPlanManager
 {
     public class CustomContext : ApplicationContext
     {
-        const string baseAddress = "http://localhost:9000/";
+        public const string BaseAddress = "http://localhost:9000/";
 
         private NotifyIcon _trayIcon;
         private readonly IDisposable _webApp;
@@ -23,8 +23,8 @@ namespace StudyPlanManager
 
             InitializeComponent();
 
-            _webApp = WebApp.Start<Startup>(url: baseAddress);
-            Process.Start(baseAddress);
+            _webApp = WebApp.Start<Startup>(url: BaseAddress);
+            Process.Start(BaseAddress);
 
             _trayIcon.ShowBalloonTip(3000);
         }
@@ -70,7 +70,7 @@ namespace StudyPlanManager
 
         private void TrayIcon_DoubleClick(object sender, EventArgs e)
         {
-            Process.Start(baseAddress);
+            Process.Start(BaseAddress);
         }
 
         private void CloseMenuItem_Click(object sender, EventArgs e)
