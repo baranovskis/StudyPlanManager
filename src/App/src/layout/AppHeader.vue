@@ -50,8 +50,8 @@
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
-                    <a href="https://www.creative-tim.com/product/vue-argon-design-system" target="_blank" rel="noopener"
-                       class="btn btn-neutral btn-icon">
+                    <a href="#" @click="exportFile" rel="noopener"
+                       class="btn btn-neutral btn-icon" download>
                         <span class="btn-inner--icon">
                         <i class="fa fa-cloud-download mr-2"></i>
                         </span>
@@ -66,12 +66,27 @@
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
+import Client from '../client';
 
 export default {
   components: {
     BaseNav,
     CloseButton,
     BaseDropdown
+  },
+  methods: {
+    exportFile: function() {
+      Client
+        .get('/export', { responseType: 'blob' })
+        .then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'export.xlsx');
+            document.body.appendChild(link);
+            link.click();
+        }).catch(error => console.error(error));
+    }
   }
 };
 </script>

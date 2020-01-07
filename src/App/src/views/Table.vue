@@ -23,13 +23,13 @@
                   </div>
                 </div>
                 <div class="col-sm-12">
-                  <slim-grid 
+                  <slim-grid
                     :data="gridData"
-                    :editable="true" 
+                    :editable="true"
                     :autoEdit="true"
-                    :grouping="gridGrouping" 
-                    :column-options="columnOptions" 
-                    :show-pager="false" 
+                    :grouping="gridGrouping"
+                    :column-options="columnOptions"
+                    :show-pager="false"
                     :showHeaderRow="false"
                     :forceFitColumns="true">
                   </slim-grid>
@@ -41,183 +41,183 @@
     </div>
 </template>
 <script>
-  import { Data, Editors } from 'slickgrid-es6';
-  import SlimGrid from 'vue-slimgrid';
-  import axios from 'axios';
+import { Data, Editors } from 'slickgrid-es6';
+import SlimGrid from 'vue-slimgrid';
+import StudyRepository from '../repositories/StudyRepository';
 
-  export default {
-    components: { SlimGrid },
-    data() {
-      return {
-        gridData: [],
+export default {
+  components: { SlimGrid },
+  data() {
+    return {
+      gridData: [],
 
-        gridGrouping: [
-          {
-            getter: 'studyCourse',
-            aggregators: [
-              new Data.Aggregators.Sum('class_10'),
-              new Data.Aggregators.Sum('class_11'),
-              new Data.Aggregators.Sum('class_12'),
-            ],
-            aggregateCollapsed: false,
-            lazyTotalsCalculation: true
+      gridGrouping: [
+        {
+          getter: 'studyCourse',
+          aggregators: [
+            new Data.Aggregators.Sum('class_10'),
+            new Data.Aggregators.Sum('class_11'),
+            new Data.Aggregators.Sum('class_12'),
+          ],
+          aggregateCollapsed: false,
+          lazyTotalsCalculation: true
+        },
+        {
+          getter: 'studyGroup',
+          formatter(g) {
+            return 'Macibu joma: ' + g.value + ' <span style="color:green">(' + g.count + ' items)</span>';
           },
-          {
-            getter: 'studyGroup',
-            formatter(g) {
-              return 'Macibu joma: ' + g.value + ' <span style="color:green">(' + g.count + ' items)</span>';
-            },
-            aggregators: [
-              new Data.Aggregators.Sum('class_10'),
-              new Data.Aggregators.Sum('class_11'),
-              new Data.Aggregators.Sum('class_12'),
-            ],
-            aggregateCollapsed: false,
-            lazyTotalsCalculation: true
-          }
-        ],
-
-        columnOptions: {
-          // Set to all columns
-          '*': {
-            headerFilter: false,
-            sortable: false,
-          },
-
-          'studyCourse': {
-            hidden: true,
-          },
-
-          'studyGroup': {
-            hidden: true,
-          },
-
-          'studyName': {
-            name: "Priekšmets",
-            minWidth: 150
-          },
-
-          'class_0': {
-            name: "10. klasse",
-            editor: Editors.Text,
-            groupTotalsFormatter(totals, columnDef) {
-              let val = totals.sum && totals.sum[columnDef.field];
-              if (val != null) {
-                return 'Kopā: ' + ((Math.round(parseFloat(val)*100)/100));
-              }
-              return '';
-            }
-          },
-
-          'class_1': {
-            name: "11. klasse",
-            editor: Editors.Text,
-            groupTotalsFormatter(totals, columnDef) {
-              let val = totals.sum && totals.sum[columnDef.field];
-              if (val != null) {
-                return 'Kopā: ' + ((Math.round(parseFloat(val)*100)/100));
-              }
-              return '';
-            }
-          },
-
-          'class_2': {
-            name: "12. klasse",
-            editor: Editors.Text,
-            groupTotalsFormatter(totals, columnDef) {
-              let val = totals.sum && totals.sum[columnDef.field];
-              if (val != null) {
-                return 'Kopā: ' + ((Math.round(parseFloat(val)*100)/100));
-              }
-              return '';
-            }
-          },
+          aggregators: [
+            new Data.Aggregators.Sum('class_10'),
+            new Data.Aggregators.Sum('class_11'),
+            new Data.Aggregators.Sum('class_12'),
+          ],
+          aggregateCollapsed: false,
+          lazyTotalsCalculation: true
         }
-      };
-    },
+      ],
 
-    mounted () {
-      axios
-        .get('http://localhost:9000/api/study')
-        .then(response => {
-          this.gridData = [];
+      columnOptions: {
+        // Set to all columns
+        '*': {
+          headerFilter: false,
+          sortable: false,
+        },
 
-          for (let i = 0; i < response.data.length; i++) {
-            let data = response.data[i];
+        'studyCourse': {
+          hidden: true,
+        },
 
-            // If groups > 0
-            if (data.groups.length > 0) {
-              for (let y = 0; y < data.groups.length; y++) {
-                let groupData = data.groups[y];
+        'studyGroup': {
+          hidden: true,
+        },
 
-                // If studies > 0
-                if (groupData.studies.length > 0) {
-                  for (let n = 0; n < groupData.studies.length; n++) {
-                    let studyData = groupData.studies[n];
+        'studyName': {
+          name: "Priekšmets",
+          minWidth: 150
+        },
 
-                    let row = { 
-                      id: studyData.treeId,
-                      studyCourse: data.courseName,
-                      studyGroup: groupData.groupName,
-                      studyName: studyData.studyName,
-                    };
+        'class_0': {
+          name: "10. klasse",
+          editor: Editors.Text,
+          groupTotalsFormatter(totals, columnDef) {
+            let val = totals.sum && totals.sum[columnDef.field];
+            if (val != null) {
+              return 'Kopā: ' + ((Math.round(parseFloat(val)*100)/100));
+            }
+            return '';
+          }
+        },
 
-                    // Class 10 -> 12
-                    for (let c = 0; c < studyData.creditPoints.length; c++) {
-                      row["class_" + c] = studyData.creditPoints[c];
-                    }
+        'class_1': {
+          name: "11. klasse",
+          editor: Editors.Text,
+          groupTotalsFormatter(totals, columnDef) {
+            let val = totals.sum && totals.sum[columnDef.field];
+            if (val != null) {
+              return 'Kopā: ' + ((Math.round(parseFloat(val)*100)/100));
+            }
+            return '';
+          }
+        },
 
-                    this.gridData.push(row);
-                  }
-                }
-                else {
-                  this.gridData.push({ 
-                    id: groupData.treeId,
+        'class_2': {
+          name: "12. klasse",
+          editor: Editors.Text,
+          groupTotalsFormatter(totals, columnDef) {
+            let val = totals.sum && totals.sum[columnDef.field];
+            if (val != null) {
+              return 'Kopā: ' + ((Math.round(parseFloat(val)*100)/100));
+            }
+            return '';
+          }
+        },
+      }
+    };
+  },
+
+  mounted () {
+    StudyRepository
+      .get()
+      .then(response => {
+        this.gridData = [];
+
+        for (let i = 0; i < response.data.length; i++) {
+          let data = response.data[i];
+
+          // If groups > 0
+          if (data.groups.length > 0) {
+            for (let y = 0; y < data.groups.length; y++) {
+              let groupData = data.groups[y];
+
+              // If studies > 0
+              if (groupData.studies.length > 0) {
+                for (let n = 0; n < groupData.studies.length; n++) {
+                  let studyData = groupData.studies[n];
+
+                  let row = {
+                    id: studyData.treeId,
                     studyCourse: data.courseName,
-                    studyGroup: groupData.groupName
-                  });
+                    studyGroup: groupData.groupName,
+                    studyName: studyData.studyName,
+                  };
+
+                  // Class 10 -> 12
+                  for (let c = 0; c < studyData.creditPoints.length; c++) {
+                    row["class_" + c] = studyData.creditPoints[c];
+                  }
+
+                  this.gridData.push(row);
                 }
               }
-            }
-            else {
-              this.gridData.push({ 
-                id: data.treeId,
-                studyCourse: data.courseName
-              });
+              else {
+                this.gridData.push({
+                  id: groupData.treeId,
+                  studyCourse: data.courseName,
+                  studyGroup: groupData.groupName
+                });
+              }
             }
           }
-        })
-        .catch(error => {
-          console.log(error)
-          //this.errored = true
-        })
-        //.finally(() => this.loading = false)
-    },
-
-    methods: {
-      /*fetchData() {
-        let data = [];
-        let someDates = ["01/01/2009", "02/02/2009", "03/03/2009"];
-
-        for (let i = 0; i < 1000; i++) {
-          let row = { id: i };
-
-          row["num"] = i;
-          row["title"] = "Task " + i;
-          row["duration"] = Math.round(Math.random() * 30);
-          row["percentComplete"] = Math.round(Math.random() * 100);
-          row["start"] = someDates[ Math.floor((Math.random()*2)) ];
-          row["finish"] = someDates[ Math.floor((Math.random()*2)) ];
-          row["cost"] = Math.round(Math.random() * 10000) / 100;
-          row["effortDriven"] = (i % 5 == 0);
-
-          data.push(row);
+          else {
+            this.gridData.push({
+              id: data.treeId,
+              studyCourse: data.courseName
+            });
+          }
         }
+      })
+      .catch(error => {
+        console.log(error)
+        //this.errored = true
+      })
+      //.finally(() => this.loading = false)
+  },
 
-        return data;
-      }*/
-    }
+  methods: {
+    /*fetchData() {
+      let data = [];
+      let someDates = ["01/01/2009", "02/02/2009", "03/03/2009"];
+
+      for (let i = 0; i < 1000; i++) {
+        let row = { id: i };
+
+        row["num"] = i;
+        row["title"] = "Task " + i;
+        row["duration"] = Math.round(Math.random() * 30);
+        row["percentComplete"] = Math.round(Math.random() * 100);
+        row["start"] = someDates[ Math.floor((Math.random()*2)) ];
+        row["finish"] = someDates[ Math.floor((Math.random()*2)) ];
+        row["cost"] = Math.round(Math.random() * 10000) / 100;
+        row["effortDriven"] = (i % 5 == 0);
+
+        data.push(row);
+      }
+
+      return data;
+    }*/
   }
+}
 </script>
 <style src="vue-slimgrid/dist/slimgrid.css"></style>
 <style>

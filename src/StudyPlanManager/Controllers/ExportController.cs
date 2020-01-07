@@ -9,17 +9,14 @@ namespace StudyPlanManager.Controllers
     public class ExportController : ApiController
     {
         [HttpGet]
-        public HttpResponseMessage Get(string id)
+        public HttpResponseMessage Get()
         {
-            if (string.IsNullOrEmpty(id))
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-
             // TODO: Change me :3
             var stream = new FileStream("test.xlsx", FileMode.Open, FileAccess.Read);
 
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StreamContent(stream);
-            response.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
             response.Content.Headers.ContentDisposition.FileName = "export.pdf";
 
             // Media types
