@@ -22,7 +22,7 @@
 
 ## API
 - http://localhost:9000/api/study - Get study tree.
-- http://localhost:9000/api/export/{id} - Get excel document.
+- http://localhost:9000/api/export - Get excel document.
 
 ## Helpful links
 
