@@ -31,7 +31,8 @@
                     :column-options="columnOptions"
                     :show-pager="false"
                     :showHeaderRow="false"
-                    :forceFitColumns="true">
+                    :forceFitColumns="true"
+                    v-on:cell-change="doValidate">
                   </slim-grid>
                 </div>
               </div>
@@ -132,90 +133,87 @@ export default {
             return '';
           }
         },
-      }
+      },
     };
   },
 
   mounted () {
-    StudyRepository
-      .get()
-      .then(response => {
-        this.gridData = [];
-
-        for (let i = 0; i < response.data.length; i++) {
-          let data = response.data[i];
-
-          // If groups > 0
-          if (data.groups.length > 0) {
-            for (let y = 0; y < data.groups.length; y++) {
-              let groupData = data.groups[y];
-
-              // If studies > 0
-              if (groupData.studies.length > 0) {
-                for (let n = 0; n < groupData.studies.length; n++) {
-                  let studyData = groupData.studies[n];
-
-                  let row = {
-                    id: studyData.treeId,
-                    studyCourse: data.courseName,
-                    studyGroup: groupData.groupName,
-                    studyName: studyData.studyName,
-                  };
-
-                  // Class 10 -> 12
-                  for (let c = 0; c < studyData.creditPoints.length; c++) {
-                    row["class_" + c] = studyData.creditPoints[c];
-                  }
-
-                  this.gridData.push(row);
-                }
-              }
-              else {
-                this.gridData.push({
-                  id: groupData.treeId,
-                  studyCourse: data.courseName,
-                  studyGroup: groupData.groupName
-                });
-              }
-            }
-          }
-          else {
-            this.gridData.push({
-              id: data.treeId,
-              studyCourse: data.courseName
-            });
-          }
-        }
-      })
-      .catch(error => {
-        console.log(error)
-        //this.errored = true
-      })
-      //.finally(() => this.loading = false)
+    this.doLoad()
   },
 
   methods: {
-    /*fetchData() {
-      let data = [];
-      let someDates = ["01/01/2009", "02/02/2009", "03/03/2009"];
+    doLoad() {
+      StudyRepository
+        .get()
+        .then(response => {
+          this.gridData = [];
 
-      for (let i = 0; i < 1000; i++) {
-        let row = { id: i };
+          for (let i = 0; i < response.data.length; i++) {
+            let data = response.data[i];
 
-        row["num"] = i;
-        row["title"] = "Task " + i;
-        row["duration"] = Math.round(Math.random() * 30);
-        row["percentComplete"] = Math.round(Math.random() * 100);
-        row["start"] = someDates[ Math.floor((Math.random()*2)) ];
-        row["finish"] = someDates[ Math.floor((Math.random()*2)) ];
-        row["cost"] = Math.round(Math.random() * 10000) / 100;
-        row["effortDriven"] = (i % 5 == 0);
+            // If groups > 0
+            if (data.groups.length > 0) {
+              for (let y = 0; y < data.groups.length; y++) {
+                let groupData = data.groups[y];
 
-        data.push(row);
-      }
+                // If studies > 0
+                if (groupData.studies.length > 0) {
+                  for (let n = 0; n < groupData.studies.length; n++) {
+                    let studyData = groupData.studies[n];
 
-      return data;
-    }*/
+                    let row = {
+                      id: studyData.treeId,
+                      studyCourse: data.courseName,
+                      studyGroup: groupData.groupName,
+                      studyName: studyData.studyName,
+                    };
+
+                    // Class 10 -> 12
+                    for (let c = 0; c < studyData.creditPoints.length; c++) {
+                      row["class_" + c] = studyData.creditPoints[c];
+                    }
+
+                    this.gridData.push(row);
+                  }
+                }
+                else {
+                  this.gridData.push({
+                    id: groupData.treeId,
+                    studyCourse: data.courseName,
+                    studyGroup: groupData.groupName
+                  });
+                }
+              }
+            }
+            else {
+              this.gridData.push({
+                id: data.treeId,
+                studyCourse: data.courseName
+              });
+            }
+          }
+        })
+        .catch(error => {
+          console.log(error)
+          //this.errored = true
+        })
+        //.finally(() => this.loading = false)
+    },
+
+    doValidate(e, args) {
+      StudyRepository
+        .update({
+          column: args.slim.column,
+          value: args.slim.value
+        }, args.slim.pk)
+        .then(response => {
+          console.log("Cell changed!");
+        })
+        .catch(error => {
+          console.log(error);
+          this.doLoad();
+        });
+    }
   }
 }
 </script>
