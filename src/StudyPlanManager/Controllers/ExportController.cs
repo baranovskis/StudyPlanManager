@@ -17,7 +17,7 @@ namespace StudyPlanManager.Controllers
             var response = new HttpResponseMessage(HttpStatusCode.OK);
             response.Content = new StreamContent(stream);
             response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-            response.Content.Headers.ContentDisposition.FileName = "export.pdf";
+            response.Content.Headers.ContentDisposition.FileName = "export.xlsx";
 
             // Media types
             // https://stackoverflow.com/questions/4212861/what-is-a-correct-mime-type-for-docx-pptx-etc

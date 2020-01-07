@@ -15,13 +15,6 @@
           <div class="container">
             <card shadow class="card-profile mt--300 px-4 py-4" no-body>
               <div class="row">
-                <div class="col-sm-12 pb-4">
-                  <div class="float-right">
-                    <router-link :to="'settings'">
-                      <base-button type="primary" icon="ni ni-atom">Settings</base-button>
-                    </router-link>
-                  </div>
-                </div>
                 <div class="col-sm-12">
                   <slim-grid
                     :data="gridData"

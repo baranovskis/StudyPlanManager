@@ -50,6 +50,39 @@
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
+                    <a href="#" @click="createNewStudyVariant" rel="noopener"
+                       class="btn btn-neutral btn-icon" download>
+                        <span class="btn-inner--icon">
+                        <i class="fa fa-cloud-download mr-2"></i>
+                        </span>
+                        <span class="nav-link-inner--text">New</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                <li class="nav-item d-none d-lg-block ml-lg-4">
+                    <a href="#" @click="exportFile" rel="noopener"
+                       class="btn btn-neutral btn-icon" download>
+                        <span class="btn-inner--icon">
+                        <i class="fa fa-cloud-download mr-2"></i>
+                        </span>
+                        <span class="nav-link-inner--text">Open</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                <li class="nav-item d-none d-lg-block ml-lg-4">
+                    <a href="#/settings" rel="noopener"
+                       class="btn btn-neutral btn-icon" download>
+                        <span class="btn-inner--icon">
+                        <i class="fa fa-cloud-download mr-2"></i>
+                        </span>
+                        <span class="nav-link-inner--text">Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                <li class="nav-item d-none d-lg-block ml-lg-4">
                     <a href="#" @click="exportFile" rel="noopener"
                        class="btn btn-neutral btn-icon" download>
                         <span class="btn-inner--icon">
@@ -86,6 +119,13 @@ export default {
             document.body.appendChild(link);
             link.click();
         }).catch(error => console.error(error));
+    },
+    createNewStudyVariant: function() {
+      Client
+        .get('/NewStudyVariant', { responseType: 'blob' })
+		.catch(error => console.error(error));
+	  // TODO: reload grid
+	  //this.doLoad();
     }
   }
 };

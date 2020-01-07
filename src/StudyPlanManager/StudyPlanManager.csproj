@@ -83,11 +83,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\NewStudyVariantController.cs" />
     <Compile Include="Controllers\StudyController.cs" />
+    <Compile Include="Controllers\StudyVariantListController.cs" />
     <Compile Include="CustomContext.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Models\StudyCourse.cs" />
     <Compile Include="Models\StudyGroup.cs" />
+    <Compile Include="Models\StudyVariant.cs" />
     <Compile Include="Models\TreeBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
