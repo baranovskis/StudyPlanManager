@@ -61,7 +61,7 @@
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
-                    <a href="#" @click="exportFile" rel="noopener"
+                    <a href="#" @click="openStudyVariantList" rel="noopener"
                        class="btn btn-neutral btn-icon" download>
                         <span class="btn-inner--icon">
                         <i class="fa fa-folder-open-o mr-2"></i>
@@ -72,7 +72,7 @@
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
-                    <a href="#" @click="exportFile" rel="noopener"
+                    <a href="#" @click="saveStudyVariant" rel="noopener"
                        class="btn btn-neutral btn-icon" download>
                         <span class="btn-inner--icon">
                         <i class="fa fa-floppy-o mr-2"></i>
@@ -132,11 +132,22 @@ export default {
         }).catch(error => console.error(error));
     },
     createNewStudyVariant: function() {
+		// TODO: Check if variant needs saving by get/NeedsSavingStudyVariant
+		// TODO: If needs saving - use saveStudyVariant function
       Client
         .get('/NewStudyVariant', { responseType: 'blob' })
 		.catch(error => console.error(error));
 	  // TODO: reload grid
 	  //this.doLoad();
+    },
+    openStudyVariantList: function() {
+	  // TODO: Display modal with variants from get/StudyVariantList
+	  // TODO: Open selected variant by passing id to put/StudyVariantList
+    },
+    saveStudyVariant: function() {
+	  // TODO: Check if variant needs name by get/NeedsNamingStudyVariant
+	  // TODO: If needs naming - display modal with textbox - then pass string to get/NameStudyVariant
+	  // TODO: Save variant by get/SaveStudyVariant
     }
   }
 };
