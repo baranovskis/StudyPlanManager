@@ -50,8 +50,8 @@
             </ul>
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
-                    <a href="#" @click="createNewStudyVariant" rel="noopener"
-                       class="btn btn-neutral btn-icon" download>
+                    <a href="#" @click="needsSavingStudyVariant" rel="noopener"
+                       class="btn btn-neutral btn-icon">
                         <span class="btn-inner--icon">
                         <i class="fa fa-file-o mr-2"></i>
                         </span>
@@ -62,7 +62,7 @@
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
                     <a href="#" @click="openStudyVariantList" rel="noopener"
-                       class="btn btn-neutral btn-icon" download>
+                       class="btn btn-neutral btn-icon">
                         <span class="btn-inner--icon">
                         <i class="fa fa-folder-open-o mr-2"></i>
                         </span>
@@ -73,7 +73,7 @@
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
                     <a href="#" @click="saveStudyVariant" rel="noopener"
-                       class="btn btn-neutral btn-icon" download>
+                       class="btn btn-neutral btn-icon">
                         <span class="btn-inner--icon">
                         <i class="fa fa-floppy-o mr-2"></i>
                         </span>
@@ -84,7 +84,7 @@
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
                 <li class="nav-item d-none d-lg-block ml-lg-4">
                     <a href="#/settings" rel="noopener"
-                       class="btn btn-neutral btn-icon" download>
+                       class="btn btn-neutral btn-icon">
                         <span class="btn-inner--icon">
                         <i class="fa fa-cogs mr-2"></i>
                         </span>
@@ -104,19 +104,87 @@
                 </li>
             </ul>
         </base-nav>
+		<modal :show.sync="modals.newt"
+			   gradient="danger"
+			   modal-classes="modal-danger modal-dialog-centered">
+			<h6 slot="header" class="modal-title" id="modal-title-notification">Your attention is required</h6>
+
+			<div class="py-3 text-center">
+				<i class="ni ni-bell-55 ni-3x"></i>
+				<h4 class="heading mt-4">Unsaved changes</h4>
+				<p>Would you like to save last changes?</p>
+			</div>
+
+			<template slot="footer">
+				<base-button type="white" @click="needsNamingStudyVariant">Save</base-button>
+				<base-button type="link"
+							 text-color="white"
+							 class="ml-auto"
+							 @click="createNewStudyVariant">
+					No
+				</base-button>
+			</template>
+		</modal>
+		<modal :show.sync="modals.savename"
+                   body-classes="p-0"
+                   modal-classes="modal-dialog-centered modal-sm">
+			<card type="secondary" shadow
+				  header-classes="bg-white pb-5"
+				  body-classes="px-lg-5 py-lg-5"
+				  class="border-0">
+				<template>
+					<div class="py-3 text-center">
+						<h4 class="heading mt-4">Set name for variant</h4>
+					</div>
+					<form role="form">
+						<base-input alternative
+									v-model="new_variant_name"
+									class="mb-3"
+									placeholder="Name"
+									addon-left-icon="ni ni-email-83">
+						</base-input>
+						<div class="text-center">
+							<base-button 
+								type="primary" 
+								class="my-4"
+								@click="saveStudyVariant"
+							>
+							Save
+							</base-button>
+							<base-button type="link"
+								 class="ml-auto"
+								 @click="modals.savename = false">
+								Cancel
+							</base-button>
+						</div>
+					</form>
+				</template>
+			</card>
+		</modal>
     </header>
 </template>
 <script>
 import BaseNav from "@/components/BaseNav";
 import BaseDropdown from "@/components/BaseDropdown";
 import CloseButton from "@/components/CloseButton";
+import Modal from "@/components/Modal";
 import Client from '../client';
 
 export default {
   components: {
     BaseNav,
     CloseButton,
-    BaseDropdown
+    BaseDropdown,
+	Modal
+  },
+  data() {
+    return {
+      modals: {
+		newt: false,
+        savename: false,
+      },
+	  new_variant_name: '',
+    };
   },
   methods: {
     exportFile: function() {
@@ -131,6 +199,15 @@ export default {
             link.click();
         }).catch(error => console.error(error));
     },
+	needsSavingStudyVariant: function () {
+		this.modals.newt = true;
+		
+		Client
+			.get('/NeedsSavingStudyVariant')
+			.then(response => {
+				console.log(response);
+			}).catch(error => console.error(error));
+	},
     createNewStudyVariant: function() {
 		// TODO: Check if variant needs saving by get/NeedsSavingStudyVariant
 		// TODO: If needs saving - use saveStudyVariant function
@@ -144,7 +221,16 @@ export default {
 	  // TODO: Display modal with variants from get/StudyVariantList
 	  // TODO: Open selected variant by passing id to put/StudyVariantList
     },
+	needsNamingStudyVariant: function() {
+		this.modals.newt = false;
+		
+		this.modals.savename = true;
+	},
     saveStudyVariant: function() {
+		this.modals.newt = false;
+		this.modals.savename = false;
+		
+		alert("Variant name: " + this.new_variant_name);
 	  // TODO: Check if variant needs name by get/NeedsNamingStudyVariant
 	  // TODO: If needs naming - display modal with textbox - then pass string to get/NameStudyVariant
 	  // TODO: Save variant by get/SaveStudyVariant
