@@ -21,5 +21,25 @@ namespace StudyPlanManager.Controllers
 
             return studyVariants;
         }
+
+        [HttpPut]
+        public IHttpActionResult Put(string id)
+        {
+            // Open variant by id
+            if (string.IsNullOrEmpty(id))
+            {
+                return BadRequest("Empty id");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Not a valid data");
+            }
+
+            // TODO: Code me Senpai :3
+            //return NotFound();
+
+            return Ok();
+        }
     }
 }

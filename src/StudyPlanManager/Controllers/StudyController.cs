@@ -20,10 +20,14 @@ namespace StudyPlanManager.Controllers
         public IHttpActionResult Put(StudyViewModel model, string id)
         {
             if (string.IsNullOrEmpty(id))
+            {
                 return BadRequest("Empty id");
+            }
 
             if (!ModelState.IsValid)
+            {
                 return BadRequest("Not a valid data");
+            }
 
             // TODO: Code me Senpai :3
             //return NotFound();
