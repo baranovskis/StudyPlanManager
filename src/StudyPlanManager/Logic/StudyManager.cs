@@ -41,7 +41,7 @@ namespace StudyPlanManager.Logic
                 // TODO: Load projects from 'Data//Projects'
                 for (int i = 0; i < 20; i++)
                 {
-                    CreateStudyVariant($"Test study variant {i + 1}");
+                    CreateStudyVariant($"Test study variant {i + 1}", null);
                 }
             }
         }
@@ -64,7 +64,7 @@ namespace StudyPlanManager.Logic
         }
 
         // TODO: Rewrite me senpai :3
-        public StudyVariant CreateStudyVariant(string name)
+        public StudyVariant CreateStudyVariant(string name, string parentId)
         {
             var studyVariant = new StudyVariant();
 

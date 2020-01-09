@@ -36,7 +36,7 @@ namespace StudyPlanManager.Controllers
             }
 
             // Create new project
-            var studyVariant = StudyManager.Instance.CreateStudyVariant(model.Name);
+            var studyVariant = StudyManager.Instance.CreateStudyVariant(model.Name, model.ParentId);
             return Ok(studyVariant);
         }
 

@@ -15,13 +15,11 @@
                   <span></span>
               </div>
               <div class="container shape-container d-flex">
-                  <a href="#" @click="modals.createNew = true" rel="noopener"
-                       class="btn btn-primary btn-icon">
-                        <span class="btn-inner--icon">
-                        <i class="fa fa-file-o mr-2"></i>
-                        </span>
-                        <span class="nav-link-inner--text">Create New</span>
-                    </a>
+                  <div>
+                    <base-button type="primary" icon="fa fa-file-o mr-2" @click="modals.createNew.show = true">
+                      Create New
+                    </base-button>
+                  </div>
               </div>
           </section>
           <!-- 1st Hero Variation -->
@@ -57,7 +55,6 @@
                                     <router-link class="dropdown-item" :to="{ name: 'project', params: { projectId: row.id }}">
                                       Edit
                                     </router-link>
-                                    <a class="dropdown-item" href="#">Copy</a>
                                     <a class="dropdown-item" href="#" @click="deleteModal(row.id)">Delete</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#" @click="exportFile(row.id)">Export</a>
@@ -71,16 +68,29 @@
               </div>
           </div>
       </section>
-      <modal :show.sync="modals.createNew">
+      <modal :show.sync="modals.createNew.show">
         <template slot="header">
           <h5 class="modal-title" id="exampleModalLabel">Create new project</h5>
         </template>
         <div>
-            <strong>Name:</strong>
-            <input type="text" class="form-control" v-model="name">
+          <div class="row">
+            <div class="col-md-12">
+              <label>Name</label>
+              <base-input v-model="modals.createNew.name" placeholder="Project name"></base-input>
+            </div>
+            <div class="col-md-12">
+              <label>Parent template</label>
+              <select v-model="modals.createNew.parentId" class="form-control">
+                <option :value="undefined" selected>Default</option>
+                <option v-for="row in rows" v-bind:key="row.id" v-bind:value="row.id">
+                  {{ row.name }}
+                </option>
+              </select>
+            </div>
+          </div>
         </div>
         <template slot="footer">
-            <base-button type="secondary" @click="modals.createNew = false">Close</base-button>
+            <base-button type="secondary" @click="modals.createNew.show = false">Close</base-button>
             <base-button @click="createProject" type="primary">Create</base-button>
         </template>
       </modal>
@@ -118,12 +128,15 @@ export default {
   data() {
     return {
       rows: [],
-      name: null,
       modals: {
-        createNew: false,
+        createNew: {
+          show: false,
+          name: undefined,
+          parentId: undefined,
+        },
         delete: {
           show: false,
-          id: null,
+          id: undefined,
         },
       },
     };
@@ -144,7 +157,8 @@ export default {
 
     createProject() {
       StudyRepository.create({
-          name: this.name
+          name: this.modals.createNew.name,
+          parentId: this.modals.createNew.parentId,
         })
         .then(response => {
           this.$router.push({
@@ -158,7 +172,9 @@ export default {
           console.log(error);
         });
 
-        this.modals.createNew = false;
+        this.modals.createNew.show = false;
+        this.modals.createNew.name = undefined;
+        this.modals.createNew.parentId = undefined;
     },
 
     deleteModal(id) {
@@ -176,7 +192,7 @@ export default {
         });
 
       this.modals.delete.show = false;
-      this.modals.delete.id = null;
+      this.modals.delete.id = undefined;
     },
 
     exportFile: function(id) {
