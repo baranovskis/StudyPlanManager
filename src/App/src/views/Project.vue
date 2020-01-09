@@ -230,10 +230,18 @@ export default {
       )
         .then(response => {
           console.log("Cell changed!");
+
+          // Class 10 -> 12
+          for (let c = 0; c < response.data.creditPoints.length; c++) {
+            args.item["class_" + c] = response.data.creditPoints[c];
+          }
+
+          args.grid.invalidate();
+          args.grid.render();
         })
         .catch(error => {
           console.log(error);
-          this.doLoad();
+          //this.doLoad();
         });
     },
 

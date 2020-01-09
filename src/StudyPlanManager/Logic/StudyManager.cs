@@ -63,6 +63,37 @@ namespace StudyPlanManager.Logic
             return null;
         }
 
+        public Study GetStudy(string id, string treeId)
+        {
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentException("Id is empty");
+
+            if (string.IsNullOrEmpty(treeId))
+                throw new ArgumentException("TreeId is empty");
+
+            var studyVariant = GetStudyVariant(id);
+
+            if (studyVariant == null)
+                return null;
+
+            lock (_locker)
+            {
+                foreach (var course in studyVariant.Courses)
+                {
+                    foreach (var group in course.Groups)
+                    {
+                        foreach (var study in group.Studies)
+                        {
+                            if (study.TreeId.Equals(treeId))
+                                return study;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+
         // TODO: Rewrite me senpai :3
         public StudyVariant CreateStudyVariant(string name, string parentId)
         {

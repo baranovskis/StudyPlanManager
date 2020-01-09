@@ -1,6 +1,7 @@
 ﻿using StudyPlanManager.Logic;
 using StudyPlanManager.Models;
 using StudyPlanManager.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Web.Http;
 
@@ -48,10 +49,14 @@ namespace StudyPlanManager.Controllers
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid data");
 
-            // TODO: Code me Senpai :3
-            //return NotFound();
+            var study = StudyManager.Instance.GetStudy(id, model.TreeId);
 
-            return Ok();
+            if (study == null)
+                return NotFound();
+
+            // TODO: Parse cell id & save changes
+
+            return Ok(study);
         }
 
         [HttpDelete]
