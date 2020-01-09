@@ -85,6 +85,7 @@
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\StudyController.cs" />
     <Compile Include="CustomContext.cs" />
+    <Compile Include="Logic\ExcelMaker.cs" />
     <Compile Include="Logic\StudyManager.cs" />
     <Compile Include="Logic\FileManager.cs" />
     <Compile Include="Logic\XmlExtension.cs" />

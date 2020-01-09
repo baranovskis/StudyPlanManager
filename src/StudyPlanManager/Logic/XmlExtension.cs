@@ -19,7 +19,6 @@ namespace StudyPlanManager.Logic
             }
 
             var serializer = new XmlSerializer(typeof(T));
-
             using (var stringWriter = new StringWriter())
             {
                 using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { Indent = true }))
@@ -32,9 +31,9 @@ namespace StudyPlanManager.Logic
 
         public static T Deserialize<T>(this string xmlValue) where T : class
         {
-            var serializer = new XmlSerializer(typeof(T));
             T result;
 
+            var serializer = new XmlSerializer(typeof(T));
             using (TextReader reader = new StringReader(xmlValue))
             {
                 var deserializedItem = serializer.Deserialize(reader);
