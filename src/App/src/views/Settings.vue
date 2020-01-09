@@ -55,86 +55,79 @@
 
 <script>
 export default {
-  name: 'vddl-item-types-demo',
-  data(){
+  name: "vddl-item-types-demo",
+  data() {
     return {
-      "lists": [
+      lists: [
         {
-          "label": "Men",
-          "allowedTypes": [
-            "man"
-          ],
-          "max": 4,
-          "people": [
+          label: "Men",
+          allowedTypes: ["man"],
+          max: 4,
+          people: [
             {
-              "name": "Bob",
-              "type": "man"
+              name: "Bob",
+              type: "man"
             },
             {
-              "name": "Charlie",
-              "type": "man"
+              name: "Charlie",
+              type: "man"
             },
             {
-              "name": "Dave",
-              "type": "man"
+              name: "Dave",
+              type: "man"
             }
           ]
         },
         {
-          "label": "Women",
-          "allowedTypes": [
-            "woman"
-          ],
-          "max": 4,
-          "people": [
+          label: "Women",
+          allowedTypes: ["woman"],
+          max: 4,
+          people: [
             {
-              "name": "Alice",
-              "type": "woman"
+              name: "Alice",
+              type: "woman"
             },
             {
-              "name": "Eve",
-              "type": "woman"
+              name: "Eve",
+              type: "woman"
             },
             {
-              "name": "Peggy",
-              "type": "woman"
+              name: "Peggy",
+              type: "woman"
             }
           ]
         },
         {
-          "label": "People",
-          "allowedTypes": [
-            "man",
-            "woman"
-          ],
-          "max": 6,
-          "people": [
+          label: "People",
+          allowedTypes: ["man", "woman"],
+          max: 6,
+          people: [
             {
-              "name": "Frank",
-              "type": "man"
+              name: "Frank",
+              type: "man"
             },
             {
-              "name": "Mallory",
-              "type": "woman"
+              name: "Mallory",
+              type: "woman"
             },
             {
-              "name": "Alex",
-              "type": "unknown"
+              name: "Alex",
+              type: "unknown"
             },
             {
-              "name": "Oscar",
-              "type": "man"
+              name: "Oscar",
+              type: "man"
             },
             {
-              "name": "Wendy",
-              "type": "woman"
+              name: "Wendy",
+              type: "woman"
             }
           ]
         }
       ]
-    }
+    };
   }
-}
+};
 </script>
 
 <style scoped>

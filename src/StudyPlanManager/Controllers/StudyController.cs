@@ -16,26 +16,25 @@ namespace StudyPlanManager.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<StudyCourse> GetProject(string id)
+        public IHttpActionResult GetProject(string id)
         {
-            // Get project by id
+            if (string.IsNullOrEmpty(id))
+                return BadRequest("Empty id");
+            
             var studyVariant = StudyManager.Instance.GetStudyVariant(id);
-
+            
             if (studyVariant == null)
-                return null;
+                return NotFound();
 
-            return studyVariant.Courses;
+            return Ok(studyVariant);
         }
 
         [HttpPost]
         public IHttpActionResult CreateProject(StudyVariantViewModel model)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest("Not a valid data");
-            }
-
-            // Create new project
+            
             var studyVariant = StudyManager.Instance.CreateStudyVariant(model.Name, model.ParentId);
             return Ok(studyVariant);
         }
@@ -44,14 +43,10 @@ namespace StudyPlanManager.Controllers
         public IHttpActionResult UpdateProject(StudyViewModel model, string id)
         {
             if (string.IsNullOrEmpty(id))
-            {
                 return BadRequest("Empty id");
-            }
 
             if (!ModelState.IsValid)
-            {
                 return BadRequest("Not a valid data");
-            }
 
             // TODO: Code me Senpai :3
             //return NotFound();
@@ -63,14 +58,10 @@ namespace StudyPlanManager.Controllers
         public IHttpActionResult DeleteProject(string id)
         {
             if (string.IsNullOrEmpty(id))
-            {
                 return BadRequest("Empty id");
-            }
 
             if (!StudyManager.Instance.DeleteStudyVariant(id))
-            {
                 return NotFound();
-            }
 
             return Ok();
         }

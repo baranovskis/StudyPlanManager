@@ -118,7 +118,7 @@ import moment from "moment";
 import BaseDropdown from "@/components/BaseDropdown";
 import StudyRepository from "../repositories/StudyRepository";
 import Modal from "@/components/Modal";
-import Client from '../client';
+import Client from "../client";
 
 export default {
   components: {
@@ -132,13 +132,13 @@ export default {
         createNew: {
           show: false,
           name: undefined,
-          parentId: undefined,
+          parentId: undefined
         },
         delete: {
           show: false,
-          id: undefined,
-        },
-      },
+          id: undefined
+        }
+      }
     };
   },
   mounted() {
@@ -157,12 +157,12 @@ export default {
 
     createProject() {
       StudyRepository.create({
-          name: this.modals.createNew.name,
-          parentId: this.modals.createNew.parentId,
-        })
+        name: this.modals.createNew.name,
+        parentId: this.modals.createNew.parentId
+      })
         .then(response => {
           this.$router.push({
-            name: 'project',
+            name: "project",
             params: {
               projectId: response.data.id
             }
@@ -172,9 +172,9 @@ export default {
           console.log(error);
         });
 
-        this.modals.createNew.show = false;
-        this.modals.createNew.name = undefined;
-        this.modals.createNew.parentId = undefined;
+      this.modals.createNew.show = false;
+      this.modals.createNew.name = undefined;
+      this.modals.createNew.parentId = undefined;
     },
 
     deleteModal(id) {
@@ -196,7 +196,9 @@ export default {
     },
 
     exportFile: function(id) {
-      Client.get("/export/" + id, { responseType: "blob" })
+      Client.get("/export/" + id, {
+          responseType: "blob"
+        })
         .then(response => {
           const url = window.URL.createObjectURL(new Blob([response.data]));
           const link = document.createElement("a");
