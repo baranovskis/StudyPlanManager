@@ -1,43 +1,57 @@
 <template>
-    <div class="profile-page">
-        <section class="section-profile-cover section-shaped my-0">
-            <div class="shape shape-style-1 shape-primary shape-skew alpha-4">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </section>
-        <section class="section section-skew">
-          <div class="container">
-            <card shadow class="card-profile mt--300 px-4 py-4" no-body>
-              <div class="row">
-                <div class="col-sm-12">
-                  <slim-grid
-                    :data="gridData"
-                    :editable="true"
-                    :autoEdit="true"
-                    :grouping="gridGrouping"
-                    :column-options="columnOptions"
-                    :show-pager="false"
-                    :showHeaderRow="false"
-                    :forceFitColumns="true"
-                    v-on:cell-change="doValidate">
-                  </slim-grid>
-                </div>
+  <div>
+      <div class="position-relative">
+          <!-- shape Hero -->
+          <section class="section-shaped my-0">
+              <div class="shape shape-style-1 shape-primary shape-skew">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
               </div>
-            </card>
+              <div class="container shape-container d-flex">
+                  <div>
+                    <base-button type="primary" icon="fa fa-floppy-o mr-2">Save</base-button>
+                    <base-button type="warning" icon="fa fa-cogs mr-2">Settings</base-button>
+                    <base-button type="danger" icon="fa fa-arrow-circle-o-down mr-2" @click="exportFile">Export</base-button>
+                  </div>
+              </div>
+          </section>
+          <!-- 1st Hero Variation -->
+      </div>
+      <section class="section section-lg pt-lg-0 mt--200">
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-lg-12">
+                      <card class="border-0" shadow body-classes="py-5">
+                         <slim-grid
+                          :data="gridData"
+                          :editable="true"
+                          :autoEdit="true"
+                          :grouping="gridGrouping"
+                          :column-options="columnOptions"
+                          :show-pager="false"
+                          :showHeaderRow="false"
+                          :forceFitColumns="true"
+                          v-on:cell-change="doValidate">
+                        </slim-grid>
+                      </card>
+                  </div>
+              </div>
           </div>
-        </section>
-    </div>
+      </section>
+  </div>
 </template>
 <script>
 import { Data, Editors } from 'slickgrid-es6';
 import SlimGrid from 'vue-slimgrid';
 import StudyRepository from '../repositories/StudyRepository';
+import Client from '../client';
 
 export default {
   components: { SlimGrid },
@@ -49,9 +63,9 @@ export default {
         {
           getter: 'studyCourse',
           aggregators: [
-            new Data.Aggregators.Sum('class_10'),
-            new Data.Aggregators.Sum('class_11'),
-            new Data.Aggregators.Sum('class_12'),
+            new Data.Aggregators.Sum('class_0'),
+            new Data.Aggregators.Sum('class_1'),
+            new Data.Aggregators.Sum('class_2'),
           ],
           aggregateCollapsed: false,
           lazyTotalsCalculation: true
@@ -62,9 +76,9 @@ export default {
             return 'Macibu joma: ' + g.value + ' <span style="color:green">(' + g.count + ' items)</span>';
           },
           aggregators: [
-            new Data.Aggregators.Sum('class_10'),
-            new Data.Aggregators.Sum('class_11'),
-            new Data.Aggregators.Sum('class_12'),
+            new Data.Aggregators.Sum('class_0'),
+            new Data.Aggregators.Sum('class_1'),
+            new Data.Aggregators.Sum('class_2'),
           ],
           aggregateCollapsed: false,
           lazyTotalsCalculation: true
@@ -137,7 +151,7 @@ export default {
   methods: {
     doLoad() {
       StudyRepository
-        .get()
+        .get(this.$route.params.projectId)
         .then(response => {
           this.gridData = [];
 
@@ -196,9 +210,10 @@ export default {
     doValidate(e, args) {
       StudyRepository
         .update({
+          treeId: args.slim.pk,
           column: args.slim.column,
           value: args.slim.value
-        }, args.slim.pk)
+        }, this.$route.params.projectId)
         .then(response => {
           console.log("Cell changed!");
         })
@@ -206,7 +221,20 @@ export default {
           console.log(error);
           this.doLoad();
         });
-    }
+    },
+
+    exportFile: function() {
+      Client.get("/export/" + this.$route.params.projectId, { responseType: "blob" })
+        .then(response => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "export.xlsx");
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch(error => console.error(error));
+    },
   }
 }
 </script>

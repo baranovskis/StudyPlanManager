@@ -9,7 +9,7 @@ namespace StudyPlanManager.Controllers
     public class ExportController : ApiController
     {
         [HttpGet]
-        public HttpResponseMessage Get()
+        public HttpResponseMessage GetExcel(string id)
         {
             // TODO: Change me :3
             var stream = new FileStream("test.xlsx", FileMode.Open, FileAccess.Read);

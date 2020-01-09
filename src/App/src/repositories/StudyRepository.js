@@ -2,7 +2,7 @@ import Client from '../client';
 const resource = '/study';
 
 export default {
-    get() {
+    getAll() {
         return Client.get(`${resource}`);
     },
     get(id) {

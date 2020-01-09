@@ -35,7 +35,7 @@
     .stars-and-coded{
         margin-top: 8rem;
     }
-    
+
     .shape {
         position: absolute;
         top: 0;
@@ -65,18 +65,18 @@
             }
 
             + .shape-container {
-                padding-top: 18rem;
-                padding-bottom: 19rem;
+                padding-top: 6rem;
+                padding-bottom: 14rem;
             }
         }
     }
 
     .shape-skew {
-        transform: skewY(-8deg);
+        transform: skewY(-6deg);
         transform-origin: 0;
 
         span {
-            transform: skew(8deg);
+            transform: skew(6deg);
         }
     }
 
