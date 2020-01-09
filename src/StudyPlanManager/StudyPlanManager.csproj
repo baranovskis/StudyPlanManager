@@ -86,15 +86,18 @@
     <Compile Include="Controllers\StudyController.cs" />
     <Compile Include="CustomContext.cs" />
     <Compile Include="Logic\StudyManager.cs" />
+    <Compile Include="Logic\FileManager.cs" />
+    <Compile Include="Logic\XmlExtension.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Models\StudyCourse.cs" />
     <Compile Include="Models\StudyGroup.cs" />
-    <Compile Include="Models\StudyVariant.cs" />
+    <Compile Include="Models\StudyProject.cs" />
     <Compile Include="Models\TreeBase.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\StudyVariantViewModel.cs" />
+    <Compile Include="ViewModels\CreatestudyProjectViewModel.cs" />
+    <Compile Include="ViewModels\SavestudyProjectViewModel.cs" />
     <Compile Include="ViewModels\StudyViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

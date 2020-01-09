@@ -21,42 +21,47 @@ namespace StudyPlanManager.Logic
             }
         }
 
-        public List<StudyVariant> StudyVariants { get; private set; }
+        public List<StudyProject> StudyProjects { get; private set; }
 
         private object _locker = new object();
 
         public StudyManager()
         {
-            // TODO
-            // - Load settings from 'Data'
-            LoadStudyVariants();
+            LoadStudyProjects();
         }
 
-        public void LoadStudyVariants()
+        public void LoadStudyProjects()
         {
             lock (_locker)
             {
-                StudyVariants = new List<StudyVariant>();
+                StudyProjects = new List<StudyProject>();
 
-                // TODO: Load projects from 'Data//Projects'
-                for (int i = 0; i < 20; i++)
+                var fileList = FileManager.GetFileList(AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath, FileManager.FileExtension);
+
+                foreach(var fileName in fileList)
                 {
-                    CreateStudyVariant($"Test study variant {i + 1}", null);
+                    var studyProject = StudyProject.LoadFile(fileName);
+                    if (studyProject != null)
+                    {
+                        StudyProjects.Add(studyProject);
+                    }
                 }
             }
         }
 
-        public StudyVariant GetStudyVariant(string id)
+        public StudyProject GetStudyProject(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (String.IsNullOrEmpty(id))
                 throw new ArgumentException("Id is empty");
 
             lock (_locker)
             {
-                foreach (var variant in StudyVariants)
+                foreach (var studyProject in StudyProjects)
                 {
-                    if (variant.Id.Equals(id))
-                        return variant;
+                    if (studyProject.Id.Equals(id))
+                    {
+                        return studyProject;
+                    }
                 }
             }
 
@@ -65,39 +70,35 @@ namespace StudyPlanManager.Logic
 
         public Study GetStudy(string id, string treeId)
         {
-            if (string.IsNullOrEmpty(id))
+            Study study = null;
+            if (String.IsNullOrEmpty(id))
+            {
                 throw new ArgumentException("Id is empty");
+            }
 
-            if (string.IsNullOrEmpty(treeId))
+            if (String.IsNullOrEmpty(treeId))
+            {
                 throw new ArgumentException("TreeId is empty");
+            }
 
-            var studyVariant = GetStudyVariant(id);
-
-            if (studyVariant == null)
+            var studyProject = GetStudyProject(id);
+            if (studyProject == null)
+            {
                 return null;
+            }
 
             lock (_locker)
             {
-                foreach (var course in studyVariant.Courses)
-                {
-                    foreach (var group in course.Groups)
-                    {
-                        foreach (var study in group.Studies)
-                        {
-                            if (study.TreeId.Equals(treeId))
-                                return study;
-                        }
-                    }
-                }
+                study = studyProject.FindStudyByTreeId(treeId);
             }
 
-            return null;
+            return study;
         }
 
         // TODO: Rewrite me senpai :3
-        public StudyVariant CreateStudyVariant(string name, string parentId)
+        public StudyProject CreateStudyProject(string name, string parentId)
         {
-            var studyVariant = new StudyVariant();
+            var studyProject = new StudyProject();
 
             var courses = new List<StudyCourse>
             {
@@ -197,53 +198,74 @@ namespace StudyPlanManager.Logic
                 }
             };
 
-            //if (fileName != "default.stv")
-            {
-                var rand = new Random();
 
-                foreach (var course in courses)
+            var rand = new Random();
+
+            foreach (var course in courses)
+            {
+                foreach (var group in course.Groups)
                 {
-                    foreach (var group in course.Groups)
+                    foreach (var study in group.Studies)
                     {
-                        foreach (var study in group.Studies)
+                        for (var i = 0; i < study.CreditPoints.Length; i++)
                         {
-                            for (var i = 0; i < study.CreditPoints.Length; i++)
-                            {
-                                study.CreditPoints[i] = rand.Next(0, 10);
-                            }
+                            study.CreditPoints[i] = rand.Next(0, 10);
                         }
                     }
                 }
             }
 
-            studyVariant.Id = Guid.NewGuid().ToString("N");
-            studyVariant.Name = name;
-            //studyVariant.FileName = fileName;
-            studyVariant.Courses = courses;
-            studyVariant.CreationDate = DateTime.Now;
-            studyVariant.LastUpdatedDate = DateTime.Now;
+            studyProject.Id = Guid.NewGuid().ToString("N");
+            studyProject.Name = name;
+            //studyProject.FileName = fileName;
+            studyProject.Courses = courses;
+            studyProject.CreationDate = DateTime.Now;
+            studyProject.LastUpdatedDate = DateTime.Now;
 
             // Add to list
-            StudyVariants.Add(studyVariant);
+            StudyProjects.Add(studyProject);
 
-            return studyVariant;
+            return studyProject;
         }
 
-        // TODO: Finish me senpai :3
-        public bool DeleteStudyVariant(string id)
+        public bool SaveStudyProject(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (String.IsNullOrEmpty(id))
+            {
                 throw new ArgumentException("Id is empty");
+            }
 
-            var studyVariant = GetStudyVariant(id);
-
-            if (studyVariant == null)
+            var studyProject = GetStudyProject(id);
+            if (studyProject == null)
+            {
                 return false;
+            }
 
             lock (_locker)
             {
-                // TODO: Remove file.
-                StudyVariants.Remove(studyVariant);
+                studyProject.SaveFile();
+            }
+
+            return true;
+        }
+
+        public bool DeleteStudyProject(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                throw new ArgumentException("Id is empty");
+            }
+
+            var studyProject = GetStudyProject(id);
+            if (studyProject == null)
+            {
+                return false;
+            }
+
+            lock (_locker)
+            {
+                studyProject.DeleteFile();
+                StudyProjects.Remove(studyProject);
             }
 
             return true;

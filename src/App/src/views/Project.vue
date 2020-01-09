@@ -19,7 +19,7 @@
                   <h1 class="display-3 text-white">{{ name }}</h1>
                 </div>
                 <div class="text-right w-100">
-                  <base-button type="primary" icon="fa fa-floppy-o mr-2">Save</base-button>
+                  <base-button type="primary" icon="fa fa-floppy-o mr-2" @click="saveProject">Save</base-button>
                   <base-button type="warning" icon="fa fa-cogs mr-2">Settings</base-button>
                   <base-button type="danger" icon="fa fa-arrow-circle-o-down mr-2" @click="exportFile">Export</base-button>
                 </div>
@@ -245,6 +245,15 @@ export default {
         });
     },
 
+    saveProject() {
+      StudyRepository.save({
+        name: this.name
+      }, this.$route.params.projectId)
+        .catch(error => {
+          console.log(error);
+        });
+    },
+	
     exportFile: function() {
       Client.get("/export/" + this.$route.params.projectId, {
         responseType: "blob"

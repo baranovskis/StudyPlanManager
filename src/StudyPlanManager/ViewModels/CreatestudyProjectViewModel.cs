@@ -1,6 +1,6 @@
 ﻿namespace StudyPlanManager.ViewModels
 {
-    public class StudyVariantViewModel
+    public class CreatestudyProjectViewModel
     {
         public string Name { get; set; }
 

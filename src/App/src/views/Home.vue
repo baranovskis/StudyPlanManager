@@ -181,7 +181,7 @@ export default {
       this.modals.delete.show = true;
       this.modals.delete.id = id;
     },
-
+	
     deleteProject() {
       StudyRepository.delete(this.modals.delete.id)
         .then(response => {

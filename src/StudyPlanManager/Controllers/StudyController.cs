@@ -10,63 +10,113 @@ namespace StudyPlanManager.Controllers
     public class StudyController : ApiController
     {
         [HttpGet]
-        public IEnumerable<StudyVariant> GetProjects()
+        public IEnumerable<StudyProject> GetProjects()
         {
-            // Get all study variants
-            return StudyManager.Instance.StudyVariants;
+            // Get all study projects
+            return StudyManager.Instance.StudyProjects;
         }
 
         [HttpGet]
         public IHttpActionResult GetProject(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (String.IsNullOrEmpty(id))
+            {
                 return BadRequest("Empty id");
+            }
             
-            var studyVariant = StudyManager.Instance.GetStudyVariant(id);
-            
-            if (studyVariant == null)
+            var studyProject = StudyManager.Instance.GetStudyProject(id);
+            if (studyProject == null)
+            {
                 return NotFound();
+            }
 
-            return Ok(studyVariant);
+            return Ok(studyProject);
         }
 
         [HttpPost]
-        public IHttpActionResult CreateProject(StudyVariantViewModel model)
+        public IHttpActionResult CreateProject(CreatestudyProjectViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid data");
             
-            var studyVariant = StudyManager.Instance.CreateStudyVariant(model.Name, model.ParentId);
-            return Ok(studyVariant);
+            var studyProject = StudyManager.Instance.CreateStudyProject(model.Name, model.ParentId);
+            return Ok(studyProject);
         }
 
         [HttpPut]
         public IHttpActionResult UpdateProject(StudyViewModel model, string id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (String.IsNullOrEmpty(id))
+            {
                 return BadRequest("Empty id");
+            }
 
             if (!ModelState.IsValid)
+            {
                 return BadRequest("Not a valid data");
+            }
 
             var study = StudyManager.Instance.GetStudy(id, model.TreeId);
-
             if (study == null)
+            {
                 return NotFound();
+            }
 
-            // TODO: Parse cell id & save changes
+            string trimmedStudyYear = model.Column.Replace("class_", String.Empty);
+
+            int studyYear;
+            int creditPoints;
+
+            if (int.TryParse(trimmedStudyYear, out studyYear)
+                && int.TryParse(model.Value, out creditPoints))
+            {
+                if (studyYear >= 0 && studyYear <= 2)
+                {
+                    study.CreditPoints[studyYear] = creditPoints;
+                }
+                else
+                {
+                    return BadRequest("Study year is invalid");
+                }
+            }
+            else
+            {
+                return BadRequest("Study year or credit points are not numeric");
+            }
 
             return Ok(study);
+        }
+
+        [HttpPost]
+        public IHttpActionResult SaveProject(SavestudyProjectViewModel model, string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return BadRequest("Empty id");
+            }
+
+            bool savedSuccessfully = StudyManager.Instance.SaveStudyProject(id);
+            if (!savedSuccessfully)
+            {
+                return NotFound();
+            }
+
+            return Ok();
         }
 
         [HttpDelete]
         public IHttpActionResult DeleteProject(string id)
         {
-            if (string.IsNullOrEmpty(id))
+            if (String.IsNullOrEmpty(id))
+            {
                 return BadRequest("Empty id");
+            }
 
-            if (!StudyManager.Instance.DeleteStudyVariant(id))
+            bool deletedSuccessfully = StudyManager.Instance.DeleteStudyProject(id);
+            if (!deletedSuccessfully)
+            {
                 return NotFound();
+            }
 
             return Ok();
         }

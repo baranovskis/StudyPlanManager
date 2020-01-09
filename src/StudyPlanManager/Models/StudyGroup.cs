@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace StudyPlanManager.Models
 {
@@ -11,6 +12,18 @@ namespace StudyPlanManager.Models
         public StudyGroup() : base()
         {
             Studies = new List<Study>();
+        }
+
+        public Study FindStudyByTreeId(string treeId)
+        {
+            foreach (var study in Studies)
+            {
+                if (study.TreeId.Equals(treeId))
+                {
+                    return study;
+                }
+            }
+            return null;
         }
     }
 }
