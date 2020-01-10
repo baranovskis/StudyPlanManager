@@ -181,7 +181,7 @@ export default {
       this.modals.delete.show = true;
       this.modals.delete.id = id;
     },
-	
+
     deleteProject() {
       StudyRepository.delete(this.modals.delete.id)
         .then(response => {
@@ -211,7 +211,7 @@ export default {
     },
 
     frontEndDateFormat: function(date) {
-      return moment(date, "YYYY-MM-DD").format("DD/MM/YYYY");
+      return moment(date, "YYYY-MM-DDTHH:mm:ss").format("DD/MM/YYYY HH:mm:ss");
     }
   }
 };
