@@ -20,4 +20,7 @@ export default {
     delete(id) {
         return Client.delete(`${resource}/${id}`)
     },
+    restore(id) {
+        return Client.patch(`${resource}/${id}`)
+    },
 };

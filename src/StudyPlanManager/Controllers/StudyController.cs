@@ -127,5 +127,23 @@ namespace StudyPlanManager.Controllers
 
             return Ok();
         }
+
+        [HttpPatch]
+        public IHttpActionResult RestoreProject(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return BadRequest("Empty id");
+            }
+
+            bool result = StudyManager.Instance.RestoreStudyProject(id);
+
+            if (!result)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
     }
 }

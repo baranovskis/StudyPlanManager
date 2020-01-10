@@ -290,7 +290,38 @@ namespace StudyPlanManager.Logic
             return true;
         }
 
-        public static StudyProject LoadStudyProjectFile(string fileName)
+        public bool RestoreStudyProject(string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                throw new ArgumentException("Argument 'id' is null or empty");
+            }
+
+            var studyProject = GetStudyProject(id);
+
+            if (studyProject == null)
+            {
+                return false;
+            }
+
+            if (String.IsNullOrEmpty(studyProject.FileName))
+            {
+                throw new Exception($"Study project '{studyProject.Id}' name is empty");
+            }
+
+            lock (_locker)
+            {
+                StudyProjects.Remove(studyProject);
+
+                studyProject = LoadStudyProjectFile(studyProject.FileName);
+
+                StudyProjects.Add(studyProject);
+            }
+
+            return true;
+        }
+
+        private static StudyProject LoadStudyProjectFile(string fileName)
         {
             if (String.IsNullOrEmpty(fileName))
             {
@@ -326,7 +357,7 @@ namespace StudyPlanManager.Logic
             FileManager.WriteToFile(fullFilePath, xmlText);
         }
 
-        public void DeleteStudyProjectFile(StudyProject studyProject)
+        private void DeleteStudyProjectFile(StudyProject studyProject)
         {
             if (studyProject == null)
             {

@@ -28,6 +28,7 @@
   * `[PUT] '/{projectID}'` - Update cell value.
   * `[POST] '/{projectID}'` - Save project changes.
   * `[DELETE] '/{projectID}'` - Delete project.
+  * `[PATCH] '/{projectID}'` - Restore project.
 * http://localhost:9000/api/export
   * `[GET] '/{projectID}'` - Get project excel document.
 

@@ -19,9 +19,8 @@
                   <h1 class="display-3 text-white">{{ name }}</h1>
                 </div>
                 <div class="text-right w-100">
-                  <base-button type="primary" icon="fa fa-floppy-o mr-2" @click="saveProject">Save</base-button>
-                  <base-button type="warning" icon="fa fa-cogs mr-2">Settings</base-button>
-                  <base-button type="danger" icon="fa fa-arrow-circle-o-down mr-2" @click="exportFile">Export</base-button>
+                  <base-button type="info" icon="fa fa-cogs mr-2">Settings</base-button>
+                  <base-button type="primary" icon="fa fa-arrow-circle-o-down mr-2" @click="exportFile">Export</base-button>
                 </div>
             </div>
           </section>
@@ -31,9 +30,17 @@
           <div class="container">
             <card class="border-0" shadow body-classes="py-5">
               <div class="row">
-                  <div class="col-md-4">
+                  <div class="col-md-6">
                     <base-input v-model="name" placeholder="Project name"></base-input>
                   </div>
+                  <div class="col-md-3">
+                    <base-button block type="danger" icon="fa fa-undo mr-2" @click="modals.restore = true">Restore</base-button>
+                  </div>
+                  <div class="col-md-3">
+                    <base-button block type="success" icon="fa fa-floppy-o mr-2" @click="saveProject">Save</base-button>
+                  </div>
+              </div>
+              <div class="row">
                   <div class="col-lg-12">
                     <slim-grid
                       :data="data"
@@ -51,6 +58,24 @@
             </card>
           </div>
       </section>
+      <modal :show.sync="modals.restore"
+        gradient="danger"
+        modal-classes="modal-danger modal-dialog-centered">
+
+        <div class="py-3 text-center">
+            <i class="ni ni-fat-remove ni-5x"></i>
+            <h4 class="heading mt-4">Confirmation</h4>
+            <p>Are you sure you want to restore this project?</p>
+            <p>All changes will be lost!</p>
+        </div>
+
+        <template slot="footer">
+            <base-button type="white" @click="restoreProject">YES</base-button>
+            <base-button type="link" text-color="white" class="ml-auto" @click="modals.restore = false">
+              Cancel
+            </base-button>
+        </template>
+      </modal>
   </div>
 </template>
 <script>
@@ -58,13 +83,20 @@ import { Data, Editors } from "slickgrid-es6";
 import SlimGrid from "vue-slimgrid";
 import StudyRepository from "../repositories/StudyRepository";
 import Client from "../client";
+import Modal from "@/components/Modal";
 
 export default {
-  components: { SlimGrid },
+  components: {
+    SlimGrid,
+    Modal
+  },
   data() {
     return {
       name: undefined,
       data: [],
+      modals: {
+        restore: false
+      },
 
       gridGrouping: [
         {
@@ -253,7 +285,19 @@ export default {
           console.log(error);
         });
     },
-	
+
+    restoreProject() {
+      StudyRepository.restore(this.$route.params.projectId)
+        .then(response => {
+          this.doLoad();
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+        this.modals.restore = false;
+    },
+
     exportFile: function() {
       Client.get("/export/" + this.$route.params.projectId, {
         responseType: "blob"
