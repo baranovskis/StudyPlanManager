@@ -1,9 +1,9 @@
-## TODO
+## TODO :fire:
 - [x] Check if web server is already running.
-- [ ] Create & connect to a local database.
-- [ ] Retrieve data from database in API controller.
+- [x] Create & connect to a local database.
+- [x] Retrieve data from database in API controller.
 - [ ] Drag&drop study tree builder (StudyCourse -> StudyGroup -> Study).
-- [ ] Save changes from frontend to database.
+- [x] Save changes from frontend to database.
 - [ ] Data validation (min/max points ...).
 - [ ] Excel export.
 - [x] Error logging.
@@ -21,8 +21,15 @@
 + Run `npm run build-prod` - build in production mode application
 
 ## API
-- http://localhost:9000/api/study - Get study tree.
-- http://localhost:9000/api/export - Get excel document.
+* http://localhost:9000/api/study
+  * `[GET] '/'` - Get projects list.
+  * `[POST] '/'` - Create new project.
+  * `[GET] '/{projectID}'` - Get project tree data.
+  * `[PUT] '/{projectID}'` - Update cell value.
+  * `[POST] '/{projectID}'` - Save project changes.
+  * `[DELETE] '/{projectID}'` - Delete project.
+* http://localhost:9000/api/export
+  * `[GET] '/{projectID}'` - Get project excel document.
 
 ## Helpful links
 
@@ -30,3 +37,4 @@
 + [Vddl - Vue components for modifying lists with the HTML5 drag & drop API.](https://github.com/hejianxian/vddl)
 + [SlimGrid - A wrapper for SlickGrid to slim down the amount of time and code required to create a grid.](https://github.com/rob-white/SlimGrid)
 + [SlickGrid - Advanced JavaScript grid/spreadsheet component.](https://github.com/mleibman/SlickGrid)
++ [gitmoji - An emoji guide for your commit messages](https://gitmoji.carloscuesta.me/)
