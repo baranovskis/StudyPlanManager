@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace StudyPlanManager.Logic
+namespace StudyPlanManager.Helpers
 {
     public static class XmlExtension
     {
@@ -19,6 +15,7 @@ namespace StudyPlanManager.Logic
             }
 
             var serializer = new XmlSerializer(typeof(T));
+
             using (var stringWriter = new StringWriter())
             {
                 using (var xmlWriter = XmlWriter.Create(stringWriter, new XmlWriterSettings { Indent = true }))
@@ -34,6 +31,7 @@ namespace StudyPlanManager.Logic
             T result;
 
             var serializer = new XmlSerializer(typeof(T));
+
             using (TextReader reader = new StringReader(xmlValue))
             {
                 var deserializedItem = serializer.Deserialize(reader);

@@ -103,7 +103,7 @@
     <Compile Include="Logic\ExcelMaker.cs" />
     <Compile Include="Logic\StudyManager.cs" />
     <Compile Include="Logic\FileManager.cs" />
-    <Compile Include="Logic\XmlExtension.cs" />
+    <Compile Include="Helpers\XmlExtension.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Models\StudyCourse.cs" />
     <Compile Include="Models\StudyGroup.cs" />
@@ -112,8 +112,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="ViewModels\CreatestudyProjectViewModel.cs" />
-    <Compile Include="ViewModels\SavestudyProjectViewModel.cs" />
+    <Compile Include="ViewModels\CreateStudyProjectViewModel.cs" />
+    <Compile Include="ViewModels\SaveStudyProjectViewModel.cs" />
     <Compile Include="ViewModels\StudyViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

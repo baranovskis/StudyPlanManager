@@ -43,6 +43,7 @@ namespace StudyPlanManager.Logic
         public static IEnumerable<string> GetFileList(string path, string fileExtension)
         {
             var files = new List<string>();
+
             if (Directory.Exists(path))
             {
                 string[] filePaths = Directory.GetFiles(path, fileExtension);

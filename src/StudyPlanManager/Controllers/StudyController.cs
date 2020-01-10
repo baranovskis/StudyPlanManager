@@ -12,7 +12,6 @@ namespace StudyPlanManager.Controllers
         [HttpGet]
         public IEnumerable<StudyProject> GetProjects()
         {
-            // Get all study projects
             return StudyManager.Instance.StudyProjects;
         }
 
@@ -25,6 +24,7 @@ namespace StudyPlanManager.Controllers
             }
             
             var studyProject = StudyManager.Instance.GetStudyProject(id);
+
             if (studyProject == null)
             {
                 return NotFound();
@@ -34,24 +34,24 @@ namespace StudyPlanManager.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult CreateProject(CreatestudyProjectViewModel model)
+        public IHttpActionResult CreateProject(CreateStudyProjectViewModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest("Not a valid data");
             
-            var studyProject = StudyManager.Instance.CreateStudyProject(model.Name, model.ParentId);
-            return Ok(studyProject);
+            return Ok(StudyManager.Instance.CreateStudyProject(model.Name, model.ParentId));
         }
 
         [HttpPost]
-        public IHttpActionResult SaveProject(SavestudyProjectViewModel model, string id)
+        public IHttpActionResult SaveProject(SaveStudyProjectViewModel model, string id)
         {
             if (String.IsNullOrEmpty(id))
             {
                 return BadRequest("Empty id");
             }
 
-            bool savedSuccessfully = StudyManager.Instance.SaveStudyProject(id);
+            bool savedSuccessfully = StudyManager.Instance.SaveStudyProject(id, model.Name);
+
             if (!savedSuccessfully)
             {
                 return NotFound();
@@ -74,35 +74,37 @@ namespace StudyPlanManager.Controllers
             }
 
             var study = StudyManager.Instance.GetStudy(id, model.TreeId);
+
             if (study == null)
             {
                 return NotFound();
             }
 
+            int studyYear;
             string trimmedStudyYear = model.Column;
             trimmedStudyYear = trimmedStudyYear.Replace("class_", String.Empty);
 
+            if (!int.TryParse(trimmedStudyYear, out studyYear))
+            {
+                return BadRequest("Study year is not numeric");
+            }
+
+            int creditPoints;
             string creditPointsText = model.Value;
             creditPointsText = String.IsNullOrEmpty(creditPointsText) ? "0" : creditPointsText;
 
-            int studyYear;
-            int creditPoints;
-
-            if (int.TryParse(trimmedStudyYear, out studyYear)
-                && int.TryParse(creditPointsText, out creditPoints))
+            if (!int.TryParse(creditPointsText, out creditPoints))
             {
-                if (studyYear >= 0 && studyYear <= 2)
-                {
-                    study.CreditPoints[studyYear] = creditPoints;
-                }
-                else
-                {
-                    return BadRequest("Study year is invalid");
-                }
+                return BadRequest("Credit points are  not numeric");
+            }
+
+            if (studyYear >= 0 && studyYear <= 2)
+            {
+                study.CreditPoints[studyYear] = creditPoints;
             }
             else
             {
-                return BadRequest("Study year or credit points are not numeric");
+                return BadRequest("Study year is invalid");
             }
 
             return Ok(study);
@@ -116,8 +118,9 @@ namespace StudyPlanManager.Controllers
                 return BadRequest("Empty id");
             }
 
-            bool deletedSuccessfully = StudyManager.Instance.DeleteStudyProject(id);
-            if (!deletedSuccessfully)
+            bool result = StudyManager.Instance.DeleteStudyProject(id);
+
+            if (!result)
             {
                 return NotFound();
             }

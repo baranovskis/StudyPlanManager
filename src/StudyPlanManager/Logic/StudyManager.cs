@@ -1,4 +1,5 @@
 ﻿using StudyPlanManager.Models;
+using StudyPlanManager.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -41,6 +42,7 @@ namespace StudyPlanManager.Logic
                 foreach(var fileName in fileList)
                 {
                     var studyProject = LoadStudyProjectFile(fileName);
+
                     if (studyProject != null)
                     {
                         StudyProjects.Add(studyProject);
@@ -52,7 +54,9 @@ namespace StudyPlanManager.Logic
         public StudyProject GetStudyProject(string id)
         {
             if (String.IsNullOrEmpty(id))
-                throw new ArgumentException("Id is empty");
+            {
+                throw new ArgumentException("Argument 'id' is null or empty");
+            }
 
             lock (_locker)
             {
@@ -70,22 +74,24 @@ namespace StudyPlanManager.Logic
 
         public Study GetStudy(string id, string treeId)
         {
-            Study study = null;
             if (String.IsNullOrEmpty(id))
             {
-                throw new ArgumentException("Id is empty");
+                throw new ArgumentException("Argument 'id' is null or empty");
             }
 
             if (String.IsNullOrEmpty(treeId))
             {
-                throw new ArgumentException("TreeId is empty");
+                throw new ArgumentException("Argument 'treeId' is null or empty");
             }
 
             var studyProject = GetStudyProject(id);
+
             if (studyProject == null)
             {
                 return null;
             }
+
+            Study study = null;
 
             lock (_locker)
             {
@@ -98,6 +104,11 @@ namespace StudyPlanManager.Logic
         // TODO: Rewrite me senpai :3
         public StudyProject CreateStudyProject(string name, string parentId)
         {
+            if (String.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Argument 'name' is null or empty");
+            }
+
             var studyProject = new StudyProject();
 
             var courses = new List<StudyCourse>
@@ -228,14 +239,20 @@ namespace StudyPlanManager.Logic
             return studyProject;
         }
 
-        public bool SaveStudyProject(string id)
+        public bool SaveStudyProject(string id, string name)
         {
             if (String.IsNullOrEmpty(id))
             {
-                throw new ArgumentException("Id is empty");
+                throw new ArgumentException("Argument 'id' is null or empty");
+            }
+
+            if (String.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Argument 'name' is null or empty");
             }
 
             var studyProject = GetStudyProject(id);
+
             if (studyProject == null)
             {
                 return false;
@@ -243,6 +260,7 @@ namespace StudyPlanManager.Logic
 
             lock (_locker)
             {
+                studyProject.Name = name;
                 SaveStudyProjectFile(studyProject);
             }
 
@@ -253,10 +271,11 @@ namespace StudyPlanManager.Logic
         {
             if (String.IsNullOrEmpty(id))
             {
-                throw new ArgumentException("Id is empty");
+                throw new ArgumentException("Argument 'id' is null or empty");
             }
 
             var studyProject = GetStudyProject(id);
+
             if (studyProject == null)
             {
                 return false;
@@ -273,44 +292,68 @@ namespace StudyPlanManager.Logic
 
         public static StudyProject LoadStudyProjectFile(string fileName)
         {
-            StudyProject studyProject = null;
-
-            if (!String.IsNullOrEmpty(fileName))
+            if (String.IsNullOrEmpty(fileName))
             {
-                string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + fileName;
-                string fileContent = FileManager.ReadFromFile(fullFilePath);
-
-                if (!String.IsNullOrEmpty(fileContent))
-                {
-                    studyProject = fileContent.Deserialize<StudyProject>();
-                }
+                throw new Exception($"Argument 'fileName' is null or empty!");
             }
 
-            return studyProject;
+            string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + fileName;
+            string fileContent = FileManager.ReadFromFile(fullFilePath);
+
+            if (!String.IsNullOrEmpty(fileContent))
+            {
+                return fileContent.Deserialize<StudyProject>();
+            }
+
+            return null;
         }
 
         public void SaveStudyProjectFile(StudyProject studyProject)
         {
-            if (!String.IsNullOrEmpty(studyProject.FileName))
+            if (studyProject == null)
             {
-                var xmlText = studyProject.Serialize();
-
-                string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + studyProject.FileName;
-                FileManager.WriteToFile(fullFilePath, xmlText);
+                throw new ArgumentException("Argument 'studyProject' is null");
             }
+
+            if (String.IsNullOrEmpty(studyProject.FileName))
+            {
+                throw new Exception($"Study project '{studyProject.Id}' name is empty");
+            }
+
+            var xmlText = studyProject.Serialize();
+
+            string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + studyProject.FileName;
+            FileManager.WriteToFile(fullFilePath, xmlText);
         }
 
         public void DeleteStudyProjectFile(StudyProject studyProject)
         {
-            if (!String.IsNullOrEmpty(studyProject.FileName))
+            if (studyProject == null)
             {
-                string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + studyProject.FileName;
-                FileManager.DeleteFile(fullFilePath);
+                throw new ArgumentException("Argument 'studyProject' is null");
             }
+
+            if (String.IsNullOrEmpty(studyProject.FileName))
+            {
+                throw new Exception($"Study project '{studyProject.Id}' name is empty!");
+            }
+
+            string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + studyProject.FileName;
+            FileManager.DeleteFile(fullFilePath);
         }
 
         public Study FindStudyByTreeId(StudyGroup studyGroup, string treeId)
         {
+            if (studyGroup == null)
+            {
+                throw new ArgumentException("Argument 'studyGroup' is null");
+            }
+
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new Exception($"Argument 'treeId' is null or empty!");
+            }
+
             foreach (var study in studyGroup.Studies)
             {
                 if (study.TreeId.Equals(treeId))
@@ -318,14 +361,26 @@ namespace StudyPlanManager.Logic
                     return study;
                 }
             }
+
             return null;
         }
 
         public Study FindStudyByTreeId(StudyCourse studyCourse, string treeId)
         {
+            if (studyCourse == null)
+            {
+                throw new ArgumentException("Argument 'studyCourse' is null");
+            }
+
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new Exception($"Argument 'treeId' is null or empty!");
+            }
+
             foreach (var studyGroup in studyCourse.Groups)
             {
                 var study = FindStudyByTreeId(studyGroup, treeId);
+
                 if (study != null)
                 {
                     return study;
@@ -337,9 +392,20 @@ namespace StudyPlanManager.Logic
 
         public Study FindStudyByTreeId(StudyProject studyProject, string treeId)
         {
+            if (studyProject == null)
+            {
+                throw new ArgumentException("Argument 'studyProject' is null");
+            }
+
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new Exception($"Argument 'treeId' is null or empty!");
+            }
+
             foreach (var studyCourse in studyProject.Courses)
             {
                 var study = FindStudyByTreeId(studyCourse, treeId);
+
                 if (study != null)
                 {
                     return study;
