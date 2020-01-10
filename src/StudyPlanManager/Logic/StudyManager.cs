@@ -40,7 +40,7 @@ namespace StudyPlanManager.Logic
 
                 foreach(var fileName in fileList)
                 {
-                    var studyProject = StudyProject.LoadFile(fileName);
+                    var studyProject = LoadStudyProjectFile(fileName);
                     if (studyProject != null)
                     {
                         StudyProjects.Add(studyProject);
@@ -89,7 +89,7 @@ namespace StudyPlanManager.Logic
 
             lock (_locker)
             {
-                study = studyProject.FindStudyByTreeId(treeId);
+                study = FindStudyByTreeId(studyProject, treeId);
             }
 
             return study;
@@ -243,7 +243,7 @@ namespace StudyPlanManager.Logic
 
             lock (_locker)
             {
-                studyProject.SaveFile();
+                SaveStudyProjectFile(studyProject);
             }
 
             return true;
@@ -264,11 +264,89 @@ namespace StudyPlanManager.Logic
 
             lock (_locker)
             {
-                studyProject.DeleteFile();
+                DeleteStudyProjectFile(studyProject);
                 StudyProjects.Remove(studyProject);
             }
 
             return true;
+        }
+
+        public static StudyProject LoadStudyProjectFile(string fileName)
+        {
+            StudyProject studyProject = null;
+
+            if (!String.IsNullOrEmpty(fileName))
+            {
+                string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + fileName;
+                string fileContent = FileManager.ReadFromFile(fullFilePath);
+
+                if (!String.IsNullOrEmpty(fileContent))
+                {
+                    studyProject = fileContent.Deserialize<StudyProject>();
+                }
+            }
+
+            return studyProject;
+        }
+
+        public void SaveStudyProjectFile(StudyProject studyProject)
+        {
+            if (!String.IsNullOrEmpty(studyProject.FileName))
+            {
+                var xmlText = studyProject.Serialize();
+
+                string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + studyProject.FileName;
+                FileManager.WriteToFile(fullFilePath, xmlText);
+            }
+        }
+
+        public void DeleteStudyProjectFile(StudyProject studyProject)
+        {
+            if (!String.IsNullOrEmpty(studyProject.FileName))
+            {
+                string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + studyProject.FileName;
+                FileManager.DeleteFile(fullFilePath);
+            }
+        }
+
+        public Study FindStudyByTreeId(StudyGroup studyGroup, string treeId)
+        {
+            foreach (var study in studyGroup.Studies)
+            {
+                if (study.TreeId.Equals(treeId))
+                {
+                    return study;
+                }
+            }
+            return null;
+        }
+
+        public Study FindStudyByTreeId(StudyCourse studyCourse, string treeId)
+        {
+            foreach (var studyGroup in studyCourse.Groups)
+            {
+                var study = FindStudyByTreeId(studyGroup, treeId);
+                if (study != null)
+                {
+                    return study;
+                }
+            }
+
+            return null;
+        }
+
+        public Study FindStudyByTreeId(StudyProject studyProject, string treeId)
+        {
+            foreach (var studyCourse in studyProject.Courses)
+            {
+                var study = FindStudyByTreeId(studyCourse, treeId);
+                if (study != null)
+                {
+                    return study;
+                }
+            }
+
+            return null;
         }
     }
 }

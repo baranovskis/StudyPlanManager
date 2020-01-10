@@ -13,19 +13,5 @@ namespace StudyPlanManager.Models
         {
             Groups = new List<StudyGroup>();
         }
-
-        public Study FindStudyByTreeId(string treeId)
-        {
-            foreach (var group in Groups)
-            {
-                var study = group.FindStudyByTreeId(treeId);
-                if (study != null)
-                {
-                    return study;
-                }
-            }
-
-            return null;
-        }
     }
 }

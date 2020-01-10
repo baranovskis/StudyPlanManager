@@ -43,6 +43,23 @@ namespace StudyPlanManager.Controllers
             return Ok(studyProject);
         }
 
+        [HttpPost]
+        public IHttpActionResult SaveProject(SavestudyProjectViewModel model, string id)
+        {
+            if (String.IsNullOrEmpty(id))
+            {
+                return BadRequest("Empty id");
+            }
+
+            bool savedSuccessfully = StudyManager.Instance.SaveStudyProject(id);
+            if (!savedSuccessfully)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
         [HttpPut]
         public IHttpActionResult UpdateProject(StudyViewModel model, string id)
         {
@@ -62,13 +79,17 @@ namespace StudyPlanManager.Controllers
                 return NotFound();
             }
 
-            string trimmedStudyYear = model.Column.Replace("class_", String.Empty);
+            string trimmedStudyYear = model.Column;
+            trimmedStudyYear = trimmedStudyYear.Replace("class_", String.Empty);
+
+            string creditPointsText = model.Value;
+            creditPointsText = String.IsNullOrEmpty(creditPointsText) ? "0" : creditPointsText;
 
             int studyYear;
             int creditPoints;
 
             if (int.TryParse(trimmedStudyYear, out studyYear)
-                && int.TryParse(model.Value, out creditPoints))
+                && int.TryParse(creditPointsText, out creditPoints))
             {
                 if (studyYear >= 0 && studyYear <= 2)
                 {
@@ -85,23 +106,6 @@ namespace StudyPlanManager.Controllers
             }
 
             return Ok(study);
-        }
-
-        [HttpPost]
-        public IHttpActionResult SaveProject(SavestudyProjectViewModel model, string id)
-        {
-            if (String.IsNullOrEmpty(id))
-            {
-                return BadRequest("Empty id");
-            }
-
-            bool savedSuccessfully = StudyManager.Instance.SaveStudyProject(id);
-            if (!savedSuccessfully)
-            {
-                return NotFound();
-            }
-
-            return Ok();
         }
 
         [HttpDelete]
