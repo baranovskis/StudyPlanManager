@@ -261,6 +261,7 @@ namespace StudyPlanManager.Logic
             lock (_locker)
             {
                 studyProject.Name = name;
+                studyProject.LastUpdatedDate = DateTime.Now;
                 SaveStudyProjectFile(studyProject);
             }
 
