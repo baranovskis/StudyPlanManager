@@ -3,8 +3,10 @@ using Microsoft.Owin.StaticFiles;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Owin;
+using StudyPlanManager.Logic;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace StudyPlanManager
 {
@@ -23,6 +25,9 @@ namespace StudyPlanManager
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            // Errors handling
+            config.Services.Add(typeof(IExceptionLogger), new ExceptionManager());
 
             config.Formatters.Clear();
             config.Formatters.Add(new JsonMediaTypeFormatter());

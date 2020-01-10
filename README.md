@@ -6,7 +6,7 @@
 - [ ] Save changes from frontend to database.
 - [ ] Data validation (min/max points ...).
 - [ ] Excel export.
-- [ ] Error logging.
+- [x] Error logging.
 
 ## Quick start (frontend)
 
