@@ -11,7 +11,7 @@ namespace StudyPlanManager.Logic
     {
         public const string SettingsPath = @"Data\Defaults\";
         public const string DataPath = @"Data\Projects\";
-        public const string FileExtension = "*.stp";
+        public const string FileExtension = "stp";
 
         public static void WriteToFile(string filePath, string fileContent)
         {
@@ -46,7 +46,7 @@ namespace StudyPlanManager.Logic
 
             if (Directory.Exists(path))
             {
-                string[] filePaths = Directory.GetFiles(path, fileExtension);
+                string[] filePaths = Directory.GetFiles(path, "*." + fileExtension);
 
                 foreach (var filePath in filePaths)
                 {

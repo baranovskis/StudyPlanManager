@@ -228,7 +228,6 @@ namespace StudyPlanManager.Logic
 
             studyProject.Id = Guid.NewGuid().ToString("N");
             studyProject.Name = name;
-            //studyProject.FileName = fileName;
             studyProject.Courses = courses;
             studyProject.CreationDate = DateTime.Now;
             studyProject.LastUpdatedDate = DateTime.Now;
@@ -326,7 +325,7 @@ namespace StudyPlanManager.Logic
         {
             if (String.IsNullOrEmpty(fileName))
             {
-                throw new Exception($"Argument 'fileName' is null or empty!");
+                throw new Exception("Argument 'fileName' is null or empty!");
             }
 
             string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + fileName;
@@ -383,7 +382,7 @@ namespace StudyPlanManager.Logic
 
             if (String.IsNullOrEmpty(treeId))
             {
-                throw new Exception($"Argument 'treeId' is null or empty!");
+                throw new Exception("Argument 'treeId' is null or empty!");
             }
 
             foreach (var study in studyGroup.Studies)
@@ -406,7 +405,7 @@ namespace StudyPlanManager.Logic
 
             if (String.IsNullOrEmpty(treeId))
             {
-                throw new Exception($"Argument 'treeId' is null or empty!");
+                throw new Exception("Argument 'treeId' is null or empty!");
             }
 
             foreach (var studyGroup in studyCourse.Groups)
@@ -431,7 +430,7 @@ namespace StudyPlanManager.Logic
 
             if (String.IsNullOrEmpty(treeId))
             {
-                throw new Exception($"Argument 'treeId' is null or empty!");
+                throw new Exception("Argument 'treeId' is null or empty!");
             }
 
             foreach (var studyCourse in studyProject.Courses)
