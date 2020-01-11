@@ -9,6 +9,9 @@ namespace StudyPlanManager.Logic
 {
     public class StudyRuleManager
     {
+        public static int CreditPointMinimum = 32;
+        public static int CreditPointMaximum = 36;
+
         public static List<StudyInfoMessage> CheckStudyProject(StudyProject studyProject)
         {
             var messages = new List<StudyInfoMessage>();
@@ -114,10 +117,10 @@ namespace StudyPlanManager.Logic
                     }
                 }
 
-                // Check totals by each class - must be between 32 and 36.
-                if (totals[0] < 32
-                    || totals[1] < 32
-                    || totals[2] < 32)
+                // Check totals by each class - must be between CreditPointMinimum and CreditPointMaximum.
+                if (totals[0] < CreditPointMinimum
+                    || totals[1] < CreditPointMinimum
+                    || totals[2] < CreditPointMinimum)
                 {
                     messages.Add(
                         new StudyInfoMessage
@@ -127,9 +130,9 @@ namespace StudyPlanManager.Logic
                         });
                 }
 
-                if (totals[0] > 36
-                    || totals[1] > 36
-                    || totals[2] > 36)
+                if (totals[0] > CreditPointMaximum
+                    || totals[1] > CreditPointMaximum
+                    || totals[2] > CreditPointMaximum)
                 {
                     messages.Add(
                         new StudyInfoMessage
