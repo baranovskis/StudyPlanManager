@@ -3,6 +3,7 @@ using StudyPlanManager.Models;
 using StudyPlanManager.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace StudyPlanManager.Controllers
@@ -12,7 +13,7 @@ namespace StudyPlanManager.Controllers
         [HttpGet]
         public IEnumerable<StudyProject> GetProjects()
         {
-            return StudyManager.Instance.StudyProjects;
+            return StudyManager.Instance.StudyProjects.OrderBy(x => x.Name);
         }
 
         [HttpGet]

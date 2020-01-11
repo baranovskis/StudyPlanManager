@@ -235,6 +235,9 @@ namespace StudyPlanManager.Logic
             // Add to list
             StudyProjects.Add(studyProject);
 
+            // Initial save to file
+            SaveStudyProjectFile(studyProject);
+
             return studyProject;
         }
 
@@ -311,11 +314,12 @@ namespace StudyPlanManager.Logic
 
             lock (_locker)
             {
-                StudyProjects.Remove(studyProject);
+                int index = StudyProjects.FindIndex(ind => ind.Equals(studyProject));
 
-                studyProject = LoadStudyProjectFile(studyProject.FileName);
-
-                StudyProjects.Add(studyProject);
+                if (index > -1)
+                {
+                    StudyProjects[index] = LoadStudyProjectFile(studyProject.FileName);
+                }
             }
 
             return true;
