@@ -18,7 +18,10 @@ namespace StudyPlanManager.Logic
 
             if (studyProject != null)
             {
-                var totals = new int[3];
+                int totalOfClass10 = 0;
+                int totalOfClass11 = 0;
+                int totalOfClass12 = 0;
+
                 bool obligatoryStudiesNotFilled = false;
                 bool minimalStudyCountNotMet = false;
                 bool tooManyCreditsInStudy = false;
@@ -32,9 +35,9 @@ namespace StudyPlanManager.Logic
 
                         foreach(var study in group.Studies)
                         {
-                            totals[0] += study.CreditPoints[0];
-                            totals[1] += study.CreditPoints[1];
-                            totals[2] += study.CreditPoints[2];
+                            totalOfClass10 += study.CreditPoints[0];
+                            totalOfClass11 += study.CreditPoints[1];
+                            totalOfClass12 += study.CreditPoints[2];
 
                             if (study.CreditPoints[0] == 0
                                 && study.CreditPoints[1] == 0
@@ -118,9 +121,9 @@ namespace StudyPlanManager.Logic
                 }
 
                 // Check totals by each class - must be between CreditPointMinimum and CreditPointMaximum.
-                if (totals[0] < CreditPointMinimum
-                    || totals[1] < CreditPointMinimum
-                    || totals[2] < CreditPointMinimum)
+                if (totalOfClass10 < CreditPointMinimum
+                    || totalOfClass11 < CreditPointMinimum
+                    || totalOfClass12 < CreditPointMinimum)
                 {
                     messages.Add(
                         new StudyInfoMessage
@@ -130,9 +133,9 @@ namespace StudyPlanManager.Logic
                         });
                 }
 
-                if (totals[0] > CreditPointMaximum
-                    || totals[1] > CreditPointMaximum
-                    || totals[2] > CreditPointMaximum)
+                if (totalOfClass10 > CreditPointMaximum
+                    || totalOfClass11 > CreditPointMaximum
+                    || totalOfClass12 > CreditPointMaximum)
                 {
                     messages.Add(
                         new StudyInfoMessage
