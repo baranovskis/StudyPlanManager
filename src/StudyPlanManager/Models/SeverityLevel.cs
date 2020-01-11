@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StudyPlanManager.Logic
+namespace StudyPlanManager.Models
 {
-    public static class ExcelMaker
+    public enum SeverityLevel
     {
+        Info,
+        Warning,
+        Error
     }
 }

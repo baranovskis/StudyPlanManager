@@ -102,13 +102,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\StudyController.cs" />
+    <Compile Include="Controllers\StudyRuleController.cs" />
     <Compile Include="CustomContext.cs" />
-    <Compile Include="Logic\ExcelMaker.cs" />
+    <Compile Include="Logic\ExcelFileManager.cs" />
     <Compile Include="Logic\ExceptionManager.cs" />
+    <Compile Include="Logic\SettingManager.cs" />
     <Compile Include="Logic\StudyManager.cs" />
     <Compile Include="Logic\FileManager.cs" />
-    <Compile Include="Helpers\XmlExtension.cs" />
+    <Compile Include="Logic\StudyRuleManager.cs" />
+    <Compile Include="Models\SeverityLevel.cs" />
+    <Compile Include="Models\StudyInfoMessage.cs" />
+    <Compile Include="Utility\XmlExtension.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Models\StudyCourse.cs" />
     <Compile Include="Models\StudyGroup.cs" />

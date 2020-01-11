@@ -20,7 +20,7 @@ namespace StudyPlanManager.Models
 
         public StudyProject()
         {
-            FileName = Guid.NewGuid().ToString("N") + "." + FileManager.FileExtension;
+            FileName = Guid.NewGuid().ToString("N") + ".xml";
         }
     }
 }

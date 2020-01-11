@@ -1,5 +1,5 @@
 ﻿using StudyPlanManager.Models;
-using StudyPlanManager.Helpers;
+using StudyPlanManager.Utility;
 using System;
 using System.Collections.Generic;
 
@@ -37,11 +37,11 @@ namespace StudyPlanManager.Logic
             {
                 StudyProjects = new List<StudyProject>();
 
-                var fileList = FileManager.GetFileList(AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath, FileManager.FileExtension);
+                var fileList = FileManager.GetFileList(AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath, "xml");
 
                 foreach(var fileName in fileList)
                 {
-                    var studyProject = LoadStudyProjectFile(fileName);
+                    var studyProject = FileManager.LoadObjectFromFile<StudyProject>(FileManager.DataPath, fileName);
 
                     if (studyProject != null)
                     {
@@ -85,6 +85,28 @@ namespace StudyPlanManager.Logic
             }
 
             var studyProject = GetStudyProject(id);
+
+            if (studyProject == null)
+            {
+                return null;
+            }
+
+            Study study = null;
+
+            lock (_locker)
+            {
+                study = FindStudyByTreeId(studyProject, treeId);
+            }
+
+            return study;
+        }
+
+        public Study GetStudy(StudyProject studyProject, string treeId)
+        {
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new ArgumentException("Argument 'treeId' is null or empty");
+            }
 
             if (studyProject == null)
             {
@@ -209,18 +231,20 @@ namespace StudyPlanManager.Logic
                 }
             };
 
-
-            var rand = new Random();
-
-            foreach (var course in courses)
+            if (!name.Equals("default"))
             {
-                foreach (var group in course.Groups)
+                var rand = new Random();
+
+                foreach (var course in courses)
                 {
-                    foreach (var study in group.Studies)
+                    foreach (var group in course.Groups)
                     {
-                        for (var i = 0; i < study.CreditPoints.Length; i++)
+                        foreach (var study in group.Studies)
                         {
-                            study.CreditPoints[i] = rand.Next(0, 10);
+                            for (var i = 0; i < study.CreditPoints.Length; i++)
+                            {
+                                study.CreditPoints[i] = rand.Next(0, 10);
+                            }
                         }
                     }
                 }
@@ -232,12 +256,14 @@ namespace StudyPlanManager.Logic
             studyProject.CreationDate = DateTime.Now;
             studyProject.LastUpdatedDate = DateTime.Now;
 
-            // Add to list
-            StudyProjects.Add(studyProject);
+            if (!name.Equals("default"))
+            {
+                // Add to list
+                StudyProjects.Add(studyProject);
 
-            // Initial save to file
-            SaveStudyProjectFile(studyProject);
-
+                // Initial save to file
+                FileManager.SaveObjectToFile(studyProject, FileManager.DataPath, studyProject.FileName);
+            }
             return studyProject;
         }
 
@@ -264,7 +290,7 @@ namespace StudyPlanManager.Logic
             {
                 studyProject.Name = name;
                 studyProject.LastUpdatedDate = DateTime.Now;
-                SaveStudyProjectFile(studyProject);
+                FileManager.SaveObjectToFile(studyProject, FileManager.DataPath, studyProject.FileName);
             }
 
             return true;
@@ -318,47 +344,11 @@ namespace StudyPlanManager.Logic
 
                 if (index > -1)
                 {
-                    StudyProjects[index] = LoadStudyProjectFile(studyProject.FileName);
+                    StudyProjects[index] = FileManager.LoadObjectFromFile<StudyProject>(FileManager.DataPath, studyProject.FileName);
                 }
             }
 
             return true;
-        }
-
-        private static StudyProject LoadStudyProjectFile(string fileName)
-        {
-            if (String.IsNullOrEmpty(fileName))
-            {
-                throw new Exception("Argument 'fileName' is null or empty!");
-            }
-
-            string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + fileName;
-            string fileContent = FileManager.ReadFromFile(fullFilePath);
-
-            if (!String.IsNullOrEmpty(fileContent))
-            {
-                return fileContent.Deserialize<StudyProject>();
-            }
-
-            return null;
-        }
-
-        public void SaveStudyProjectFile(StudyProject studyProject)
-        {
-            if (studyProject == null)
-            {
-                throw new ArgumentException("Argument 'studyProject' is null");
-            }
-
-            if (String.IsNullOrEmpty(studyProject.FileName))
-            {
-                throw new Exception($"Study project '{studyProject.Id}' name is empty");
-            }
-
-            var xmlText = studyProject.Serialize();
-
-            string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath + studyProject.FileName;
-            FileManager.WriteToFile(fullFilePath, xmlText);
         }
 
         private void DeleteStudyProjectFile(StudyProject studyProject)

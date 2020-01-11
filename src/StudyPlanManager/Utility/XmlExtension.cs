@@ -3,7 +3,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace StudyPlanManager.Helpers
+namespace StudyPlanManager.Utility
 {
     public static class XmlExtension
     {

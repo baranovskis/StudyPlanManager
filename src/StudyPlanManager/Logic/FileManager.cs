@@ -1,4 +1,5 @@
-﻿using System;
+﻿using StudyPlanManager.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +12,6 @@ namespace StudyPlanManager.Logic
     {
         public const string SettingsPath = @"Data\Defaults\";
         public const string DataPath = @"Data\Projects\";
-        public const string FileExtension = "stp";
 
         public static void WriteToFile(string filePath, string fileContent)
         {
@@ -56,6 +56,42 @@ namespace StudyPlanManager.Logic
             }
 
             return files;
+        }
+
+        public static T LoadObjectFromFile<T>(string filePath, string fileName) where T : class
+        {
+            if (String.IsNullOrEmpty(fileName))
+            {
+                throw new Exception("Argument 'fileName' is null or empty!");
+            }
+
+            string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + filePath + fileName;
+            string fileContent = ReadFromFile(fullFilePath);
+
+            if (!String.IsNullOrEmpty(fileContent))
+            {
+                return fileContent.Deserialize<T>();
+            }
+
+            return null;
+        }
+
+        public static void SaveObjectToFile<T>(T objectToSave, string filePath, string fileName) where T : class
+        {
+            if (objectToSave == null)
+            {
+                throw new ArgumentException("Argument 'studyProject' is null");
+            }
+
+            if (String.IsNullOrEmpty(fileName))
+            {
+                throw new Exception($"File name for object is empty");
+            }
+
+            var xmlText = objectToSave.Serialize();
+
+            string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + filePath + fileName;
+            WriteToFile(fullFilePath, xmlText);
         }
     }
 }

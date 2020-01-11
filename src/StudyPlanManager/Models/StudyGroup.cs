@@ -9,6 +9,8 @@ namespace StudyPlanManager.Models
 
         public List<Study> Studies { get; set; }
 
+        public int MinimalStudyCount { get; set; }
+
         public StudyGroup() : base()
         {
             Studies = new List<Study>();
