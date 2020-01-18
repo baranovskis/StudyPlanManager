@@ -4,7 +4,7 @@ namespace StudyPlanManager.Models
 {
     public class TreeBase
     {
-        public readonly string TreeId;
+        public string TreeId { get; set; }
 
         public TreeBase()
         {

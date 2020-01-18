@@ -10,7 +10,7 @@ namespace StudyPlanManager.Logic
 {
     public static class FileManager
     {
-        public const string SettingsPath = @"Data\Defaults\";
+        public const string SettingsPath = @"Data\";
         public const string DataPath = @"Data\Projects\";
 
         public static void WriteToFile(string filePath, string fileContent)

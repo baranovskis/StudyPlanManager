@@ -19,7 +19,13 @@
                   <h1 class="display-3 text-white">{{ name }}</h1>
                 </div>
                 <div class="text-right w-100">
-                  <base-button type="info" icon="fa fa-cogs mr-2">Settings</base-button>
+                  <router-link type="button" class="btn btn-icon btn-info" :to="{ name: 'settings' }">
+                    <span class="btn-inner--icon">
+                      <i class="fa fa-cogs mr-2"></i>
+                    </span>
+                    <span class="btn-inner--text">Settings</span>
+                  </router-link>
+                  <!--<base-button type="info" icon="fa fa-cogs mr-2">Settings</base-button>-->
                   <base-button type="primary" icon="fa fa-arrow-circle-o-down mr-2" @click="exportFile">Export</base-button>
                 </div>
             </div>

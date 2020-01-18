@@ -1,0 +1,41 @@
+<template>
+  <draggable ghostClass="ghost" class="list-group" :list="data.items" :move="checkMove" :group="{ name: 'main', allowed: data.allowedTypes }">
+    <li class="list-group-item" v-for="el in data.items" :key="el.treeId">
+      {{ el.name }}
+      <nested-draggable :data="el" />
+    </li>
+  </draggable>
+</template>
+<script>
+import draggable from "vuedraggable"
+import { resolve } from 'url';
+import { constants } from 'buffer';
+
+export default {
+  props: {
+    data: {
+      required: true,
+      type: Object
+    }
+  },
+  components: {
+    draggable
+  },
+  methods: {
+    checkMove(arg) {
+      let dragType = arg.draggedContext.element.type;
+      let allowedTypes = arg.relatedContext.component.$attrs.group.allowed;
+      return allowedTypes.includes(dragType);
+    }
+  },
+  name: "nested-draggable"
+};
+</script>
+
+<style scoped>
+.ghost {
+  opacity: .5;
+  background: #C8EBFB;
+  padding: 0 15px;
+}
+</style>

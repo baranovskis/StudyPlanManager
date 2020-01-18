@@ -264,6 +264,7 @@ namespace StudyPlanManager.Logic
                 // Initial save to file
                 FileManager.SaveObjectToFile(studyProject, FileManager.DataPath, studyProject.FileName);
             }
+
             return studyProject;
         }
 

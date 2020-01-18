@@ -30,7 +30,7 @@ export default new Router({
       }
     },
     {
-      path: "/settings",
+      path: "/project/:projectId/settings",
       name: "settings",
       components: {
         header: AppHeader,

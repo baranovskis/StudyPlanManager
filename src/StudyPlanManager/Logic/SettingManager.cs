@@ -1,11 +1,5 @@
-﻿using StudyPlanManager.Utility;
-using StudyPlanManager.Models;
-using System;
+﻿using StudyPlanManager.Models;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
 
 namespace StudyPlanManager.Logic
 {
@@ -58,10 +52,30 @@ namespace StudyPlanManager.Logic
             {
                 AvailableStudies = new List<Study>()
                 {
-                    new Study{ StudyName= "Latv 1", IsObligatory = true, CreditPointLimit = 12},
-                    new Study{ StudyName= "Anglu 1", IsObligatory = false, CreditPointLimit = 6},
-                    new Study{ StudyName= "Latv 2", IsObligatory = false, CreditPointLimit = 6},
-                    new Study{ StudyName= "Latgaliesu", IsObligatory = false, CreditPointLimit = 6}
+                    new Study
+                    {
+                        StudyName = "Latv 1",
+                        IsObligatory = true,
+                        CreditPointLimit = 12
+                    },
+                    new Study
+                    {
+                        StudyName = "Anglu 1",
+                        IsObligatory = false,
+                        CreditPointLimit = 6
+                    },
+                    new Study
+                    {
+                        StudyName = "Latv 2",
+                        IsObligatory = false,
+                        CreditPointLimit = 6
+                    },
+                    new Study
+                    {
+                        StudyName = "Latgaliesu",
+                        IsObligatory = false,
+                        CreditPointLimit = 6
+                    }
                 };
             }
         }

@@ -15,13 +15,13 @@
     "nouislider": "^11.1.0",
     "register-service-worker": "^1.5.2",
     "slickgrid-es6": "^3.0.3",
-    "vddl": "^0.7.1",
     "vue": "^2.6.6",
     "vue-flatpickr-component": "^8.1.1",
     "vue-lazyload": "^1.2.6",
     "vue-router": "^3.0.2",
     "vue-slimgrid": "^0.1.39",
-    "vue2-transitions": "^0.2.3"
+    "vue2-transitions": "^0.2.3",
+    "vuedraggable": "^2.23.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.4.0",
