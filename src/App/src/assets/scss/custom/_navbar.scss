@@ -1,3 +1,22 @@
+.language-menu {
+	text-align: right;
+    width: 100%;
+	
+	> div {
+		display: inline-block;
+		padding: 0 5px;
+		color: $gray-300;
+		cursor: pointer;
+		
+		&:hover,
+		&:focus,
+		&:active,
+		&.active {
+			color: $white;
+		}
+	}
+}
+
 .navbar-nav {
     .nav-link {
         font-size: $navbar-nav-link-font-size;

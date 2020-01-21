@@ -17,6 +17,7 @@
     "slickgrid-es6": "^3.0.3",
     "vue": "^2.6.6",
     "vue-flatpickr-component": "^8.1.1",
+    "vue-i18n": "^8.15.3",
     "vue-lazyload": "^1.2.6",
     "vue-router": "^3.0.2",
     "vue-slimgrid": "^0.1.39",

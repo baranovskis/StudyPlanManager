@@ -17,7 +17,7 @@
               <div class="container shape-container d-flex">
                   <div>
                     <base-button type="primary" icon="fa fa-file-o mr-2" @click="modals.createNew.show = true">
-                      Create New
+					  {{ $t('home.createNew') }}
                     </base-button>
                   </div>
               </div>
@@ -125,7 +125,7 @@ export default {
     BaseDropdown,
     Modal
   },
-  data() {
+  data() {	
     return {
       rows: [],
       modals: {
