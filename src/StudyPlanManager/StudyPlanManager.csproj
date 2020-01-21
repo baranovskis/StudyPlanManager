@@ -104,7 +104,6 @@
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\StudyController.cs" />
-    <Compile Include="Controllers\StudyRuleController.cs" />
     <Compile Include="CustomContext.cs" />
     <Compile Include="Logic\ExcelFileManager.cs" />
     <Compile Include="Logic\ExceptionManager.cs" />
@@ -126,6 +125,7 @@
     <Compile Include="ViewModels\CreateStudyProjectViewModel.cs" />
     <Compile Include="ViewModels\SaveStudyProjectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\StudyProjectViewModel.cs" />
     <Compile Include="ViewModels\StudyViewModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

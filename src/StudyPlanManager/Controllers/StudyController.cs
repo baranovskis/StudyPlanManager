@@ -31,7 +31,13 @@ namespace StudyPlanManager.Controllers
                 return NotFound();
             }
 
-            return Ok(studyProject);
+            var check = StudyRuleManager.CheckStudyProject(studyProject);
+
+            return Ok(new StudyProjectViewModel
+            {
+                Project = studyProject,
+                Messages = check
+            });
         }
 
         [HttpPost]
@@ -74,7 +80,14 @@ namespace StudyPlanManager.Controllers
                 return BadRequest("Not a valid data");
             }
 
-            var study = StudyManager.Instance.GetStudy(id, model.TreeId);
+            var studyProject = StudyManager.Instance.GetStudyProject(id);
+
+            if (studyProject == null)
+            {
+                return NotFound();
+            }
+
+            var study = StudyManager.Instance.GetStudy(studyProject, model.TreeId);
 
             if (study == null)
             {
@@ -108,7 +121,8 @@ namespace StudyPlanManager.Controllers
                 return BadRequest("Study year is invalid");
             }
 
-            return Ok(study);
+            var check = StudyRuleManager.CheckStudyProject(studyProject);
+            return Ok(check);
         }
 
         [HttpDelete]

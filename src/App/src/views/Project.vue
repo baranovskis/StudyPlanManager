@@ -46,6 +46,19 @@
                     <base-button block type="success" icon="fa fa-floppy-o mr-2" @click="saveProject">Save</base-button>
                   </div>
               </div>
+              <div class="row" v-for="(item, index) in messages" v-bind:key="index">
+                <div class="col-md-12">
+                  <base-alert type="info" v-if="item.severityLevel == 0">
+                    <strong>Info!</strong> {{ item.message}}
+                  </base-alert>
+                  <base-alert type="warning" v-if="item.severityLevel == 1">
+                    <strong>Warning!</strong> {{ item.message}}
+                  </base-alert>
+                  <base-alert type="danger" v-if="item.severityLevel == 2">
+                    <strong>Error!</strong> {{ item.message}}
+                  </base-alert>
+                </div>
+              </div>
               <div class="row">
                   <div class="col-lg-12">
                     <slim-grid
@@ -100,6 +113,7 @@ export default {
     return {
       name: undefined,
       data: [],
+      messages: [],
       modals: {
         restore: false
       },
@@ -205,10 +219,11 @@ export default {
 
       StudyRepository.get(this.$route.params.projectId)
         .then(response => {
-          this.name = response.data.name;
+          this.name = response.data.project.name;
+          this.messages = response.data.messages;
 
-          for (let i = 0; i < response.data.courses.length; i++) {
-            let data = response.data.courses[i];
+          for (let i = 0; i < response.data.project.courses.length; i++) {
+            let data = response.data.project.courses[i];
 
             // If groups > 0
             if (data.groups.length > 0) {
@@ -267,15 +282,7 @@ export default {
         this.$route.params.projectId
       )
         .then(response => {
-          console.log("Cell changed!");
-
-          // Class 10 -> 12
-          for (let c = 0; c < response.data.creditPoints.length; c++) {
-            args.item["class_" + c] = response.data.creditPoints[c];
-          }
-
-          args.grid.invalidate();
-          args.grid.render();
+          this.messages = response.data;
         })
         .catch(error => {
           console.log(error);

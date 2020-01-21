@@ -4,7 +4,7 @@
 - [x] Retrieve data from database in API controller.
 - [ ] Drag&drop study tree builder (StudyCourse -> StudyGroup -> Study).
 - [x] Save changes from frontend to database.
-- [ ] Data validation (min/max points ...).
+- [x] Data validation (min/max points ...).
 - [ ] Excel export.
 - [x] Error logging.
 
@@ -35,7 +35,7 @@
 ## Helpful links
 
 + [Vue Argon Design System](https://demos.creative-tim.com/vue-argon-design-system/documentation/)
-+ [Vddl - Vue components for modifying lists with the HTML5 drag & drop API.](https://github.com/hejianxian/vddl)
++ [Vue.Draggable - Vue component (Vue.js 2.0) or directive (Vue.js 1.0) allowing drag-and-drop and synchronization with view model array.](https://github.com/SortableJS/Vue.Draggable)
 + [SlimGrid - A wrapper for SlickGrid to slim down the amount of time and code required to create a grid.](https://github.com/rob-white/SlimGrid)
 + [SlickGrid - Advanced JavaScript grid/spreadsheet component.](https://github.com/mleibman/SlickGrid)
 + [gitmoji - An emoji guide for your commit messages](https://gitmoji.carloscuesta.me/)
