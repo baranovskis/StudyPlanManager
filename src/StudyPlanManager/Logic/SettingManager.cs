@@ -27,6 +27,7 @@ namespace StudyPlanManager.Logic
         {
             LoadSettings();
             LoadDefaultConfiguration();
+            SaveSettings();
         }
 
         public void LoadSettings()

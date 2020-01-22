@@ -1,5 +1,13 @@
 {
 	"home": {
 		"createNew": "Create New"
+	},
+	"errors": {
+		"notEnoughCreditPointsInYear": "There are not enough credit points in some study years",
+		"tooManyCreditPointsInYear": "There are too many credit points in some study years",
+		"obligatoryStudiesNotFilled": "Some obligatory studies are not filled in",
+		"groupMinimalStudyCountNotMet": "Some groups don't have minimal required study count filled in",
+		"tooManyCreditPointsInStudy": "Some studies have too many credit points",
+		"parentStudiesNotFilled": "Some studies have parent studies not filled in"
 	}
 }

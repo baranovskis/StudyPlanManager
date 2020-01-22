@@ -10,7 +10,7 @@ namespace StudyPlanManager.Logic
 {
     public static class FileManager
     {
-        public const string SettingsPath = @"Data\";
+        public const string SettingsPath = @"Data\Settings\";
         public const string DataPath = @"Data\Projects\";
 
         public static void WriteToFile(string filePath, string fileContent)
@@ -66,11 +66,15 @@ namespace StudyPlanManager.Logic
             }
 
             string fullFilePath = AppDomain.CurrentDomain.BaseDirectory + filePath + fileName;
-            string fileContent = ReadFromFile(fullFilePath);
 
-            if (!String.IsNullOrEmpty(fileContent))
+            if (File.Exists(fullFilePath))
             {
-                return fileContent.Deserialize<T>();
+                string fileContent = ReadFromFile(fullFilePath);
+
+                if (!String.IsNullOrEmpty(fileContent))
+                {
+                    return fileContent.Deserialize<T>();
+                }
             }
 
             return null;

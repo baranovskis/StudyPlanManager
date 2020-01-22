@@ -39,7 +39,7 @@ namespace StudyPlanManager.Logic
 
                 var fileList = FileManager.GetFileList(AppDomain.CurrentDomain.BaseDirectory + FileManager.DataPath, "xml");
 
-                foreach(var fileName in fileList)
+                foreach (var fileName in fileList)
                 {
                     var studyProject = FileManager.LoadObjectFromFile<StudyProject>(FileManager.DataPath, fileName);
 
@@ -133,126 +133,132 @@ namespace StudyPlanManager.Logic
 
             var studyProject = new StudyProject();
 
-            var courses = new List<StudyCourse>
+            if (name.Equals("default"))
             {
-                new StudyCourse
+                var courses = new List<StudyCourse>
                 {
-                    CourseName = "Pamatkursi",
-                    Groups = new List<StudyGroup>
+                    new StudyCourse
                     {
-                        new StudyGroup
+                        CourseName = "Pamatkursi",
+                        Groups = new List<StudyGroup>
                         {
-                            GroupName = "Valodu",
-                            Studies = new List<Study>
+                            new StudyGroup
                             {
-                                new Study
+                                GroupName = "Valodu",
+                                Studies = new List<Study>
                                 {
-                                    StudyName = "Latviesu valoda un literatura"
-                                },
-                                new Study
-                                {
-                                    StudyName = "Anglu val. I"
-                                },
-                                new Study
-                                {
-                                    StudyName = "Vacu val. I"
+                                    new Study
+                                    {
+                                        StudyName = "Latviesu valoda un literatura"
+                                    },
+                                    new Study
+                                    {
+                                        StudyName = "Anglu val. I"
+                                    },
+                                    new Study
+                                    {
+                                        StudyName = "Vacu val. I"
+                                    }
                                 }
-                            }
-                        },
-                        new StudyGroup
-                        {
-                            GroupName = "Sociala un pilsoniska",
-                            Studies = new List<Study>
+                            },
+                            new StudyGroup
                             {
-                                new Study
+                                GroupName = "Sociala un pilsoniska",
+                                Studies = new List<Study>
                                 {
-                                    StudyName = "Vestures un socialas zinatnes I"
+                                    new Study
+                                    {
+                                        StudyName = "Vestures un socialas zinatnes I"
+                                    }
                                 }
-                            }
-                        },
-                        new StudyGroup
-                        {
-                            GroupName = "Dabaszinatnu",
-                            Studies = new List<Study>
+                            },
+                            new StudyGroup
                             {
-                                new Study
+                                GroupName = "Dabaszinatnu",
+                                Studies = new List<Study>
                                 {
-                                    StudyName = "Fizika I"
-                                },
-                                new Study
-                                {
-                                    StudyName = "Kimija I"
-                                },
-                                new Study
-                                {
-                                    StudyName = "Biologija I"
+                                    new Study
+                                    {
+                                        StudyName = "Fizika I"
+                                    },
+                                    new Study
+                                    {
+                                        StudyName = "Kimija I"
+                                    },
+                                    new Study
+                                    {
+                                        StudyName = "Biologija I"
+                                    }
                                 }
-                            }
-                        },
-                    }
-                },
-
-                new StudyCourse
-                {
-                    CourseName = "Specialie kursi",
-                    Groups = new List<StudyGroup>
-                    {
-                        new StudyGroup
-                        {
-                            GroupName = "Valodu",
-                            Studies = new List<Study>
-                            {
-                                new Study
-                                {
-                                    StudyName = "Anglu val. II"
-                                },
-                                new Study
-                                {
-                                    StudyName = "Vacu val. II"
-                                }
-                            }
-                        },
-                        new StudyGroup
-                        {
-                            GroupName = "Dabaszinatnu",
-                            Studies = new List<Study>
-                            {
-                                new Study
-                                {
-                                    StudyName = "Fizika II"
-                                },
-                                new Study
-                                {
-                                    StudyName = "Kimija II"
-                                },
-                            }
-                        },
-                    }
-                }
-            };
-
-            if (!name.Equals("default"))
-            {
-                var rand = new Random();
-
-                foreach (var course in courses)
-                {
-                    foreach (var group in course.Groups)
-                    {
-                        foreach (var study in group.Studies)
-                        {
-                            for (var i = 0; i < study.CreditPoints.Length; i++)
-                            {
-                                study.CreditPoints[i] = rand.Next(0, 10);
-                            }
+                            },
                         }
+                    },
+                    new StudyCourse
+                    {
+                        CourseName = "Specialie kursi",
+                        Groups = new List<StudyGroup>
+                        {
+                            new StudyGroup
+                            {
+                                GroupName = "Valodu",
+                                Studies = new List<Study>
+                                {
+                                    new Study
+                                    {
+                                        StudyName = "Anglu val. II"
+                                    },
+                                    new Study
+                                    {
+                                        StudyName = "Vacu val. II"
+                                    }
+                                }
+                            },
+                            new StudyGroup
+                            {
+                                GroupName = "Dabaszinatnu",
+                                Studies = new List<Study>
+                                {
+                                    new Study
+                                    {
+                                        StudyName = "Fizika II"
+                                    },
+                                    new Study
+                                    {
+                                        StudyName = "Kimija II"
+                                    },
+                                }
+                            },
+                        }
+                    }
+                };
+                studyProject = new StudyProject();
+                studyProject.Courses = courses;
+            }
+            else
+            {
+
+                if (String.IsNullOrEmpty(parentId))
+                {
+                    // Create from default.
+                    studyProject = SettingManager.Instance.DefaultStudyProject.Clone();
+                }
+                else
+                {
+                    // Create from existing project.
+                    var existingStudyProject = StudyManager.Instance.GetStudyProject(parentId);
+                    if (existingStudyProject != null)
+                    {
+                        studyProject = existingStudyProject.Clone();
+                    }
+                    else
+                    {
+                        throw new NullReferenceException("Specified parent study project does not exist!");
                     }
                 }
             }
 
             studyProject.Id = Guid.NewGuid().ToString("N");
             studyProject.Name = name;
-            studyProject.Courses = courses;
             studyProject.CreationDate = DateTime.Now;
             studyProject.LastUpdatedDate = DateTime.Now;
 

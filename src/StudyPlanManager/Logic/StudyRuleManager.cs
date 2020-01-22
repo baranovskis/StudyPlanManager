@@ -129,7 +129,7 @@ namespace StudyPlanManager.Logic
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Error,
-                            Message = "There are not enough credit points in some study years"
+                            Message = "errors.notEnoughCreditPointsInYear"
                         });
                 }
 
@@ -141,7 +141,7 @@ namespace StudyPlanManager.Logic
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Error,
-                            Message = "There are too many credit points in some study years"
+                            Message = "errors.tooManyCreditPointsInYear"
                         });
                 }
 
@@ -152,7 +152,7 @@ namespace StudyPlanManager.Logic
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Warning,
-                            Message = "Some obligatory studies are not filled in"
+                            Message = "errors.obligatoryStudiesNotFilled"
                         });
                 }
 
@@ -163,7 +163,7 @@ namespace StudyPlanManager.Logic
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Warning,
-                            Message = "Some groups dont have minimal required study count filled in"
+                            Message = "errors.groupMinimalStudyCountNotMet"
                         });
                 }
 
@@ -174,7 +174,7 @@ namespace StudyPlanManager.Logic
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Error,
-                            Message = "Some studies have too many credit points"
+                            Message = "errors.tooManyCreditPointsInStudy"
                         });
                 }
 
@@ -185,7 +185,7 @@ namespace StudyPlanManager.Logic
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Error,
-                            Message = "Some studies have parent studies not filled in"
+                            Message = "errors.parentStudiesNotFilled"
                         });
                 }
             }

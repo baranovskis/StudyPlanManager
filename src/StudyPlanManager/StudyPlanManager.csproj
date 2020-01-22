@@ -113,6 +113,7 @@
     <Compile Include="Logic\StudyRuleManager.cs" />
     <Compile Include="Models\SeverityLevel.cs" />
     <Compile Include="Models\StudyInfoMessage.cs" />
+    <Compile Include="Utility\StudyProjectExtension.cs" />
     <Compile Include="Utility\XmlExtension.cs" />
     <Compile Include="Models\Study.cs" />
     <Compile Include="Models\StudyCourse.cs" />
