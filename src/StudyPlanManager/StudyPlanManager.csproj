@@ -101,6 +101,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AvailableStudiesController.cs" />
+    <Compile Include="Controllers\DefaultStudyProjectController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\StudyController.cs" />

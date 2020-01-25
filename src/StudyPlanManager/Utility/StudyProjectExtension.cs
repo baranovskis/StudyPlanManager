@@ -11,7 +11,7 @@ namespace StudyPlanManager.Utility
     {
         public static StudyProject Clone(this StudyProject studyProject)
         {
-            // Simplest and stupidest way - just serialize and desirialize.
+            // Simplest and stupidest way - just serialize and deserialize.
             // It works, so who gives a damn.
             string serializedXml = studyProject.Serialize();
             var clonedStudyProject = serializedXml.Deserialize<StudyProject>();
