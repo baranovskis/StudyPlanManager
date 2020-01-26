@@ -10,34 +10,35 @@ namespace StudyPlanManager.Controllers
     public class ExportController : ApiController
     {
         [HttpGet]
-        public HttpResponseMessage GetExcel(string id)
+        public IHttpActionResult GetExcel(string id)
         {
             var studyProject = StudyManager.Instance.GetStudyProject(id);
 
-            HttpResponseMessage response;
+            if (studyProject == null)
+                return NotFound();
 
-            if (studyProject != null)
+            var excelFile = new ExcelFileManager
             {
-                var excelFile = new ExcelFileManager();
-                excelFile.StudyProject = studyProject;
+                StudyProject = studyProject
+            };
 
-                var stream = excelFile.GenerateExcelFile();
+            var data = excelFile.GenerateExcelFile();
 
-                response = new HttpResponseMessage(HttpStatusCode.OK);
-                response.Content = new StreamContent(stream);
-                response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-                response.Content.Headers.ContentDisposition.FileName = "export.xlsx";
+            if (data == null)
+                return InternalServerError();
 
-                // Media types
-                // https://stackoverflow.com/questions/4212861/what-is-a-correct-mime-type-for-docx-pptx-etc
-                response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            }
-            else
+            var response = new HttpResponseMessage(HttpStatusCode.OK)
             {
-                response = new HttpResponseMessage(HttpStatusCode.NotFound);
-            }
+                Content = new StreamContent(new MemoryStream(data))
+            };
+            response.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
+            response.Content.Headers.ContentDisposition.FileName = "export.xlsx";
 
-            return response;
+            // Media types
+            // https://stackoverflow.com/questions/4212861/what-is-a-correct-mime-type-for-docx-pptx-etc
+            response.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+            return ResponseMessage(response);
         }
     }
 }

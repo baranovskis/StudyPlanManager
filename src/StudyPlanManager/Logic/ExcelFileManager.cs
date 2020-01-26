@@ -67,10 +67,8 @@ namespace StudyPlanManager.Logic
             _greyRightCellStyle.Alignment = HorizontalAlignment.Right;
         }
 
-        public MemoryStream GenerateExcelFile()
+        public byte[] GenerateExcelFile()
         {
-            MemoryStream stream = null;
-
             var sheet = _workbook.CreateSheet("Project");
 
             CreateTitleRow(sheet);
@@ -94,22 +92,11 @@ namespace StudyPlanManager.Logic
                 sheet.AutoSizeColumn(i);
             }
 
-            // Test
-            //var file = new FileInfo(AppDomain.CurrentDomain.BaseDirectory + @"Data\Test\test.xlsx");
-            //file.Directory.Create();
-            //using (var xfile = new FileStream(file.FullName, FileMode.Create, FileAccess.Write))
-            //{
-            //    _workbook.Write(xfile);
-            //    xfile.Close();
-            //}
-
-            using (var exportData = new MemoryStream())
+            using (var stream = new MemoryStream())
             {
-                _workbook.Write(exportData);
-                stream = exportData;
+                _workbook.Write(stream);
+                return stream.ToArray();
             }
-
-            return stream;
         }
 
         private void CreateTitleRow(ISheet sheet)
@@ -208,6 +195,10 @@ namespace StudyPlanManager.Logic
             }
 
             var row = sheet.GetRow(rowIndex);
+
+            if (row == null)
+                return;
+
             row.GetCell(0).SetCellValue(studyGroup.GroupName);
 
             var cellRange = new CellRangeAddress(rowIndex, sheet.LastRowNum, 0, 0);
