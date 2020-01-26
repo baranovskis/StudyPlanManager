@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace StudyPlanManager.Models
 {
-    public class StudyGroup: TreeBase
+    [Serializable]
+    public class StudyGroup : TreeBase
     {
         public string GroupName { get; set; }
 

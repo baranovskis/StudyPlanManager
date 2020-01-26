@@ -1,6 +1,9 @@
-﻿namespace StudyPlanManager.Models
+﻿using System;
+
+namespace StudyPlanManager.Models
 {
-    public class Study: TreeBase
+    [Serializable]
+    public class Study : TreeBase
     {
         public string StudyName { get; set; }
 
@@ -9,7 +12,7 @@
         public int CreditPointLimit { get; set; }
 
         public bool IsObligatory { get; set; }
-        
+
         public string ParentTreeId { get; set; }
 
         public Study() : base()
