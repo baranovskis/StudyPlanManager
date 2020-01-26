@@ -49,13 +49,13 @@
               <div class="row" v-for="(item, index) in messages" v-bind:key="index">
                 <div class="col-md-12">
                   <base-alert type="info" v-if="item.severityLevel == 0">
-                    <strong>Info!</strong> {{ item.message}}
+                    <strong>Info!</strong> {{ $t(item.message) }}
                   </base-alert>
                   <base-alert type="warning" v-if="item.severityLevel == 1">
-                    <strong>Warning!</strong> {{ item.message}}
+                    <strong>Warning!</strong> {{ $t(item.message) }}
                   </base-alert>
                   <base-alert type="danger" v-if="item.severityLevel == 2">
-                    <strong>Error!</strong> {{ item.message}}
+                    <strong>Error!</strong> {{ $t(item.message) }}
                   </base-alert>
                 </div>
               </div>
