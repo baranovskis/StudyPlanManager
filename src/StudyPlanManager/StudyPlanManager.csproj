@@ -101,6 +101,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AvailableStudyGroupsController.cs" />
+    <Compile Include="Controllers\AvailableStudyCoursesController.cs" />
     <Compile Include="Controllers\AvailableStudiesController.cs" />
     <Compile Include="Controllers\DefaultStudyProjectController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
@@ -126,7 +128,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CreateStudyProjectViewModel.cs" />
-    <Compile Include="ViewModels\DefaultStudyProjectViewModel.cs" />
     <Compile Include="ViewModels\SaveStudyProjectViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\StudyProjectViewModel.cs" />
