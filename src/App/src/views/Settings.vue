@@ -37,9 +37,17 @@
                 <div class="row">
                   <div class="col-sm" v-for="(item, index) in data" :key="index">
                     <card shadow>
-                      <h6 class="text-primary text-uppercase">{{item.name}}</h6>
+                      <h6 class="text-primary text-uppercase">
+					    {{item.name}}
+					    <base-button type="primary" icon="fa fa-plus" @click="openModal(item)" />
+					  </h6>
                       <p v-if="item.items.length == 0">This is shown when container is empty</p>
-                      <nested-draggable :data="item" />
+                      <nested-draggable 
+					    :isChild="false" 
+						:data="item" 
+						:openModalParent="openModal"
+						:deleteObjectParent="deleteObject"
+					  />
                     </card>
                   </div>
                 </div>
@@ -50,25 +58,132 @@
             </card>
           </div>
       </section>
+	  <modal :show.sync="modals.manageStudies.show">
+        <template slot="header">
+          <h5 class="modal-title" id="exampleModalLabel">Manage study</h5>
+        </template>
+        <div>
+          <div class="row">
+            <div class="col-md-12">
+              <label>Name</label>
+              <base-input v-model="modals.manageStudies.name" placeholder="Name"></base-input>
+            </div>
+			<div class="col-md-12">
+              <label>Credit Points</label>
+              <base-input v-model="modals.manageStudies.CreditPoints" placeholder="Credit Points"></base-input>
+            </div>
+			<div class="col-md-12">
+              <label>Credit Point Limit</label>
+              <base-input v-model="modals.manageStudies.CreditPointLimit" placeholder="Credit Point Limit"></base-input>
+            </div>
+			<div class="col-md-12">
+			  <base-checkbox
+			    class="mb-3" 
+				v-model="modals.manageStudies.IsObligatory"
+				v-bind:checked="modals.manageStudies.IsObligatory ? 'checked' : ''"
+			  >
+				Is Obligatory
+			  </base-checkbox>
+            </div>
+          </div>
+        </div>
+        <template slot="footer">
+            <base-button type="secondary" @click="modals.manageStudies.show = false">Close</base-button>
+            <base-button @click="createObject(modals.manageStudies)" type="primary">Create</base-button>
+        </template>
+      </modal>
+	  <modal :show.sync="modals.manageGroups.show">
+        <template slot="header">
+          <h5 class="modal-title" id="exampleModalLabel">Manage group</h5>
+        </template>
+        <div>
+          <div class="row">
+            <div class="col-md-12">
+              <label>Name</label>
+              <base-input v-model="modals.manageGroups.name" placeholder="Name"></base-input>
+            </div>
+			<div class="col-md-12">
+              <label>Minimal Study Count</label>
+              <base-input v-model="modals.manageGroups.MinimalStudyCount" placeholder="Minimal Study Count"></base-input>
+            </div>
+          </div>
+        </div>
+        <template slot="footer">
+            <base-button type="secondary" @click="modals.manageGroups.show = false">Close</base-button>
+            <base-button @click="createObject(modals.manageGroups)" type="primary">Create</base-button>
+        </template>
+      </modal>
+	  <modal :show.sync="modals.manageCourses.show">
+        <template slot="header">
+          <h5 class="modal-title" id="exampleModalLabel">Manage course</h5>
+        </template>
+        <div>
+          <div class="row">
+            <div class="col-md-12">
+              <label>Name</label>
+              <base-input v-model="modals.manageCourses.name" placeholder="Name"></base-input>
+            </div>
+			<div class="col-md-12">
+              <label>Background Color Html</label>
+			  <ColorPicker 
+			    :width="150" 
+				:height="150" 
+				:disabled="false" 
+				startColor="modals.manageCourses.BackgroundColorHtml" 
+				v-model="modals.manageCourses.BackgroundColorHtml"
+			  />
+            </div>
+          </div>
+        </div>
+        <template slot="footer">
+            <base-button type="secondary" @click="modals.manageCourses.show = false">Close</base-button>
+            <base-button @click="createObject(modals.manageCourses)" type="primary">Create</base-button>
+        </template>
+      </modal>
   </div>
 </template>
 <script>
 import nestedDraggable from "../components/Draggable/Nested";
+import Modal from "@/components/Modal";
+import ColorPicker from 'vue-color-picker-wheel';
 
 export default {
   name: "nested-example",
   display: "Nested",
   order: 15,
   components: {
-    nestedDraggable
+    nestedDraggable,
+	Modal,
+	ColorPicker
   },
   data() {
     return {
       name: "Test",
+	  modals: {
+	    manageStudies: {
+		  show: false,
+		  name: "",
+		  CreditPoints: 0,
+		  CreditPointLimit: 0,
+		  IsObligatory: false,
+		  ParentTreeId: ""
+	    },
+		manageGroups: {
+			show: false,
+			name: "",
+			MinimalStudyCount: 0
+		},
+		manageCourses: {
+			show: false,
+			name: "",
+			BackgroundColorHtml: ""
+		}
+	  },
       data: [
         {
           name: "Available Studies",
           type: "studies",
+		  modal: "manageStudies",
           allowedTypes: [
             "study"
           ],
@@ -99,6 +214,7 @@ export default {
         {
           name: "Available Groups",
           type: "groups",
+		  modal: "manageGroups",
           allowedTypes: [
             "group"
           ],
@@ -143,6 +259,7 @@ export default {
         {
           name: "Courses",
           type: "courses",
+		  modal: "manageCourses",
           allowedTypes: [
             "course"
           ],
@@ -169,6 +286,28 @@ export default {
         }
       ]
     };
+  },
+  methods: {
+	  createObject(itm) {
+		  console.log(itm);
+	  },
+	  deleteObject(tObj, itm) {
+		  console.log(tObj);
+		  console.log(itm);
+	  },
+	  openModal(tObj, itm = null) {
+		  const modal = this.modals[tObj.modal];
+		  modal.show = true;
+		  
+		  console.log(itm);
+		  
+		  Object.keys(modal).forEach(key => {
+			  if (key != "show" && itm[key] !== undefined) {
+				  modal[key] = itm[key];
+			  }
+			  // console.log(key);
+		  });
+	  }
   }
 };
 </script>
