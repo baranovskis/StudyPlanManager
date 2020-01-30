@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfStudyGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <StudyGroup>
+    <TreeId>1cc6bfbe732a442dac1999344319455e</TreeId>
+    <GroupName>Valodu mācību joma</GroupName>
+    <Studies />
+    <MinimalStudyCount>3</MinimalStudyCount>
+  </StudyGroup>
+  <StudyGroup>
+    <TreeId>543badb0c116493eaadce2e6ad57f151</TreeId>
+    <GroupName>Sociālā un pilsoniskā mācību joma</GroupName>
+    <Studies />
+    <MinimalStudyCount>1</MinimalStudyCount>
+  </StudyGroup>
+  <StudyGroup>
+    <TreeId>344f95459a49417aa2251622a136efbd</TreeId>
+    <GroupName>Kultūras izpratnes un pašizpausmes mākslā mācību joma</GroupName>
+    <Studies />
+    <MinimalStudyCount>2</MinimalStudyCount>
+  </StudyGroup>
+  <StudyGroup>
+    <TreeId>dcc08ee327e34635a227f5c1760869ad</TreeId>
+    <GroupName>Dabaszinātņu mācību joma</GroupName>
+    <Studies />
+    <MinimalStudyCount>4</MinimalStudyCount>
+  </StudyGroup>
+  <StudyGroup>
+    <TreeId>7e2e63b7093d4e9197da8a78784603e5</TreeId>
+    <GroupName>Matemātikas vmācību joma</GroupName>
+    <Studies />
+    <MinimalStudyCount>1</MinimalStudyCount>
+  </StudyGroup>
+  <StudyGroup>
+    <TreeId>8fad88c39da844569d8120c136a715a3</TreeId>
+    <GroupName>Tehnoloģiju mācību joma</GroupName>
+    <Studies />
+    <MinimalStudyCount>1</MinimalStudyCount>
+  </StudyGroup>
+  <StudyGroup>
+    <TreeId>b33e191073d845979a3314b6a2488828</TreeId>
+    <GroupName>Veselīnas, drošības un fiziskās aktivitātes mācību joma</GroupName>
+    <Studies />
+    <MinimalStudyCount>1</MinimalStudyCount>
+  </StudyGroup>
+  <StudyGroup>
+    <TreeId>c881771b84a94579858faa803b2e76f4</TreeId>
+    <GroupName>Starpdisciplinārs kurss</GroupName>
+    <Studies />
+    <MinimalStudyCount>1</MinimalStudyCount>
+  </StudyGroup>
+</ArrayOfStudyGroup>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfStudy xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Study>
+    <TreeId>8d0df001d6a14879a48d42351e4deca7</TreeId>
+    <StudyName>Latviešu valoda un literatūra I</StudyName>
+    <CreditPoints>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </CreditPoints>
+    <CreditPointLimit>12</CreditPointLimit>
+    <IsObligatory>true</IsObligatory>
+  </Study>
+  <Study>
+    <TreeId>8ab4c98051834f199977a6cb3ac082b1</TreeId>
+    <StudyName>Latviešu valoda un literatūra II</StudyName>
+    <CreditPoints>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </CreditPoints>
+    <CreditPointLimit>6</CreditPointLimit>
+    <IsObligatory>false</IsObligatory>
+  </Study>
+  <Study>
+    <TreeId>d0efb057634b4959bd2c34854883cdb0</TreeId>
+    <StudyName>Svešvaloda I</StudyName>
+    <CreditPoints>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </CreditPoints>
+    <CreditPointLimit>12</CreditPointLimit>
+    <IsObligatory>false</IsObligatory>
+  </Study>
+  <Study>
+    <TreeId>9dc5ab544f4a4866b926c3643fef5def</TreeId>
+    <StudyName>Svešvaloda II</StudyName>
+    <CreditPoints>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </CreditPoints>
+    <CreditPointLimit>6</CreditPointLimit>
+    <IsObligatory>false</IsObligatory>
+  </Study>
+  <Study>
+    <TreeId>3ab53325a008457d90c9c4ed28c8302d</TreeId>
+    <StudyName>Svešvaloda</StudyName>
+    <CreditPoints>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </CreditPoints>
+    <CreditPointLimit>6</CreditPointLimit>
+    <IsObligatory>false</IsObligatory>
+  </Study>
+  <Study>
+    <TreeId>c551f5c68b254de7a76f994bb2004df7</TreeId>
+    <StudyName>Mazākumtautības valoda un literatūra</StudyName>
+    <CreditPoints>
+      <int>0</int>
+      <int>0</int>
+      <int>0</int>
+    </CreditPoints>
+    <CreditPointLimit>6</CreditPointLimit>
+    <IsObligatory>false</IsObligatory>
+  </Study>
+</ArrayOfStudy>

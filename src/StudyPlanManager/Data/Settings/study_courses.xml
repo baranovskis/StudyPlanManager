@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-16"?>
+<ArrayOfStudyCourse xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <StudyCourse>
+    <TreeId>1145f927c25c41c5bbd279f810a2a648</TreeId>
+    <CourseName>Pamatkursi</CourseName>
+    <Groups />
+    <BackgroundColor>LightGreen</BackgroundColor>
+  </StudyCourse>
+  <StudyCourse>
+    <TreeId>5b1644a67acb4dedaf8bb9269198ae54</TreeId>
+    <CourseName>Padziļinātie kursi</CourseName>
+    <Groups />
+    <BackgroundColor>LightYellow</BackgroundColor>
+  </StudyCourse>
+  <StudyCourse>
+    <TreeId>be0680611114440ea5de0d5019085511</TreeId>
+    <CourseName>Specializētie kursi</CourseName>
+    <Groups />
+    <BackgroundColor>LightPink</BackgroundColor>
+  </StudyCourse>
+</ArrayOfStudyCourse>
