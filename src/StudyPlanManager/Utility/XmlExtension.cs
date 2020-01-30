@@ -40,5 +40,11 @@ namespace StudyPlanManager.Utility
 
             return result;
         }
+
+        public static T Clone<T>(this T value) where T : class
+        {
+            var result = Serialize(value);
+            return Deserialize<T>(result);
+        }
     }
 }

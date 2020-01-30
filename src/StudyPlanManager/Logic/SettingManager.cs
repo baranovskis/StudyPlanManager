@@ -1,6 +1,8 @@
 ﻿using StudyPlanManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace StudyPlanManager.Logic
 {
@@ -167,6 +169,36 @@ namespace StudyPlanManager.Logic
                     }
                 };
             }
+        }
+
+        public StudyCourse GetCourseByTreeId(string treeId)
+        {
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new ArgumentException("Argument 'treeId' is null or empty");
+            }
+
+            return AvailableStudyCourses.FirstOrDefault(e => e.TreeId.Equals(treeId));
+        }
+
+        public StudyGroup GetGroupByTreeId(string treeId)
+        {
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new ArgumentException("Argument 'treeId' is null or empty");
+            }
+
+            return AvailableStudyGroups.FirstOrDefault(e => e.TreeId.Equals(treeId));
+        }
+
+        public Study GetStudyByTreeId(string treeId)
+        {
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new ArgumentException("Argument 'treeId' is null or empty");
+            }
+
+            return AvailableStudies.FirstOrDefault(e => e.TreeId.Equals(treeId));
         }
     }
 }

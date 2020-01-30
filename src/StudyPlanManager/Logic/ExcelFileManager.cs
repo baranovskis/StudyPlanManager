@@ -1,10 +1,6 @@
 ﻿using StudyPlanManager.Models;
-using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
-using NPOI.HSSF.Util;
-using NPOI.POIFS.FileSystem;
-using NPOI.HPSF;
 using System.IO;
 using System.Collections.Generic;
 using System;

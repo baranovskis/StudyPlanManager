@@ -5,11 +5,22 @@ namespace StudyPlanManager.ViewModels
 {
     public class SettingsViewModel
     {
-        public List<Study> AvailableStudies;
+        public string Name { get; set; }
+
+        public List<SettingsNodeViewModel> AvailableStudies { get; set; }
+
+        public List<SettingsNodeViewModel> AvailableGroups { get; set; }
+
+        public List<SettingsNodeViewModel> AvailableCourses { get; set; }
+
+        public List<SettingsNodeViewModel> ProjectTree { get; set; }
 
         public SettingsViewModel()
         {
-            AvailableStudies = new List<Study>();
+            AvailableStudies = new List<SettingsNodeViewModel>();
+            AvailableGroups = new List<SettingsNodeViewModel>();
+            AvailableCourses = new List<SettingsNodeViewModel>();
+            ProjectTree = new List<SettingsNodeViewModel>();
         }
     }
 }
