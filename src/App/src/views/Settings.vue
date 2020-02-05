@@ -18,14 +18,6 @@
         <div class="text-left w-100">
           <h1 class="display-3 text-white">{{ name }}</h1>
         </div>
-        <div class="text-right w-100">
-          <router-link type="button" class="btn btn-icon btn-info" :to="{ name: 'settings' }">
-            <span class="btn-inner--icon">
-              <i class="fa fa-cogs mr-2"></i>
-            </span>
-            <span class="btn-inner--text">GO BACK</span>
-          </router-link>
-        </div>
       </div>
     </section>
     <!-- 1st Hero Variation -->
@@ -36,6 +28,9 @@
         <div class="container">
           <div class="row pb-3">
             <div class="col-md-4">
+              <base-button block type="warning" icon="fa fa-undo mr-2" @click="goBack">Cancel</base-button>
+            </div>
+            <div class="col-md-8">
               <base-button block type="success" icon="fa fa-floppy-o mr-2" @click="saveSettings">Save</base-button>
             </div>
           </div>
@@ -146,8 +141,11 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      this.goBack();
     },
-
+    goBack() {
+      this.$router.go(-1);
+    }
   }
 };
 </script>

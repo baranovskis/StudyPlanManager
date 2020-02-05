@@ -61,7 +61,7 @@
         </div>
         <div class="row">
           <div class="col-lg-12">
-            <slim-grid :data="data" :editable="true" :autoEdit="true" :grouping="gridGrouping" :column-options="columnOptions" :show-pager="false" :showHeaderRow="false" :forceFitColumns="true" v-on:cell-change="doValidate">
+            <slim-grid :height="-1" :autoHeight="true" :data="data" :editable="true" :autoEdit="true" :grouping="gridGrouping" :column-options="columnOptions" :show-pager="false" :showHeaderRow="false" :forceFitColumns="true" v-on:cell-change="doValidate">
             </slim-grid>
           </div>
         </div>
