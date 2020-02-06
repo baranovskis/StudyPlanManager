@@ -12,25 +12,12 @@ namespace StudyPlanManager.Models
 
         public List<StudyGroup> Groups { get; set; }
 
-        [XmlIgnoreAttribute()]
-        public Color BackgroundColor { get; set; }
-
-        [XmlElement("BackgroundColor")]
-        public string BackgroundColorHtml
-        {
-            get
-            {
-                return ColorTranslator.ToHtml(BackgroundColor);
-            }
-            set
-            {
-                BackgroundColor = ColorTranslator.FromHtml(value);
-            }
-        }
+        public string BackgroundColor { get; set; }
 
         public StudyCourse() : base()
         {
             Groups = new List<StudyGroup>();
+            BackgroundColor = "#fff";
         }
     }
 }

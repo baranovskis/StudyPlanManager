@@ -3,8 +3,9 @@ import Router from "vue-router";
 import AppHeader from "./layout/AppHeader";
 import AppFooter from "./layout/AppFooter";
 import Home from "./views/Home.vue";
-import Project from "./views/Project.vue";
 import Settings from "./views/Settings.vue";
+import Project from "./views/Project.vue";
+import ProjectSettings from "./views/ProjectSettings.vue";
 
 Vue.use(Router);
 
@@ -21,6 +22,15 @@ export default new Router({
       }
     },
     {
+      path: "/settings",
+      name: "settings",
+      components: {
+        header: AppHeader,
+        default: Settings,
+        footer: AppFooter
+      }
+    },
+    {
       path: "/project/:projectId",
       name: "project",
       components: {
@@ -31,10 +41,10 @@ export default new Router({
     },
     {
       path: "/project/:projectId/settings",
-      name: "settings",
+      name: "project-settings",
       components: {
         header: AppHeader,
-        default: Settings,
+        default: ProjectSettings,
         footer: AppFooter
       }
     },

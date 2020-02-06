@@ -35,8 +35,8 @@ const i18n = new VueI18n({
   locale: 'ru',
   messages: {
     ru: tRU,
-	en: tEN,
-	lv: tLV
+    en: tEN,
+    lv: tLV
   }
 });
 

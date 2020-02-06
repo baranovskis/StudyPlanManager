@@ -15,10 +15,18 @@
         <span></span>
       </div>
       <div class="container shape-container d-flex">
-        <div>
+        <div class="text-left w-100">
           <base-button type="primary" icon="fa fa-file-o mr-2" @click="modals.createNew.show = true">
             {{ $t('home.createNew') }}
           </base-button>
+        </div>
+        <div class="text-right w-100">
+          <router-link type="button" class="btn btn-icon btn-secondary" :to="{ name: 'settings' }">
+            <span class="btn-inner--icon">
+              <i class="fa fa-cogs mr-2"></i>
+            </span>
+            <span class="btn-inner--text">{{ $t('home.settings') }}</span>
+          </router-link>
         </div>
       </div>
     </section>
@@ -32,9 +40,9 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th scope="col">Project</th>
-                  <th scope="col">Creation Date</th>
-                  <th scope="col">Last Update Date</th>
+                  <th scope="col">{{ $t('home.project') }}</th>
+                  <th scope="col">{{ $t('home.сreationDate') }}</th>
+                  <th scope="col">{{ $t('home.lastUpdateDate') }}</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
@@ -50,14 +58,18 @@
                   <td>
                     <base-dropdown>
                       <base-button slot="title" type="primary" class="dropdown-toggle">
-                        Actions
+                        {{ $t('home.actions') }}
                       </base-button>
                       <router-link class="dropdown-item" :to="{ name: 'project', params: { projectId: row.id }}">
-                        Edit
+                        {{ $t('home.edit') }}
                       </router-link>
-                      <a class="dropdown-item" href="#" @click="deleteModal(row.id)">Delete</a>
+                      <a class="dropdown-item" href="#" @click="deleteModal(row.id)">
+                        {{ $t('home.delete') }}
+                      </a>
                       <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="#" @click="exportFile(row.id)">Export</a>
+                      <a class="dropdown-item" href="#" @click="exportFile(row.id)">
+                        {{ $t('home.export') }}
+                      </a>
                     </base-dropdown>
                   </td>
                 </tr>

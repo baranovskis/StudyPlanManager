@@ -1,6 +1,27 @@
 {
+	"base": {
+		"cancel": "Cancel",
+		"save": "Save"
+	},
 	"home": {
-		"createNew": "Create New"
+		"createNew": "Create New",
+		"settings": "Settings",
+		"project": "Project",
+		"сreationDate": "Creation Date",
+		"lastUpdateDate": "Last Update Date",
+		"actions": "Actions",
+		"edit": "Edit",
+		"delete": "Delete",
+		"export": "Export"
+	},
+	"settings": {
+		"studyName": "Study",
+		"creditPointLimit": "Credit Point Limit",
+		"isObligatory": "Is Obligatory",
+		"groupName": "Group",
+		"minimalStudyCount": "Minimal Study Count",
+		"courseName": "Course",
+		"backgroundColor": "Background Color"
 	},
 	"errors": {
 		"notEnoughCreditPointsInYear": "There are not enough credit points in some study years",

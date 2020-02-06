@@ -1,6 +1,27 @@
 {
+	"base": {
+		"cancel": "Отменить",
+		"save": "Сохранить"
+	},
 	"home": {
-		"createNew": "Создать новый"
+		"createNew": "Создать новый",
+		"settings": "Настройки",
+		"project": "Проект",
+		"сreationDate": "Дата создания",
+		"lastUpdateDate": "Дата последнего обновления",
+		"actions": "Действия",
+		"edit": "Редактировать",
+		"delete": "Удалить",
+		"export": "Экспортировать"
+	},
+	"settings": {
+		"studyName": "Предмет",
+		"creditPointLimit": "Максимальное кол.во кред. пунктов",
+		"isObligatory": "Обязателен",
+		"groupName": "Группа",
+		"minimalStudyCount": "Минимальное кол.во предметов",
+		"courseName": "Курс",
+		"backgroundColor": "Цвет фона"
 	},
 	"errors": {
 		"notEnoughCreditPointsInYear": "There are not enough credit points in some study years",

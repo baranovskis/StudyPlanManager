@@ -98,3 +98,15 @@
 @import "custom/vendor/flatpickr.scss";
 @import "custom/vendor/headroom.scss";
 @import "custom/vendor/nouislider.scss";
+
+@import "spectrum.scss";
+
+input.editor-text {
+  position: relative;
+  text-align: center;
+}
+
+.colorbox {
+  width: 100%;
+  height: 100%;
+}

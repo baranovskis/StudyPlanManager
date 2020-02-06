@@ -5,14 +5,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using StudyPlanManager.Utility;
-using StudyPlanManager.Models;
 
 namespace StudyPlanManager.Controllers
 {
     public class SettingsController : ApiController
     {
+        public IHttpActionResult GetSettings()
+        {
+            return Ok(new SetupViewModel
+            {
+                Studies = SettingManager.Instance.AvailableStudies,
+                Groups = SettingManager.Instance.AvailableStudyGroups,
+                Courses = SettingManager.Instance.AvailableStudyCourses
+            });
+        }
+
+        [HttpPost]
+        public IHttpActionResult SaveSettings(SetupViewModel model)
+        {
+            SettingManager.Instance.AvailableStudies = model.Studies;
+            SettingManager.Instance.AvailableStudyGroups = model.Groups;
+            SettingManager.Instance.AvailableStudyCourses = model.Courses;
+            SettingManager.Instance.SaveSettings();
+
+            return Ok();
+        }
+
         [HttpGet]
-        public IHttpActionResult GetSettings(string id)
+        public IHttpActionResult GetProjectSettings(string id)
         {
             if (String.IsNullOrEmpty(id))
             {
@@ -76,7 +96,7 @@ namespace StudyPlanManager.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult SaveSettings(SaveSettingsNodeViewModel model, string id)
+        public IHttpActionResult SaveProjectSettings(SaveSettingsNodeViewModel model, string id)
         {
             if (String.IsNullOrEmpty(id))
             {

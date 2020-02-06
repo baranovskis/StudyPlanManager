@@ -155,17 +155,17 @@ namespace StudyPlanManager.Logic
                     new StudyCourse
                     {
                         CourseName = "Pamatkursi",
-                        BackgroundColor = Color.LightGreen
+                        BackgroundColor = "#90ee90"
                     },
                     new StudyCourse
                     {
                         CourseName = "Padziļinātie kursi",
-                        BackgroundColor = Color.LightYellow
+                        BackgroundColor = "#FFFFE0"
                     },
                     new StudyCourse
                     {
                         CourseName = "Specializētie kursi",
-                        BackgroundColor = Color.LightPink
+                        BackgroundColor = "#FFB6C1"
                     }
                 };
             }

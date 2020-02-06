@@ -19,7 +19,7 @@
           <h1 class="display-3 text-white">{{ name }}</h1>
         </div>
         <div class="text-right w-100">
-          <router-link type="button" class="btn btn-icon btn-info" :to="{ name: 'settings' }">
+          <router-link type="button" class="btn btn-icon btn-info" :to="{ name: 'project-settings' }">
             <span class="btn-inner--icon">
               <i class="fa fa-cogs mr-2"></i>
             </span>
@@ -61,8 +61,7 @@
         </div>
         <div class="row">
           <div class="col-lg-12">
-            <slim-grid :height="-1" :autoHeight="true" :data="data" :editable="true" :autoEdit="true" :grouping="gridGrouping" :column-options="columnOptions" :show-pager="false" :showHeaderRow="false" :forceFitColumns="true" v-on:cell-change="doValidate">
-            </slim-grid>
+            <slim-grid :height="-1" :autoHeight="true" :data="data" :editable="true" :autoEdit="true" :grouping="gridGrouping" :column-options="columnOptions" :show-pager="false" :showHeaderRow="false" :forceFitColumns="true" v-on:cell-change="doValidate" />
           </div>
         </div>
       </card>
@@ -119,7 +118,11 @@ export default {
             new Data.Aggregators.Sum("class_2")
           ],
           aggregateCollapsed: false,
-          lazyTotalsCalculation: true
+          lazyTotalsCalculation: true,
+          formatter(g) {
+            console.log(g);
+             return ("<div class='colorbox' style='cursor:pointer;background-color:"+g.rows[0].backgroundColor+";top:0;position:absolute;left: 20px;padding:2px;'>" + g.value + "</div>");
+          }
         },
         {
           getter: "studyGroup",
@@ -157,6 +160,10 @@ export default {
           hidden: true
         },
 
+        backgroundColor: {
+          hidden: true
+        },
+
         studyName: {
           name: "Priekšmets",
           minWidth: 150
@@ -164,7 +171,7 @@ export default {
 
         class_0: {
           name: "10. klasse",
-          editor: Editors.Text,
+          editor: Editors.Integer,
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
             if (val != null) {
@@ -176,7 +183,7 @@ export default {
 
         class_1: {
           name: "11. klasse",
-          editor: Editors.Text,
+          editor: Editors.Integer,
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
             if (val != null) {
@@ -188,7 +195,7 @@ export default {
 
         class_2: {
           name: "12. klasse",
-          editor: Editors.Text,
+          editor: Editors.Integer,
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
             if (val != null) {
@@ -231,7 +238,8 @@ export default {
                       id: studyData.treeId,
                       studyCourse: data.courseName,
                       studyGroup: groupData.groupName,
-                      studyName: studyData.studyName
+                      studyName: studyData.studyName,
+                      backgroundColor: data.backgroundColor
                     };
 
                     // Class 10 -> 12
@@ -245,14 +253,16 @@ export default {
                   this.data.push({
                     id: groupData.treeId,
                     studyCourse: data.courseName,
-                    studyGroup: groupData.groupName
+                    studyGroup: groupData.groupName,
+                    backgroundColor: data.backgroundColor
                   });
                 }
               }
             } else {
               this.data.push({
                 id: data.treeId,
-                studyCourse: data.courseName
+                studyCourse: data.courseName,
+                backgroundColor: data.backgroundColor
               });
             }
           }
