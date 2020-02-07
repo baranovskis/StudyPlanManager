@@ -51,6 +51,65 @@ namespace StudyPlanManager.Logic
             FileManager.SaveObjectToFile(DefaultStudyProject, FileManager.SettingsPath, "default.xml");
         }
 
+        public void UpdateAllProjects()
+        {
+            if (AvailableStudies != null)
+            {
+                foreach (var study in AvailableStudies)
+                {
+                    StudyManager.Instance.UpdateStudies(study);
+                }
+            }
+
+            if (AvailableStudyGroups != null)
+            {
+                foreach (var studyGroup in AvailableStudyGroups)
+                {
+                    StudyManager.Instance.UpdateGroups(studyGroup);
+                }
+            }
+
+            if (AvailableStudyCourses != null)
+            {
+                foreach (var studyCourse in AvailableStudyCourses)
+                {
+                    StudyManager.Instance.UpdateCourses(studyCourse);
+                }
+            }
+
+            StudyManager.Instance.SaveAllStudyProjects();
+        }
+
+        public StudyCourse GetCourseByTreeId(string treeId)
+        {
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new ArgumentException("Argument 'treeId' is null or empty");
+            }
+
+            return AvailableStudyCourses.FirstOrDefault(e => e.TreeId.Equals(treeId));
+        }
+
+        public StudyGroup GetGroupByTreeId(string treeId)
+        {
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new ArgumentException("Argument 'treeId' is null or empty");
+            }
+
+            return AvailableStudyGroups.FirstOrDefault(e => e.TreeId.Equals(treeId));
+        }
+
+        public Study GetStudyByTreeId(string treeId)
+        {
+            if (String.IsNullOrEmpty(treeId))
+            {
+                throw new ArgumentException("Argument 'treeId' is null or empty");
+            }
+
+            return AvailableStudies.FirstOrDefault(e => e.TreeId.Equals(treeId));
+        }
+
         private void LoadDefaultConfiguration()
         {
             if (DefaultStudyProject == null)
@@ -171,34 +230,5 @@ namespace StudyPlanManager.Logic
             }
         }
 
-        public StudyCourse GetCourseByTreeId(string treeId)
-        {
-            if (String.IsNullOrEmpty(treeId))
-            {
-                throw new ArgumentException("Argument 'treeId' is null or empty");
-            }
-
-            return AvailableStudyCourses.FirstOrDefault(e => e.TreeId.Equals(treeId));
-        }
-
-        public StudyGroup GetGroupByTreeId(string treeId)
-        {
-            if (String.IsNullOrEmpty(treeId))
-            {
-                throw new ArgumentException("Argument 'treeId' is null or empty");
-            }
-
-            return AvailableStudyGroups.FirstOrDefault(e => e.TreeId.Equals(treeId));
-        }
-
-        public Study GetStudyByTreeId(string treeId)
-        {
-            if (String.IsNullOrEmpty(treeId))
-            {
-                throw new ArgumentException("Argument 'treeId' is null or empty");
-            }
-
-            return AvailableStudies.FirstOrDefault(e => e.TreeId.Equals(treeId));
-        }
     }
 }

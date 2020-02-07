@@ -26,7 +26,9 @@ namespace StudyPlanManager.Controllers
             SettingManager.Instance.AvailableStudies = model.Studies;
             SettingManager.Instance.AvailableStudyGroups = model.Groups;
             SettingManager.Instance.AvailableStudyCourses = model.Courses;
+
             SettingManager.Instance.SaveSettings();
+            SettingManager.Instance.UpdateAllProjects();
 
             return Ok();
         }

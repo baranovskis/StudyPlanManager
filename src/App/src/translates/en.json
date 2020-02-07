@@ -1,11 +1,14 @@
 {
 	"base": {
 		"cancel": "Cancel",
+		"restore": "Restore",
 		"save": "Save"
 	},
 	"home": {
 		"createNew": "Create New",
 		"settings": "Settings",
+		"treeSettings": "Tree settings",
+		"dataSettings": "Data settings",
 		"project": "Project",
 		"сreationDate": "Creation Date",
 		"lastUpdateDate": "Last Update Date",
@@ -14,7 +17,16 @@
 		"delete": "Delete",
 		"export": "Export"
 	},
+	"project": {
+		"projectTree": "Project tree",
+		"studies": "Studies",
+		"groups": "Groups",
+		"courses": "Courses",
+		"treeSettings": "Tree settings",
+		"export": "Export"
+	},
 	"settings": {
+		"actions": "Actions",
 		"studyName": "Study",
 		"creditPointLimit": "Credit Point Limit",
 		"isObligatory": "Is Obligatory",

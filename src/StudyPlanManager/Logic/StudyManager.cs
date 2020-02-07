@@ -274,6 +274,20 @@ namespace StudyPlanManager.Logic
             return studyProject;
         }
 
+        public bool SaveAllStudyProjects()
+        {
+            foreach (var studyProject in StudyProjects)
+            {
+                lock (_locker)
+                {
+                    studyProject.LastUpdatedDate = DateTime.Now;
+                    FileManager.SaveObjectToFile(studyProject, FileManager.DataPath, studyProject.FileName);
+                }
+            }
+
+            return true;
+        }
+
         public bool SaveStudyProject(string id, string name)
         {
             if (String.IsNullOrEmpty(id))
@@ -445,6 +459,168 @@ namespace StudyPlanManager.Logic
             }
 
             return null;
+        }
+
+        public void UpdateStudies(Study newStudy)
+        {
+            if (newStudy == null)
+            {
+                throw new ArgumentException("Argument 'newStudy' is null");
+            }
+
+            foreach (var studyProject in StudyProjects)
+            {
+                UpdateStudies(studyProject, newStudy);
+            }
+        }
+
+        public void UpdateStudies(StudyProject studyProject, Study newStudy)
+        {
+            if (studyProject == null)
+            {
+                throw new ArgumentException("Argument 'studyProject' is null");
+            }
+
+            if (newStudy == null)
+            {
+                throw new ArgumentException("Argument 'newStudy' is null");
+            }
+
+            foreach (var studyCourse in studyProject.Courses)
+            {
+                UpdateStudies(studyCourse, newStudy);
+            }
+        }
+
+        public void UpdateStudies(StudyCourse studyCourse, Study newStudy)
+        {
+            if (studyCourse == null)
+            {
+                throw new ArgumentException("Argument 'studyCourse' is null");
+            }
+
+            if (newStudy == null)
+            {
+                throw new ArgumentException("Argument 'newStudy' is null");
+            }
+
+            foreach (var studyGroup in studyCourse.Groups)
+            {
+                UpdateStudies(studyGroup, newStudy);
+            }
+        }
+
+        public void UpdateStudies(StudyGroup studyGroup, Study newStudy)
+        {
+            if (studyGroup == null)
+            {
+                throw new ArgumentException("Argument 'studyGroup' is null");
+            }
+
+            if (newStudy == null)
+            {
+                throw new ArgumentException("Argument 'newStudy' is null");
+            }
+
+            foreach (var study in studyGroup.Studies)
+            {
+                if (study.TreeId == newStudy.TreeId)
+                {
+                    study.StudyName = newStudy.StudyName;
+                    study.CreditPoints = newStudy.CreditPoints;
+                    study.CreditPointLimit = newStudy.CreditPointLimit;
+                    study.IsObligatory = newStudy.IsObligatory;
+                    study.ParentTreeId = newStudy.ParentTreeId;
+                }
+            }
+        }
+
+        public void UpdateGroups(StudyGroup newStudyGroup)
+        {
+            if (newStudyGroup == null)
+            {
+                throw new ArgumentException("Argument 'newStudyGroup' is null");
+            }
+
+            foreach (var studyProject in StudyProjects)
+            {
+                UpdateGroups(studyProject, newStudyGroup);
+            }
+        }
+
+        public void UpdateGroups(StudyProject studyProject, StudyGroup newStudyGroup)
+        {
+            if (studyProject == null)
+            {
+                throw new ArgumentException("Argument 'studyProject' is null");
+            }
+
+            if (newStudyGroup == null)
+            {
+                throw new ArgumentException("Argument 'newStudyGroup' is null");
+            }
+
+            foreach (var studyCourse in studyProject.Courses)
+            {
+                UpdateGroups(studyCourse, newStudyGroup);
+            }
+        }
+
+        public void UpdateGroups(StudyCourse studyCourse, StudyGroup newStudyGroup)
+        {
+            if (studyCourse == null)
+            {
+                throw new ArgumentException("Argument 'studyCourse' is null");
+            }
+
+            if (newStudyGroup == null)
+            {
+                throw new ArgumentException("Argument 'newStudyGroup' is null");
+            }
+
+            foreach (var studyGroup in studyCourse.Groups)
+            {
+                if (studyGroup.TreeId == newStudyGroup.TreeId)
+                {
+                    studyGroup.GroupName = newStudyGroup.GroupName;
+                    studyGroup.MinimalStudyCount = newStudyGroup.MinimalStudyCount;
+                }
+            }
+        }
+
+        public void UpdateCourses(StudyCourse newStudyCourse)
+        {
+            if (newStudyCourse == null)
+            {
+                throw new ArgumentException("Argument 'newStudyCourse' is null");
+            }
+
+            foreach (var studyProject in StudyProjects)
+            {
+                UpdateCourses(studyProject, newStudyCourse);
+            }
+        }
+
+        public void UpdateCourses(StudyProject studyProject, StudyCourse newStudyCourse)
+        {
+            if (studyProject == null)
+            {
+                throw new ArgumentException("Argument 'studyProject' is null");
+            }
+
+            if (newStudyCourse == null)
+            {
+                throw new ArgumentException("Argument 'newStudyCourse' is null");
+            }
+
+            foreach (var studyCourse in studyProject.Courses)
+            {
+                if (studyCourse.TreeId == newStudyCourse.TreeId)
+                {
+                    studyCourse.CourseName = newStudyCourse.CourseName;
+                    studyCourse.BackgroundColor = newStudyCourse.BackgroundColor;
+                }
+            }
         }
     }
 }

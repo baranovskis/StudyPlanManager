@@ -1,75 +1,113 @@
 <template>
-<div>
-  <div class="position-relative">
-    <!-- shape Hero -->
-    <section class="section-shaped my-0">
-      <div class="shape shape-style-1 shape-primary shape-skew">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-      <div class="container shape-container d-flex">
-        <div class="text-left w-100">
-          <h1 class="display-3 text-white">{{ $t('home.settings') }}</h1>
+  <div>
+    <div class="position-relative">
+      <!-- shape Hero -->
+      <section class="section-shaped my-0">
+        <div class="shape shape-style-1 shape-primary shape-skew">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+        <div class="container shape-container d-flex">
+          <div class="text-left w-100">
+            <h1 class="display-3 text-white">{{ $t('home.settings') }}</h1>
+          </div>
+        </div>
+      </section>
+      <!-- 1st Hero Variation -->
+    </div>
+    <section class="section section-lg pt-lg-0 mt--200">
+      <div class="container">
+        <card class="border-0" shadow body-classes="py-5">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-4">
+                <base-button
+                  block
+                  type="warning"
+                  icon="fa fa-undo mr-2"
+                  @click="goBack"
+                >{{ $t('base.cancel') }}</base-button>
+              </div>
+              <div class="col-md-8">
+                <base-button
+                  block
+                  type="success"
+                  icon="fa fa-floppy-o mr-2"
+                  @click="saveSettings"
+                >{{ $t('base.save') }}</base-button>
+              </div>
+            </div>
+            <div class="row py-3">
+              <div class="col-lg-12">
+                <slim-grid
+                  :height="-1"
+                  :autoHeight="true"
+                  :data="studies"
+                  :editable="true"
+                  :autoEdit="true"
+                  :column-options="studiesOptions"
+                  :show-pager="false"
+                  :showHeaderRow="false"
+                  :forceFitColumns="true"
+                  v-on:grid-dbl-click="onGridDoubleClick"
+                  v-on:grid-click="onGridClick"
+                />
+              </div>
+            </div>
+            <div class="row py-3">
+              <div class="col-lg-12">
+                <slim-grid
+                  :height="-1"
+                  :autoHeight="true"
+                  :data="groups"
+                  :editable="true"
+                  :autoEdit="true"
+                  :column-options="groupsOptions"
+                  :show-pager="false"
+                  :showHeaderRow="false"
+                  :forceFitColumns="true"
+                  v-on:grid-click="onGridClick"
+                />
+              </div>
+            </div>
+            <div class="row py-3">
+              <div class="col-lg-12">
+                <slim-grid
+                  :height="-1"
+                  :autoHeight="true"
+                  :data="courses"
+                  :editable="true"
+                  :autoEdit="true"
+                  :column-options="coursesOptions"
+                  :show-pager="false"
+                  :showHeaderRow="false"
+                  :forceFitColumns="true"
+                  v-on:grid-click="onGridClick"
+                />
+              </div>
+            </div>
+          </div>
+        </card>
       </div>
     </section>
-    <!-- 1st Hero Variation -->
   </div>
-  <section class="section section-lg pt-lg-0 mt--200">
-    <div class="container">
-      <card class="border-0" shadow body-classes="py-5">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-4">
-              <base-button block type="warning" icon="fa fa-undo mr-2" @click="goBack">{{ $t('base.cancel') }}</base-button>
-            </div>
-            <div class="col-md-8">
-              <base-button block type="success" icon="fa fa-floppy-o mr-2" @click="saveSettings">{{ $t('base.save') }}</base-button>
-            </div>
-          </div>
-          <div class="row py-3">
-            <div class="col-lg-12">
-              <slim-grid :height="-1" :autoHeight="true" :data="studies" :editable="true" :autoEdit="true" :column-options="studiesOptions" :show-pager="false" :showHeaderRow="false" :forceFitColumns="true" v-on:grid-dbl-click="onGridDoubleClick" v-on:grid-click="onGridClick" />
-            </div>
-          </div>
-          <div class="row py-3">
-            <div class="col-lg-12">
-              <slim-grid :height="-1" :autoHeight="true" :data="groups" :editable="true" :autoEdit="true" :column-options="groupsOptions" :show-pager="false" :showHeaderRow="false" :forceFitColumns="true" v-on:grid-click="onGridClick" />
-            </div>
-          </div>
-          <div class="row py-3">
-            <div class="col-lg-12">
-              <slim-grid :height="-1" :autoHeight="true" :data="courses" :editable="true" :autoEdit="true" :column-options="coursesOptions" :show-pager="false" :showHeaderRow="false" :forceFitColumns="true" v-on:grid-click="onGridClick" />
-            </div>
-          </div>
-        </div>
-      </card>
-    </div>
-  </section>
-</div>
 </template>
 
 <script>
-import {
-  Data,
-  Editors,
-  Formatters
-} from "slickgrid-es6";
+import { Data, Editors, Formatters } from "slickgrid-es6";
 import SlimGrid from "vue-slimgrid";
 import ColorPicker from "vue-color-picker-wheel";
 import SettingsRepository from "../repositories/SettingsRepository";
-import $ from 'jquery';
-import spectrum from 'spectrum-colorpicker';
-import {
-  constants
-} from 'buffer';
+import $ from "jquery";
+import spectrum from "spectrum-colorpicker";
+import { constants } from "buffer";
 
 export default {
   components: {
@@ -105,7 +143,7 @@ export default {
         },
 
         action: {
-          name: this.$t("settings.action"),
+          name: this.$t("settings.actions"),
           formatter: this.studyButtonsFormatter
         }
       },
@@ -128,7 +166,7 @@ export default {
         },
 
         action: {
-          name: this.$t("settings.action"),
+          name: this.$t("settings.actions"),
           formatter: this.groupButtonsFormatter
         }
       },
@@ -152,7 +190,7 @@ export default {
         },
 
         action: {
-          name: this.$t("settings.action"),
+          name: this.$t("settings.actions"),
           formatter: this.courseButtonsFormatter
         }
       }
@@ -220,29 +258,28 @@ export default {
       let groups = [...this.groups];
       let courses = [...this.courses];
 
-      studies.forEach(function (obj) {
+      studies.forEach(function(obj) {
         obj.treeId = obj.id;
         delete obj.id;
       });
 
-      groups.forEach(function (obj) {
+      groups.forEach(function(obj) {
         obj.treeId = obj.id;
         delete obj.id;
       });
 
-      courses.forEach(function (obj) {
+      courses.forEach(function(obj) {
         obj.treeId = obj.id;
         delete obj.id;
       });
 
       SettingsRepository.save({
-          studies: studies,
-          groups: groups,
-          courses: courses
-        })
-        .catch(error => {
-          console.log(error);
-        });
+        studies: studies,
+        groups: groups,
+        courses: courses
+      }).catch(error => {
+        console.log(error);
+      });
 
       this.goBack();
     },
@@ -330,10 +367,12 @@ export default {
 
     getNewId() {
       var dt = new Date().getTime();
-      var uuid = 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function(
+        c
+      ) {
         var r = (dt + Math.random() * 16) % 16 | 0;
         dt = Math.floor(dt / 16);
-        return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        return (c == "x" ? r : (r & 0x3) | 0x8).toString(16);
       });
 
       return uuid;
@@ -347,7 +386,8 @@ export default {
           return;
         }
 
-        this.studies[args.row].isObligatory = !this.studies[args.row].isObligatory;
+        this.studies[args.row].isObligatory = !this.studies[args.row]
+          .isObligatory;
         args.grid.updateRow(args.row);
         e.stopPropagation();
       }
@@ -358,13 +398,13 @@ export default {
       var defaultValue;
       var scope = this;
 
-      this.init = function () {
+      this.init = function() {
         // make the background look exactly the same when the color is being
         // edited
-        $(args.container).css('background-color', '#fff');
+        $(args.container).css("background-color", "#fff");
 
         $input.appendTo($(args.container));
-        $input.css('background-color', args.item.value);
+        $input.css("background-color", args.item.value);
 
         // initialize spectrum
         $input.spectrum({
@@ -374,12 +414,12 @@ export default {
           showPalette: false,
           showInitial: true,
           clickoutFiresChange: true,
-          className: 'full-spectrum',
-          preferredFormat: 'hex6',
+          className: "full-spectrum",
+          preferredFormat: "hex6",
 
           /* On change callback */
-          change: function (color) {
-            $input.css('background-color', color.toHexString());
+          change: function(color) {
+            $input.css("background-color", color.toHexString());
 
             // commit the changes as soon as a new shape is selected
             // https://stackoverflow.com/a/35768360/379593
@@ -389,67 +429,71 @@ export default {
         });
 
         $input
-          .spectrum('container')
-          .find('.sp-input')
-          .on('keydown keypress', function (e) {
+          .spectrum("container")
+          .find(".sp-input")
+          .on("keydown keypress", function(e) {
             e.stopPropagation();
           });
       };
 
-      this.destroy = function () {
-        $input.spectrum('hide');
-        $input.spectrum('destroy');
+      this.destroy = function() {
+        $input.spectrum("hide");
+        $input.spectrum("destroy");
         $input.remove();
       };
 
-      this.focus = function () {
+      this.focus = function() {
         $input.focus();
-        $input.spectrum('show');
+        $input.spectrum("show");
       };
 
-      this.isValueChanged = function () {
-        return $input.spectrum('get').toHexString() !== defaultValue;
+      this.isValueChanged = function() {
+        return $input.spectrum("get").toHexString() !== defaultValue;
       };
 
-      this.serializeValue = function () {
-        return $input.spectrum('get').toHexString();
+      this.serializeValue = function() {
+        return $input.spectrum("get").toHexString();
       };
 
-      this.loadValue = function (item) {
+      this.loadValue = function(item) {
         defaultValue = item[args.column.field];
-        $input.spectrum('set', defaultValue);
+        $input.spectrum("set", defaultValue);
       };
 
-      this.applyValue = function (item, state) {
+      this.applyValue = function(item, state) {
         item[args.column.field] = state;
       };
 
-      this.validate = function () {
+      this.validate = function() {
         return {
           valid: true,
           msg: null
         };
       };
 
-      this.hide = function () {
-        $input.spectrum('hide');
+      this.hide = function() {
+        $input.spectrum("hide");
       };
 
-      this.show = function () {
-        setTimeout(function () {
-          $input.spectrum('show');
+      this.show = function() {
+        setTimeout(function() {
+          $input.spectrum("show");
         }, 100);
       };
 
-      this.position = function (cellBox) {
-        $input.spectrum('reflow');
+      this.position = function(cellBox) {
+        $input.spectrum("reflow");
       };
 
       this.init();
     },
 
     customColorFormatter(row, cell, value, columnDef, dataContext) {
-      return "<div class='colorbox' style='cursor:pointer;background-color:" + value + ";'></div>";
+      return (
+        "<div class='colorbox' style='cursor:pointer;background-color:" +
+        value +
+        ";'></div>"
+      );
     },
 
     studyButtonsFormatter(row, cell, value, columnDef, dataContext) {

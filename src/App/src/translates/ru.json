@@ -6,6 +6,8 @@
 	"home": {
 		"createNew": "Создать новый",
 		"settings": "Настройки",
+		"treeSettings": "Настройки дерева",
+		"dataSettings": "Настройки данных",
 		"project": "Проект",
 		"сreationDate": "Дата создания",
 		"lastUpdateDate": "Дата последнего обновления",
