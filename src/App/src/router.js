@@ -48,6 +48,15 @@ export default new Router({
         footer: AppFooter
       }
     },
+    {
+      path: "/defaultTreeSettings",
+      name: "default-tree-settings",
+      components: {
+        header: AppHeader,
+        default: ProjectSettings,
+        footer: AppFooter
+      }
+    },
   ],
   scrollBehavior: to => {
     if (to.hash) {

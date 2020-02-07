@@ -60,11 +60,18 @@ namespace StudyPlanManager.Logic
 
             lock (_locker)
             {
-                foreach (var studyProject in StudyProjects)
+                if (id == "undefined")
                 {
-                    if (studyProject.Id.Equals(id))
+                    return SettingManager.Instance.DefaultStudyProject;
+                }
+                else
+                {
+                    foreach (var studyProject in StudyProjects)
                     {
-                        return studyProject;
+                        if (studyProject.Id.Equals(id))
+                        {
+                            return studyProject;
+                        }
                     }
                 }
             }
@@ -123,7 +130,6 @@ namespace StudyPlanManager.Logic
             return study;
         }
 
-        // TODO: Rewrite me senpai :3
         public StudyProject CreateStudyProject(string name, string parentId)
         {
             if (String.IsNullOrEmpty(name))

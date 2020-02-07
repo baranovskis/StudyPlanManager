@@ -26,7 +26,7 @@
             <router-link
               type="button"
               class="btn btn-icon btn-secondary"
-              :to="{ name: 'settings' }"
+              :to="{ name: 'default-tree-settings' }"
             >
               <span class="btn-inner--icon">
                 <i class="fa fa-cogs mr-2"></i>
