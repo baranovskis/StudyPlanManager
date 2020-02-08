@@ -60,18 +60,11 @@ namespace StudyPlanManager.Logic
 
             lock (_locker)
             {
-                if (id == "undefined")
+                foreach (var studyProject in StudyProjects)
                 {
-                    return SettingManager.Instance.DefaultStudyProject;
-                }
-                else
-                {
-                    foreach (var studyProject in StudyProjects)
+                    if (studyProject.Id.Equals(id))
                     {
-                        if (studyProject.Id.Equals(id))
-                        {
-                            return studyProject;
-                        }
+                        return studyProject;
                     }
                 }
             }
@@ -139,127 +132,17 @@ namespace StudyPlanManager.Logic
 
             var studyProject = new StudyProject();
 
-            if (name.Equals("default"))
+            if (!String.IsNullOrEmpty(parentId))
             {
-                var courses = new List<StudyCourse>
+                // Create from existing project.
+                var existingStudyProject = StudyManager.Instance.GetStudyProject(parentId);
+                if (existingStudyProject != null)
                 {
-                    new StudyCourse
-                    {
-                        CourseName = "Pamatkursi",
-                        Groups = new List<StudyGroup>
-                        {
-                            new StudyGroup
-                            {
-                                GroupName = "Valodu",
-                                Studies = new List<Study>
-                                {
-                                    new Study
-                                    {
-                                        StudyName = "Latviesu valoda un literatura"
-                                    },
-                                    new Study
-                                    {
-                                        StudyName = "Anglu val. I"
-                                    },
-                                    new Study
-                                    {
-                                        StudyName = "Vacu val. I"
-                                    }
-                                }
-                            },
-                            new StudyGroup
-                            {
-                                GroupName = "Sociala un pilsoniska",
-                                Studies = new List<Study>
-                                {
-                                    new Study
-                                    {
-                                        StudyName = "Vestures un socialas zinatnes I"
-                                    }
-                                }
-                            },
-                            new StudyGroup
-                            {
-                                GroupName = "Dabaszinatnu",
-                                Studies = new List<Study>
-                                {
-                                    new Study
-                                    {
-                                        StudyName = "Fizika I"
-                                    },
-                                    new Study
-                                    {
-                                        StudyName = "Kimija I"
-                                    },
-                                    new Study
-                                    {
-                                        StudyName = "Biologija I"
-                                    }
-                                }
-                            },
-                        }
-                    },
-                    new StudyCourse
-                    {
-                        CourseName = "Specialie kursi",
-                        Groups = new List<StudyGroup>
-                        {
-                            new StudyGroup
-                            {
-                                GroupName = "Valodu",
-                                Studies = new List<Study>
-                                {
-                                    new Study
-                                    {
-                                        StudyName = "Anglu val. II"
-                                    },
-                                    new Study
-                                    {
-                                        StudyName = "Vacu val. II"
-                                    }
-                                }
-                            },
-                            new StudyGroup
-                            {
-                                GroupName = "Dabaszinatnu",
-                                Studies = new List<Study>
-                                {
-                                    new Study
-                                    {
-                                        StudyName = "Fizika II"
-                                    },
-                                    new Study
-                                    {
-                                        StudyName = "Kimija II"
-                                    },
-                                }
-                            },
-                        }
-                    }
-                };
-                studyProject = new StudyProject();
-                studyProject.Courses = courses;
-            }
-            else
-            {
-
-                if (String.IsNullOrEmpty(parentId))
-                {
-                    // Create from default.
-                    studyProject = SettingManager.Instance.DefaultStudyProject.Clone();
+                    studyProject = existingStudyProject.Clone();
                 }
                 else
                 {
-                    // Create from existing project.
-                    var existingStudyProject = StudyManager.Instance.GetStudyProject(parentId);
-                    if (existingStudyProject != null)
-                    {
-                        studyProject = existingStudyProject.Clone();
-                    }
-                    else
-                    {
-                        throw new NullReferenceException("Specified parent study project does not exist!");
-                    }
+                    throw new NullReferenceException("Specified parent study project does not exist!");
                 }
             }
 
@@ -268,14 +151,11 @@ namespace StudyPlanManager.Logic
             studyProject.CreationDate = DateTime.Now;
             studyProject.LastUpdatedDate = DateTime.Now;
 
-            if (!name.Equals("default"))
-            {
-                // Add to list
-                StudyProjects.Add(studyProject);
+            // Add to list
+            StudyProjects.Add(studyProject);
 
-                // Initial save to file
-                FileManager.SaveObjectToFile(studyProject, FileManager.DataPath, studyProject.FileName);
-            }
+            // Initial save to file
+            FileManager.SaveObjectToFile(studyProject, FileManager.DataPath, studyProject.FileName);
 
             return studyProject;
         }

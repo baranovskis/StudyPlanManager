@@ -27,9 +27,8 @@
               <span class="btn-inner--icon">
                 <i class="fa fa-cogs mr-2"></i>
               </span>
-              <span class="btn-inner--text">{{ $t('project.treeSettings') }}</span>
+              <span class="btn-inner--text">{{ $t('project.settings') }}</span>
             </router-link>
-            <!--<base-button type="info" icon="fa fa-cogs mr-2">Settings</base-button>-->
             <base-button
               type="primary"
               icon="fa fa-arrow-circle-o-down mr-2"
@@ -66,16 +65,16 @@
           </div>
           <div class="row" v-for="(item, index) in messages" v-bind:key="index">
             <div class="col-md-12">
-              <base-alert type="info" v-if="item.severityLevel == 0">
-                <strong>Info!</strong>
+              <base-alert type="info" v-if="item.severityLevel == 0 && item.message != null">
+                <strong>{{ $t('errors.info') }}</strong>
                 {{ $t(item.message) }}
               </base-alert>
-              <base-alert type="warning" v-if="item.severityLevel == 1">
-                <strong>Warning!</strong>
+              <base-alert type="warning" v-if="item.severityLevel == 1 && item.message != null">
+                <strong>{{ $t('errors.warning') }}</strong>
                 {{ $t(item.message) }}
               </base-alert>
-              <base-alert type="danger" v-if="item.severityLevel == 2">
-                <strong>Error!</strong>
+              <base-alert type="danger" v-if="item.severityLevel == 2 && item.message != null">
+                <strong>{{ $t('errors.error') }}</strong>
                 {{ $t(item.message) }}
               </base-alert>
             </div>
@@ -90,6 +89,7 @@
                 :autoEdit="true"
                 :grouping="gridGrouping"
                 :column-options="columnOptions"
+                :row-formatter="rowFormatter"
                 :show-pager="false"
                 :showHeaderRow="false"
                 :forceFitColumns="true"
@@ -107,19 +107,19 @@
     >
       <div class="py-3 text-center">
         <i class="ni ni-fat-remove ni-5x"></i>
-        <h4 class="heading mt-4">Confirmation</h4>
-        <p>Are you sure you want to restore this project?</p>
-        <p>All changes will be lost!</p>
+        <h4 class="heading mt-4">{{ $t('base.confirmation') }}</h4>
+        <p>{{ $t('project.areYouSureRestore') }}</p>
+        <p>{{ $t('project.allChangesWillBeLost') }}</p>
       </div>
 
       <template slot="footer">
-        <base-button type="white" @click="restoreProject">YES</base-button>
+        <base-button type="white" @click="restoreProject">{{ $t('base.yes') }}</base-button>
         <base-button
           type="link"
           text-color="white"
           class="ml-auto"
           @click="modals.restore = false"
-        >Cancel</base-button>
+        >{{ $t('base.cancel') }}</base-button>
       </template>
     </modal>
   </div>
@@ -145,7 +145,6 @@ export default {
       modals: {
         restore: false
       },
-
       gridGrouping: [
         {
           getter: "studyCourse",
@@ -171,11 +170,7 @@ export default {
           getter: "studyGroup",
           formatter(g) {
             return (
-              "Macibu joma: " +
-              g.value +
-              ' <span style="color:green">(' +
-              g.count +
-              " items)</span>"
+              g.value + ' <span style="color:green">(' + g.count + ")</span>"
             );
           },
           aggregators: [
@@ -187,66 +182,81 @@ export default {
           lazyTotalsCalculation: true
         }
       ],
-
       columnOptions: {
-        // Set to all columns
         "*": {
           headerFilter: false,
           sortable: false
         },
-
+        severityLevel: {
+          hidden: true
+        },
         studyCourse: {
           hidden: true
         },
-
         studyGroup: {
           hidden: true
         },
-
         backgroundColor: {
           hidden: true
         },
-
         studyName: {
-          name: "Priekšmets",
+          name: this.$t("project.study"),
           minWidth: 150
         },
-
         class_0: {
-          name: "10. klasse",
+          name: this.$t("project.class10"), //"10. klasse",
           editor: Editors.Integer,
+          totalText: this.$t("project.total"),
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
             if (val != null) {
-              return "Kopā: " + Math.round(parseFloat(val) * 100) / 100;
+              return (
+                this.totalText + ": " + Math.round(parseFloat(val) * 100) / 100
+              );
             }
             return "";
           }
         },
-
         class_1: {
-          name: "11. klasse",
+          name: this.$t("project.class11"), //"11. klasse",
           editor: Editors.Integer,
+          totalText: this.$t("project.total"),
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
             if (val != null) {
-              return "Kopā: " + Math.round(parseFloat(val) * 100) / 100;
+              return (
+                this.totalText + ": " + Math.round(parseFloat(val) * 100) / 100
+              );
             }
             return "";
           }
         },
-
         class_2: {
-          name: "12. klasse",
+          name: this.$t("project.class12"), //"12. klasse",
           editor: Editors.Integer,
+          totalText: this.$t("project.total"),
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
             if (val != null) {
-              return "Kopā: " + Math.round(parseFloat(val) * 100) / 100;
+              return (
+                this.totalText + ": " + Math.round(parseFloat(val) * 100) / 100
+              );
             }
             return "";
           }
         }
+      },
+      rowFormatter(row) {
+        console.log(row["severityLevel"]);
+        
+        return {
+          cssClasses:
+            row["severityLevel"] == 1
+              ? "backWarning"
+              : row["severityLevel"] == 2
+              ? "backError"
+              : null
+        };
       }
     };
   },
@@ -282,8 +292,19 @@ export default {
                       studyCourse: data.courseName,
                       studyGroup: groupData.groupName,
                       studyName: studyData.studyName,
-                      backgroundColor: data.backgroundColor
+                      backgroundColor: data.backgroundColor,
+                      severityLevel: 0
                     };
+
+                    if (response.data.messages.length > 0) {
+                      for (let i = 0; i < response.data.messages.length; i++) {
+                        var message = response.data.messages[i];
+
+                        if (message.treeId == studyData.treeId) {
+                          row.severityLevel = message.severityLevel;
+                        }
+                      }
+                    }
 
                     // Class 10 -> 12
                     for (let c = 0; c < studyData.creditPoints.length; c++) {
@@ -293,20 +314,46 @@ export default {
                     this.data.push(row);
                   }
                 } else {
-                  this.data.push({
+                  let row = {
                     id: groupData.treeId,
                     studyCourse: data.courseName,
                     studyGroup: groupData.groupName,
-                    backgroundColor: data.backgroundColor
-                  });
+                    backgroundColor: data.backgroundColor,
+                    severityLevel: 0
+                  };
+
+                  if (response.data.messages.length > 0) {
+                    for (let i = 0; i < response.data.messages.length; i++) {
+                      var message = response.data.messages[i];
+
+                      if (message.treeId == groupData.treeId) {
+                        row.severityLevel = message.severityLevel;
+                      }
+                    }
+                  }
+
+                  this.data.push(row);
                 }
               }
             } else {
-              this.data.push({
+              let row = {
                 id: data.treeId,
                 studyCourse: data.courseName,
-                backgroundColor: data.backgroundColor
-              });
+                backgroundColor: data.backgroundColor,
+                severityLevel: 0
+              };
+
+              if (response.data.messages.length > 0) {
+                for (let i = 0; i < response.data.messages.length; i++) {
+                  var message = response.data.messages[i];
+
+                  if (message.treeId == data.treeId) {
+                    row.severityLevel = message.severityLevel;
+                  }
+                }
+              }
+
+              this.data.push(row);
             }
           }
         })
@@ -376,7 +423,8 @@ export default {
 };
 </script>
 
-<style src="vue-slimgrid/dist/slimgrid.css"></style><style>
+<style src="vue-slimgrid/dist/slimgrid.css"></style>
+<style>
 input.editor-text {
   position: absolute;
   width: 100%;
@@ -386,5 +434,13 @@ input.editor-text {
   background: transparent;
   padding: 2px 3px 2px 3px;
   transform: translate(-3px, -2px);
+}
+</style>
+<style>
+.backError {
+  background-color: lightpink;
+}
+.backWarning {
+  background-color: lightsalmon;
 }
 </style>

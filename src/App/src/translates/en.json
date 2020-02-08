@@ -2,7 +2,13 @@
 	"base": {
 		"cancel": "Cancel",
 		"restore": "Restore",
-		"save": "Save"
+		"save": "Save",
+		"close": "Close",
+		"create": "Create",
+		"confirmation": "Confirmation",
+		"yes": "Yes",
+		"no": "No",
+		"empty": "Empty"
 	},
 	"home": {
 		"createNew": "Create New",
@@ -15,15 +21,26 @@
 		"actions": "Actions",
 		"edit": "Edit",
 		"delete": "Delete",
-		"export": "Export"
+		"export": "Export",
+		"parentTemplate": "Parent template",
+		"areYouSureDeleteProject": "Are you sure you want to delete this project?"
 	},
 	"project": {
+		"default": "Default",
+		"createNewProject": "Create new project",
 		"projectTree": "Project tree",
+		"settings": "Settings",
+		"name": "Name",
 		"studies": "Studies",
 		"groups": "Groups",
 		"courses": "Courses",
+		"study": "Study",
 		"treeSettings": "Tree settings",
-		"export": "Export"
+		"export": "Export",
+		"items": "items",
+		"total": "Total",
+		"areYouSureRestore": "Are you sure you want to restore this project?",
+		"allChangesWillBeLost": "All changes will be lost!"
 	},
 	"settings": {
 		"actions": "Actions",
@@ -36,6 +53,9 @@
 		"backgroundColor": "Background Color"
 	},
 	"errors": {
+		"error": "Error!",
+		"warning": "Warning!",
+		"info": "Info!",
 		"notEnoughCreditPointsInYear": "There are not enough credit points in some study years",
 		"tooManyCreditPointsInYear": "There are too many credit points in some study years",
 		"obligatoryStudiesNotFilled": "Some obligatory studies are not filled in",

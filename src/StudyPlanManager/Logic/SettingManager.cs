@@ -22,8 +22,7 @@ namespace StudyPlanManager.Logic
                 return _instance;
             }
         }
-        
-        public StudyProject DefaultStudyProject { get; set; }
+
         public List<Study> AvailableStudies { get; set; }
         public List<StudyGroup> AvailableStudyGroups { get; set; }
         public List<StudyCourse> AvailableStudyCourses { get; set; }
@@ -40,7 +39,6 @@ namespace StudyPlanManager.Logic
             AvailableStudies = FileManager.LoadObjectFromFile<List<Study>>(FileManager.SettingsPath, "studies.xml");
             AvailableStudyGroups = FileManager.LoadObjectFromFile<List<StudyGroup>>(FileManager.SettingsPath, "study_groups.xml");
             AvailableStudyCourses = FileManager.LoadObjectFromFile<List<StudyCourse>>(FileManager.SettingsPath, "study_courses.xml");
-            DefaultStudyProject = FileManager.LoadObjectFromFile<StudyProject>(FileManager.SettingsPath, "default.xml");
         }
 
         public void SaveSettings()
@@ -48,7 +46,6 @@ namespace StudyPlanManager.Logic
             FileManager.SaveObjectToFile(AvailableStudies, FileManager.SettingsPath, "studies.xml");
             FileManager.SaveObjectToFile(AvailableStudyGroups, FileManager.SettingsPath, "study_groups.xml");
             FileManager.SaveObjectToFile(AvailableStudyCourses, FileManager.SettingsPath, "study_courses.xml");
-            FileManager.SaveObjectToFile(DefaultStudyProject, FileManager.SettingsPath, "default.xml");
         }
 
         public void UpdateAllProjects()
@@ -112,11 +109,6 @@ namespace StudyPlanManager.Logic
 
         private void LoadDefaultConfiguration()
         {
-            if (DefaultStudyProject == null)
-            {
-                DefaultStudyProject = StudyManager.Instance.CreateStudyProject("default", null);
-            }
-
             if (AvailableStudies == null)
             {
                 AvailableStudies = new List<Study>()

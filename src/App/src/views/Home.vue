@@ -26,24 +26,12 @@
             <router-link
               type="button"
               class="btn btn-icon btn-secondary"
-              :to="{ name: 'default-tree-settings' }"
-            >
-              <span class="btn-inner--icon">
-                <i class="fa fa-cogs mr-2"></i>
-              </span>
-              <span class="btn-inner--text">{{ $t('home.treeSettings') }}</span>
-            </router-link>
-          </div>
-          <div class="text-right w-100">
-            <router-link
-              type="button"
-              class="btn btn-icon btn-secondary"
               :to="{ name: 'settings' }"
             >
               <span class="btn-inner--icon">
                 <i class="fa fa-cogs mr-2"></i>
               </span>
-              <span class="btn-inner--text">{{ $t('home.dataSettings') }}</span>
+              <span class="btn-inner--text">{{ $t('home.settings') }}</span>
             </router-link>
           </div>
         </div>
@@ -107,26 +95,26 @@
     </section>
     <modal :show.sync="modals.createNew.show">
       <template slot="header">
-        <h5 class="modal-title" id="exampleModalLabel">Create new project</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{ $t('project.createNewProject') }}</h5>
       </template>
       <div>
         <div class="row">
           <div class="col-md-12">
-            <label>Name</label>
+            <label>{{ $t('project.name') }}</label>
             <base-input v-model="modals.createNew.name" placeholder="Project name"></base-input>
           </div>
           <div class="col-md-12">
-            <label>Parent template</label>
+            <label>{{ $t('home.parentTemplate') }}</label>
             <select v-model="modals.createNew.parentId" class="form-control">
-              <option :value="undefined" selected>Default</option>
+              <option :value="undefined" selected>{{ $t('project.default') }}</option>
               <option v-for="row in rows" v-bind:key="row.id" v-bind:value="row.id">{{ row.name }}</option>
             </select>
           </div>
         </div>
       </div>
       <template slot="footer">
-        <base-button type="secondary" @click="modals.createNew.show = false">Close</base-button>
-        <base-button @click="createProject" type="primary">Create</base-button>
+        <base-button type="secondary" @click="modals.createNew.show = false">{{ $t('base.close') }}</base-button>
+        <base-button @click="createProject" type="primary">{{ $t('base.create') }}</base-button>
       </template>
     </modal>
     <modal
@@ -136,18 +124,18 @@
     >
       <div class="py-3 text-center">
         <i class="ni ni-fat-remove ni-5x"></i>
-        <h4 class="heading mt-4">Confirmation</h4>
-        <p>Are you sure you want to delete this project?</p>
+        <h4 class="heading mt-4">{{ $t('base.confirmation') }}</h4>
+        <p>{{ $t('home.areYouSureDeleteProject') }}</p>
       </div>
 
       <template slot="footer">
-        <base-button type="white" @click="deleteProject">YES</base-button>
+        <base-button type="white" @click="deleteProject">{{ $t('base.yes') }}</base-button>
         <base-button
           type="link"
           text-color="white"
           class="ml-auto"
           @click="modals.delete.show = false"
-        >Cancel</base-button>
+        >{{ $t('base.cancel') }}</base-button>
       </template>
     </modal>
   </div>

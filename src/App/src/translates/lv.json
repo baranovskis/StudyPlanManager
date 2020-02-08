@@ -2,6 +2,9 @@
 	"home": {
 		"createNew": "Izveidot jaunu"
 	},
+	"project": {
+		"study": "Priekšmets"
+	},
 	"errors": {
 		"notEnoughCreditPointsInYear": "There are not enough credit points in some study years",
 		"tooManyCreditPointsInYear": "There are too many credit points in some study years",

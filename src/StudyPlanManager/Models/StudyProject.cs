@@ -21,6 +21,8 @@ namespace StudyPlanManager.Models
         public StudyProject()
         {
             FileName = Guid.NewGuid().ToString("N") + ".xml";
+
+            Courses = new List<StudyCourse>();
         }
     }
 }

@@ -50,7 +50,7 @@
                   <div class="col-sm">
                     <card shadow>
                       <h6 class="text-primary text-uppercase">{{ $t(item.name) }}</h6>
-                      <p v-if="item.items.length == 0">This is shown when container is empty</p>
+                      <p v-if="item.items.length == 0">{{ $t('base.empty') }}</p>
                       <nested-draggable :isChild="false" :data="item" />
                     </card>
                   </div>
@@ -59,7 +59,7 @@
               <div class="col-md-8">
                 <card shadow>
                   <h6 class="text-primary text-uppercase">{{$t (projectTree.name) }}</h6>
-                  <p v-if="projectTree.items.length == 0">This is shown when container is empty</p>
+                  <p v-if="projectTree.items.length == 0">{{ $t('base.empty') }}</p>
                   <nested-draggable :isChild="false" :data="projectTree" />
                 </card>
               </div>
