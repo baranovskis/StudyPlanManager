@@ -45,6 +45,8 @@
 	"settings": {
 		"actions": "Actions",
 		"studyName": "Study",
+		"addNew": "Add New",
+		"delete": "Delete",
 		"creditPointLimit": "Credit Point Limit",
 		"isObligatory": "Is Obligatory",
 		"groupName": "Group",

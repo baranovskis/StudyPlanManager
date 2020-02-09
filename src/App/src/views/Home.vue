@@ -101,7 +101,7 @@
         <div class="row">
           <div class="col-md-12">
             <label>{{ $t('project.name') }}</label>
-            <base-input v-model="modals.createNew.name" placeholder="Project name"></base-input>
+            <base-input v-model="modals.createNew.name"></base-input>
           </div>
           <div class="col-md-12">
             <label>{{ $t('home.parentTemplate') }}</label>

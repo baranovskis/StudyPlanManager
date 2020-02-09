@@ -46,15 +46,11 @@
             </div>
             <div class="row pb-3">
               <div class="col-md-4">
-                <div class="row pb-3" v-for="(item, index) in availableNodes" :key="index">
-                  <div class="col-sm">
-                    <card shadow>
-                      <h6 class="text-primary text-uppercase">{{ $t(item.name) }}</h6>
-                      <p v-if="item.items.length == 0">{{ $t('base.empty') }}</p>
-                      <nested-draggable :isChild="false" :data="item" />
-                    </card>
-                  </div>
-                </div>
+                <card shadow>
+                  <h6 class="text-primary text-uppercase">{{ $t(availableStudies.name) }}</h6>
+                  <p v-if="availableStudies.items.length == 0">{{ $t('base.empty') }}</p>
+                  <nested-draggable :isChild="false" :data="availableStudies" />
+                </card>
               </div>
               <div class="col-md-8">
                 <card shadow>
@@ -88,26 +84,12 @@ export default {
         allowedTypes: ["course"],
         items: []
       },
-      availableNodes: [
-        {
-          name: "project.studies",
-          type: "studies",
-          allowedTypes: ["study"],
-          items: []
-        },
-        {
-          name: "project.groups",
-          type: "groups",
-          allowedTypes: ["group"],
-          items: []
-        },
-        {
-          name: "project.courses",
-          type: "courses",
-          allowedTypes: ["course"],
-          items: []
-        }
-      ]
+      availableStudies: {
+        name: "project.studies",
+        type: "studies",
+        allowedTypes: ["study"],
+        items: []
+      }
     };
   },
   mounted() {
@@ -120,13 +102,7 @@ export default {
           this.name = response.data.name;
 
           // Available studies
-          this.availableNodes[0].items = response.data.availableStudies;
-
-          // Available groups
-          this.availableNodes[1].items = response.data.availableGroups;
-
-          // Available courses
-          this.availableNodes[2].items = response.data.availableCourses;
+          this.availableStudies.items = response.data.availableStudies;
 
           // Project tree
           this.projectTree.items = response.data.projectTree;

@@ -67,15 +67,15 @@
             <div class="col-md-12">
               <base-alert type="info" v-if="item.severityLevel == 0 && item.message != null">
                 <strong>{{ $t('errors.info') }}</strong>
-                {{ $t(item.message) }}
+                {{ $t(item.message) }} {{item.additionalInfo}}
               </base-alert>
               <base-alert type="warning" v-if="item.severityLevel == 1 && item.message != null">
                 <strong>{{ $t('errors.warning') }}</strong>
-                {{ $t(item.message) }}
+                {{ $t(item.message) }} {{item.additionalInfo}}
               </base-alert>
               <base-alert type="danger" v-if="item.severityLevel == 2 && item.message != null">
                 <strong>{{ $t('errors.error') }}</strong>
-                {{ $t(item.message) }}
+                {{ $t(item.message) }} {{item.additionalInfo}}
               </base-alert>
             </div>
           </div>
@@ -89,7 +89,6 @@
                 :autoEdit="true"
                 :grouping="gridGrouping"
                 :column-options="columnOptions"
-                :row-formatter="rowFormatter"
                 :show-pager="false"
                 :showHeaderRow="false"
                 :forceFitColumns="true"
@@ -147,21 +146,29 @@ export default {
       },
       gridGrouping: [
         {
-          getter: "studyCourse",
+          getter: "dataHeader",
           aggregators: [
             new Data.Aggregators.Sum("class_0"),
             new Data.Aggregators.Sum("class_1"),
             new Data.Aggregators.Sum("class_2")
           ],
-          aggregateCollapsed: false,
+          aggregateCollapsed: true,
+          lazyTotalsCalculation: true
+        },
+        {
+          getter: "studyCourse",
+          aggregateCollapsed: true,
           lazyTotalsCalculation: true,
           formatter(g) {
             console.log(g);
             return (
               "<div class='colorbox' style='cursor:pointer;background-color:" +
               g.rows[0].backgroundColor +
-              ";top:0;position:absolute;left: 20px;padding:2px;'>" +
+              ";top:0;position:absolute;left: 30px;padding:2px;'>" +
               g.value +
+              ' <span style="color:green">(' +
+              g.count +
+              ")</span>" +
               "</div>"
             );
           }
@@ -173,12 +180,7 @@ export default {
               g.value + ' <span style="color:green">(' + g.count + ")</span>"
             );
           },
-          aggregators: [
-            new Data.Aggregators.Sum("class_0"),
-            new Data.Aggregators.Sum("class_1"),
-            new Data.Aggregators.Sum("class_2")
-          ],
-          aggregateCollapsed: false,
+          aggregateCollapsed: true,
           lazyTotalsCalculation: true
         }
       ],
@@ -187,7 +189,7 @@ export default {
           headerFilter: false,
           sortable: false
         },
-        severityLevel: {
+        dataHeader: {
           hidden: true
         },
         studyCourse: {
@@ -201,14 +203,16 @@ export default {
         },
         studyName: {
           name: this.$t("project.study"),
-          minWidth: 150
+          minWidth: 300,
+          cssClass: "left-align"
         },
         class_0: {
-          name: this.$t("project.class10"), //"10. klasse",
+          name: this.$t("project.class10"),
           editor: Editors.Integer,
           totalText: this.$t("project.total"),
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
+
             if (val != null) {
               return (
                 this.totalText + ": " + Math.round(parseFloat(val) * 100) / 100
@@ -218,11 +222,12 @@ export default {
           }
         },
         class_1: {
-          name: this.$t("project.class11"), //"11. klasse",
+          name: this.$t("project.class11"),
           editor: Editors.Integer,
           totalText: this.$t("project.total"),
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
+
             if (val != null) {
               return (
                 this.totalText + ": " + Math.round(parseFloat(val) * 100) / 100
@@ -232,11 +237,12 @@ export default {
           }
         },
         class_2: {
-          name: this.$t("project.class12"), //"12. klasse",
+          name: this.$t("project.class12"),
           editor: Editors.Integer,
           totalText: this.$t("project.total"),
           groupTotalsFormatter(totals, columnDef) {
             let val = totals.sum && totals.sum[columnDef.field];
+
             if (val != null) {
               return (
                 this.totalText + ": " + Math.round(parseFloat(val) * 100) / 100
@@ -245,18 +251,6 @@ export default {
             return "";
           }
         }
-      },
-      rowFormatter(row) {
-        console.log(row["severityLevel"]);
-        
-        return {
-          cssClasses:
-            row["severityLevel"] == 1
-              ? "backWarning"
-              : row["severityLevel"] == 2
-              ? "backError"
-              : null
-        };
       }
     };
   },
@@ -289,19 +283,60 @@ export default {
 
                     let row = {
                       id: studyData.treeId,
+                      dataHeader: "",
                       studyCourse: data.courseName,
                       studyGroup: groupData.groupName,
                       studyName: studyData.studyName,
-                      backgroundColor: data.backgroundColor,
-                      severityLevel: 0
+                      backgroundColor: data.backgroundColor
                     };
 
                     if (response.data.messages.length > 0) {
                       for (let i = 0; i < response.data.messages.length; i++) {
                         var message = response.data.messages[i];
 
+                        // warning for study row
                         if (message.treeId == studyData.treeId) {
-                          row.severityLevel = message.severityLevel;
+                          if (message.severityLevel == 1) {
+                            row.studyName =
+                              '<span style="color:orange">&#9888; ' +
+                              row.studyName +
+                              "</span>";
+                          } else if (message.severityLevel == 2) {
+                            row.studyName =
+                              '<span style="color:red">&#9888; ' +
+                              row.studyName +
+                              "</span>";
+                          }
+                        }
+
+                        // warning for group row
+                        if (message.treeId == groupData.treeId) {
+                          if (message.severityLevel == 1) {
+                            row.studyGroup =
+                              '<span style="color:orange">&#9888; ' +
+                              row.studyGroup +
+                              "</span>";
+                          } else if (message.severityLevel == 2) {
+                            row.studyGroup =
+                              '<span style="color:red">&#9888; ' +
+                              row.studyGroup +
+                              "</span>";
+                          }
+                        }
+
+                                  // warning for course row
+                        if (message.treeId == data.treeId) {
+                          if (message.severityLevel == 1) {
+                            row.studyCourse =
+                              '<span style="color:orange">&#9888; ' +
+                              row.studyCourse +
+                              "</span>";
+                          } else if (message.severityLevel == 2) {
+                            row.studyCourse =
+                              '<span style="color:red">&#9888; ' +
+                              row.studyCourse +
+                              "</span>";
+                          }
                         }
                       }
                     }
@@ -316,42 +351,22 @@ export default {
                 } else {
                   let row = {
                     id: groupData.treeId,
+                    dataHeader: "",
                     studyCourse: data.courseName,
                     studyGroup: groupData.groupName,
-                    backgroundColor: data.backgroundColor,
-                    severityLevel: 0
+                    backgroundColor: data.backgroundColor
                   };
-
-                  if (response.data.messages.length > 0) {
-                    for (let i = 0; i < response.data.messages.length; i++) {
-                      var message = response.data.messages[i];
-
-                      if (message.treeId == groupData.treeId) {
-                        row.severityLevel = message.severityLevel;
-                      }
-                    }
-                  }
-
+                  
                   this.data.push(row);
                 }
               }
             } else {
               let row = {
                 id: data.treeId,
+                dataHeader: "",
                 studyCourse: data.courseName,
-                backgroundColor: data.backgroundColor,
-                severityLevel: 0
+                backgroundColor: data.backgroundColor
               };
-
-              if (response.data.messages.length > 0) {
-                for (let i = 0; i < response.data.messages.length; i++) {
-                  var message = response.data.messages[i];
-
-                  if (message.treeId == data.treeId) {
-                    row.severityLevel = message.severityLevel;
-                  }
-                }
-              }
 
               this.data.push(row);
             }
@@ -359,11 +374,8 @@ export default {
         })
         .catch(error => {
           console.log(error);
-          //this.errored = true
         });
-      //.finally(() => this.loading = false)
     },
-
     doValidate(e, args) {
       StudyRepository.update(
         {
@@ -375,10 +387,10 @@ export default {
       )
         .then(response => {
           this.messages = response.data;
+          this.doLoad();
         })
         .catch(error => {
           console.log(error);
-          //this.doLoad();
         });
     },
 
@@ -442,5 +454,9 @@ input.editor-text {
 }
 .backWarning {
   background-color: lightsalmon;
+}
+.left-align {
+  text-align: left;
+  padding-left: 40px;
 }
 </style>

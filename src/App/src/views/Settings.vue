@@ -497,15 +497,42 @@ export default {
     },
 
     studyButtonsFormatter(row, cell, value, columnDef, dataContext) {
-      return '<a class="newStudy text-primary"><i class="fa fa-plus-circle"></i> Add New</a> | <a class="delStudy text-danger"><i class="fa fa-minus-circle"></i> Delete</a>';
+      let addText = this.$t("settings.addNew");
+      let deleteText = this.$t("settings.delete");
+
+      return (
+        '<a class="newStudy text-primary"><i class="fa fa-plus-circle"></i> ' +
+        addText +
+        '</a> | <a class="delStudy text-danger"><i class="fa fa-minus-circle"></i> ' +
+        deleteText +
+        "</a>"
+      );
     },
 
     groupButtonsFormatter(row, cell, value, columnDef, dataContext) {
-      return '<a class="newGroup text-primary"><i class="fa fa-plus-circle"></i> Add New</a> | <a class="delGroup text-danger"><i class="fa fa-minus-circle"></i> Delete</a>';
+      let addText = this.$t("settings.addNew");
+      let deleteText = this.$t("settings.delete");
+
+      return (
+        '<a class="newGroup text-primary"><i class="fa fa-plus-circle"></i> ' +
+        addText +
+        '</a> | <a class="delGroup text-danger"><i class="fa fa-minus-circle"></i> ' +
+        deleteText +
+        "</a>"
+      );
     },
 
     courseButtonsFormatter(row, cell, value, columnDef, dataContext) {
-      return '<a class="newCourse text-primary"><i class="fa fa-plus-circle"></i> Add New</a> | <a class="delCourse text-danger"><i class="fa fa-minus-circle"></i> Delete</a>';
+      let addText = this.$t("settings.addNew");
+      let deleteText = this.$t("settings.delete");
+
+      return (
+        '<a class="newCourse text-primary"><i class="fa fa-plus-circle"></i> ' +
+        addText +
+        '</a> | <a class="delCourse text-danger"><i class="fa fa-minus-circle"></i> ' +
+        deleteText +
+        "</a>"
+      );
     }
   }
 };

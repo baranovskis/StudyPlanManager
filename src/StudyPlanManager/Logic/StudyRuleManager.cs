@@ -27,13 +27,20 @@ namespace StudyPlanManager.Logic
                 bool tooManyCreditsInStudy = false;
                 bool parentStudiesNotFilledIn = false;
 
+                var groupStudyCount = new Dictionary<string, int>();
+
                 foreach (var course in studyProject.Courses)
                 {
-                    foreach(var group in course.Groups)
+                    foreach (var group in course.Groups)
                     {
+                        if (!groupStudyCount.ContainsKey(group.TreeId))
+                        {
+                            groupStudyCount.Add(group.TreeId, 0);
+                        }
+
                         int countByGroup = 0;
 
-                        foreach(var study in group.Studies)
+                        foreach (var study in group.Studies)
                         {
                             totalOfClass10 += study.CreditPoints[0];
                             totalOfClass11 += study.CreditPoints[1];
@@ -106,15 +113,24 @@ namespace StudyPlanManager.Logic
                             }
                         }
 
-                        // Check for minimal study count in group.
-                        if (group.MinimalStudyCount > countByGroup)
+                        groupStudyCount[group.TreeId] += countByGroup;
+                    }
+                }
+
+                // Check for minimal study count in group.
+                foreach (var groupPair in groupStudyCount)
+                {
+                    var group = SettingManager.Instance.GetGroupByTreeId(groupPair.Key);
+                    if (group != null)
+                    {
+                        if (group.MinimalStudyCount > groupPair.Value)
                         {
                             minimalStudyCountNotMet = true;
                             messages.Add(
                                 new StudyInfoMessage
                                 {
                                     SeverityLevel = SeverityLevel.Warning,
-                                    TreeId = group.TreeId
+                                    TreeId = groupPair.Key
                                 });
                         }
                     }
@@ -125,11 +141,18 @@ namespace StudyPlanManager.Logic
                     || totalOfClass11 < CreditPointMinimum
                     || totalOfClass12 < CreditPointMinimum)
                 {
+                    string additionalInfo = String.Empty;
+
+                    additionalInfo += " " + (totalOfClass10 < CreditPointMinimum ? "10;" : String.Empty);
+                    additionalInfo += " " + (totalOfClass11 < CreditPointMinimum ? "11;" : String.Empty);
+                    additionalInfo += " " + (totalOfClass12 < CreditPointMinimum ? "12;" : String.Empty);
+
                     messages.Add(
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Error,
-                            Message = "errors.notEnoughCreditPointsInYear"
+                            Message = "errors.notEnoughCreditPointsInYear",
+                            AdditionalInfo = additionalInfo.Trim()
                         });
                 }
 
@@ -137,11 +160,18 @@ namespace StudyPlanManager.Logic
                     || totalOfClass11 > CreditPointMaximum
                     || totalOfClass12 > CreditPointMaximum)
                 {
+                    string additionalInfo = String.Empty;
+
+                    additionalInfo += " " + (totalOfClass10 > CreditPointMaximum ? "10;" : String.Empty);
+                    additionalInfo += " " + (totalOfClass11 > CreditPointMaximum ? "11;" : String.Empty);
+                    additionalInfo += " " + (totalOfClass12 > CreditPointMaximum ? "12;" : String.Empty);
+
                     messages.Add(
                         new StudyInfoMessage
                         {
                             SeverityLevel = SeverityLevel.Error,
-                            Message = "errors.tooManyCreditPointsInYear"
+                            Message = "errors.tooManyCreditPointsInYear",
+                            AdditionalInfo = additionalInfo.Trim()
                         });
                 }
 

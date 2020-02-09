@@ -145,6 +145,20 @@ namespace StudyPlanManager.Logic
                     throw new NullReferenceException("Specified parent study project does not exist!");
                 }
             }
+            else
+            {
+                // Populate with courses
+                foreach(var course in SettingManager.Instance.AvailableStudyCourses)
+                {
+                    UpdateCourses(studyProject, course);
+                }
+
+                // Populate with groups
+                foreach (var group in SettingManager.Instance.AvailableStudyGroups)
+                {
+                    UpdateGroups(studyProject, group);
+                }
+            }
 
             studyProject.Id = Guid.NewGuid().ToString("N");
             studyProject.Name = name;
@@ -464,13 +478,22 @@ namespace StudyPlanManager.Logic
                 throw new ArgumentException("Argument 'newStudyGroup' is null");
             }
 
+            bool foundGroup = false;
+
             foreach (var studyGroup in studyCourse.Groups)
             {
                 if (studyGroup.TreeId == newStudyGroup.TreeId)
                 {
+                    foundGroup = true;
+
                     studyGroup.GroupName = newStudyGroup.GroupName;
                     studyGroup.MinimalStudyCount = newStudyGroup.MinimalStudyCount;
                 }
+            }
+
+            if (!foundGroup)
+            {
+                studyCourse.Groups.Add(newStudyGroup);
             }
         }
 
@@ -499,13 +522,23 @@ namespace StudyPlanManager.Logic
                 throw new ArgumentException("Argument 'newStudyCourse' is null");
             }
 
+            bool foundCourse = false;
+
             foreach (var studyCourse in studyProject.Courses)
             {
                 if (studyCourse.TreeId == newStudyCourse.TreeId)
                 {
+                    foundCourse = true;
+
                     studyCourse.CourseName = newStudyCourse.CourseName;
                     studyCourse.BackgroundColor = newStudyCourse.BackgroundColor;
                 }
+            }
+
+            // Add course to project if not exists
+            if (!foundCourse)
+            {
+                studyProject.Courses.Add(newStudyCourse);
             }
         }
     }

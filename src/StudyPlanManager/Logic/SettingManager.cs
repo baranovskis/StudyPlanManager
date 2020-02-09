@@ -50,11 +50,11 @@ namespace StudyPlanManager.Logic
 
         public void UpdateAllProjects()
         {
-            if (AvailableStudies != null)
+            if (AvailableStudyCourses != null)
             {
-                foreach (var study in AvailableStudies)
+                foreach (var studyCourse in AvailableStudyCourses)
                 {
-                    StudyManager.Instance.UpdateStudies(study);
+                    StudyManager.Instance.UpdateCourses(studyCourse);
                 }
             }
 
@@ -66,11 +66,11 @@ namespace StudyPlanManager.Logic
                 }
             }
 
-            if (AvailableStudyCourses != null)
+            if (AvailableStudies != null)
             {
-                foreach (var studyCourse in AvailableStudyCourses)
+                foreach (var study in AvailableStudies)
                 {
-                    StudyManager.Instance.UpdateCourses(studyCourse);
+                    StudyManager.Instance.UpdateStudies(study);
                 }
             }
 

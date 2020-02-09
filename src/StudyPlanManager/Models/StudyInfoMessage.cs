@@ -9,6 +9,7 @@ namespace StudyPlanManager.Models
     public class StudyInfoMessage
     {
         public string Message { get; set; }
+        public string AdditionalInfo { get; set; }
         public SeverityLevel SeverityLevel { get; set; }
         public string TreeId { get; set; }
     }
