@@ -89,6 +89,7 @@
                 :autoEdit="true"
                 :grouping="gridGrouping"
                 :column-options="columnOptions"
+                @sort="onSort"
                 :show-pager="false"
                 :showHeaderRow="false"
                 :forceFitColumns="true"
@@ -189,6 +190,9 @@ export default {
           headerFilter: false,
           sortable: false
         },
+        treeId :{
+          hidden: true
+        },
         dataHeader: {
           hidden: true
         },
@@ -283,6 +287,7 @@ export default {
 
                     let row = {
                       id: studyData.treeId,
+                      treeId: studyData.treeId,
                       dataHeader: "",
                       studyCourse: data.courseName,
                       studyGroup: groupData.groupName,
@@ -324,7 +329,7 @@ export default {
                           }
                         }
 
-                                  // warning for course row
+                        // warning for course row
                         if (message.treeId == data.treeId) {
                           if (message.severityLevel == 1) {
                             row.studyCourse =
@@ -348,27 +353,8 @@ export default {
 
                     this.data.push(row);
                   }
-                } else {
-                  let row = {
-                    id: groupData.treeId,
-                    dataHeader: "",
-                    studyCourse: data.courseName,
-                    studyGroup: groupData.groupName,
-                    backgroundColor: data.backgroundColor
-                  };
-                  
-                  this.data.push(row);
                 }
               }
-            } else {
-              let row = {
-                id: data.treeId,
-                dataHeader: "",
-                studyCourse: data.courseName,
-                backgroundColor: data.backgroundColor
-              };
-
-              this.data.push(row);
             }
           }
         })
@@ -392,6 +378,11 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+
+    onSort(e, args){
+      console.log("ON SORT");
+      console.log(e, args);
     },
 
     saveProject() {
