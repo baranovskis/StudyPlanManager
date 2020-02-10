@@ -109,6 +109,9 @@ import $ from "jquery";
 import spectrum from "spectrum-colorpicker";
 import { constants } from "buffer";
 
+// TODO: Use component data instead of this
+let gStudies = [];
+
 export default {
   components: {
     SlimGrid,
@@ -131,6 +134,12 @@ export default {
           minWidth: 150,
           editor: Editors.Text
         },
+		
+		parentTreeId: {
+			name: this.$t("settings.parentTreeId"),
+			formatter: this.select2Formatter,
+			editor: this.select2Editor
+		},
 
         creditPointLimit: {
           name: this.$t("settings.creditPointLimit"),
@@ -206,10 +215,10 @@ export default {
           // Studies
           for (let i = 0; i < response.data.studies.length; i++) {
             var data = response.data.studies[i];
-
             let row = {
               id: data.treeId,
               studyName: data.studyName,
+			  parentTreeId: data.parentTreeId,
               creditPointLimit: data.creditPointLimit,
               isObligatory: data.isObligatory,
               action: undefined
@@ -245,7 +254,9 @@ export default {
 
             this.courses.push(row);
           }
-        })
+		
+		  gStudies = [].concat(this.studies);
+		})
         .catch(error => {
           console.log(error);
           //this.errored = true
@@ -377,7 +388,7 @@ export default {
 
       return uuid;
     },
-
+	
     onGridDoubleClick(e, args) {
       let column = args.grid.getColumns()[args.cell].id;
 
@@ -487,6 +498,77 @@ export default {
 
       this.init();
     },
+	
+	select2Editor(args){
+	  let $select;
+	  let defaultValue;
+	  let scope = this;
+
+	  this.init = function(){
+		$select = $("<select class='grid-select'><option value=\"\">-</option></select>");		
+		scope.initOptions();
+		$select.val(args.item.parentTreeId);
+		$select.width(args.container.clientWidth);
+		$select.appendTo(args.container);
+		$select.focus();
+	  };
+
+	  this.destroy = function(){
+		$select.remove();
+	  };
+
+	  this.focus = function(){
+		$select.focus();
+	  };
+
+	  this.loadValue = function(item){
+		defaultValue = item[args.column.field];
+		$select.val(defaultValue);
+		$select.select();
+	  };
+
+	  this.serializeValue = function () {
+		return $select.val();
+	  };
+
+	  this.applyValue = function(item, state){
+		item[args.column.field] = state;
+	  };
+
+	  this.isValueChanged = function(){
+		return ($select.val() != defaultValue);
+	  };
+
+	  this.validate = function(){
+		return {
+		  valid: true,
+		  msg: null
+		};
+	  };
+
+	  this.initOptions = function(){
+		gStudies.forEach((obj) => {
+			if (obj.id != args.item.id  && (obj.parentTreeId == null || obj.parentTreeId == '')) {
+			  $select.append(
+			   "<option value=\"" + obj.id + "\">" + obj.studyName + "</option>"
+			  );
+			}
+		});
+	  }
+	  
+	  this.init();
+	},
+
+	select2Formatter(row, cell, value, columnDef, dataContext) {
+		let selectedObj = '-';
+		gStudies.forEach((obj) => {
+			if (obj.id == value) {
+			  selectedObj = obj.studyName;
+			}
+		});
+		
+		return selectedObj;
+	},
 
     customColorFormatter(row, cell, value, columnDef, dataContext) {
       return (

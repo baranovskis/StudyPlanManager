@@ -21,6 +21,7 @@ import VueI18n from 'vue-i18n'
 import router from "./router";
 import Argon from "./plugins/argon-kit";
 import './registerServiceWorker';
+import VueCookie from 'vue-cookie'
 
 import tRU from "./translates/ru.json";
 import tEN from "./translates/en.json";
@@ -30,9 +31,10 @@ import tLV from "./translates/lv.json";
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
 Vue.use(Argon);
+Vue.use(VueCookie);
 
 const i18n = new VueI18n({
-  locale: 'ru',
+  locale: VueCookie.get('locale') || 'lv',
   messages: {
     ru: tRU,
     en: tEN,
