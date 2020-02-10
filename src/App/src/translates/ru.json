@@ -1,10 +1,14 @@
 {
 	"base": {
 		"cancel": "Отменить",
+		"restore": "Восстановить",
 		"save": "Сохранить",
 		"close": "Закрыть",
 		"create": "Создать",
-		"restore": "Восстановить"
+		"confirmation": "Подтверждение",
+		"yes": "Да",
+		"no": "Нет",
+		"empty": "Пусто"
 	},
 	"home": {
 		"createNew": "Создать новый",
@@ -16,7 +20,25 @@
 		"actions": "Действия",
 		"edit": "Редактировать",
 		"delete": "Удалить",
-		"export": "Экспортировать"
+		"export": "Экспортировать",
+		"areYouSureDeleteProject": "Вы уверены, что хотите удалить данный проект?"
+	},
+	"project": {
+		"default": "Стандартный",
+		"createNewProject": "Создать новый проект",
+		"projectTree": "Дерево проекта",
+		"settings": "Настройки",
+		"name": "Название",
+		"studies": "Предметы",
+		"study": "Предмет",
+		"treeSettings": "Настройки дерева",
+		"export": "Экспорт",
+		"total": "Всего",
+		"areYouSureRestore": "Вы уверены, что хотите востановить данный проект?",
+		"allChangesWillBeLost": "Все изменения будут потеряны!",
+		"class10": "10. класс",
+		"class11": "11. класс",
+		"class12": "12. класс"
 	},
 	"settings": {
 		"studyName": "Предмет",
@@ -31,23 +53,10 @@
 		"addNew": "Добавить",
 		"delete": "Удалить"
 	},
-	"project": {
-		"createNewProject": "Создать новый проект",
-		"name": "Название",
-		"parentTemplate": "Шаблон",
-		"default": "Стандартный",
-		"settings": "Настройки",
-		"export": "Экспорт",
-		"study": "Предмет",
-		"studies": "Предметы",
-		"projecttree": "Дерево проекта",
-		"class10": "10. класс",
-		"class11": "11. класс",
-		"class12": "12. класс"
-	},
 	"errors": {
-		"error": "Ошибка",
-		"warning": "Внимание",
+		"error": "Ошибка!",
+		"warning": "Внимание!",
+		"info": "Инфо!",
 		"notEnoughCreditPointsInYear": "Количество кредитных пунктов не достигает допустимого значения",
 		"tooManyCreditPointsInYear": "Количество кредитных пунктов превышает допустимое значение",
 		"obligatoryStudiesNotFilled": "Некоторые обязательные предметы не заполнены",

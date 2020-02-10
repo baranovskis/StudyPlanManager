@@ -30,15 +30,15 @@
 		"settings": "Settings",
 		"name": "Name",
 		"studies": "Studies",
-		"groups": "Groups",
-		"courses": "Courses",
 		"study": "Study",
 		"treeSettings": "Tree settings",
 		"export": "Export",
-		"items": "items",
 		"total": "Total",
 		"areYouSureRestore": "Are you sure you want to restore this project?",
-		"allChangesWillBeLost": "All changes will be lost!"
+		"allChangesWillBeLost": "All changes will be lost!",
+		"class10": "Study year 10",
+		"class11": "Study year 11",
+		"class12": "Study year 12"
 	},
 	"settings": {
 		"actions": "Actions",

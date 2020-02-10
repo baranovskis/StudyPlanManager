@@ -30,15 +30,15 @@
 		"settings": "Iestatījumi",
 		"name": "Nosaukums",
 		"studies": "Nodarbības",
-		"groups": "Jomas",
-		"courses": "Kursi",
 		"study": "Nodarbība",
 		"treeSettings": "Koka iestatījumi",
 		"export": "Eksportēt",
-		"items": "priekšmeti",
 		"total": "Kopā",
 		"areYouSureRestore": "Vai tiešām vēlaties atjaunot šo projektu?",
-		"allChangesWillBeLost": "Visas izmaiņas tiks zaudētas!"
+		"allChangesWillBeLost": "Visas izmaiņas tiks zaudētas!",
+		"class10": "Stud. gads 10",
+		"class11": "Stud. gads 11",
+		"class12": "Stud. gads 12"
 	},
 	"settings": {
 		"actions": "Darbības",
