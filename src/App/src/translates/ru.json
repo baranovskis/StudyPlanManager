@@ -1,7 +1,10 @@
 {
 	"base": {
 		"cancel": "Отменить",
-		"save": "Сохранить"
+		"save": "Сохранить",
+		"close": "Закрыть",
+		"create": "Создать",
+		"restore": "Восстановить"
 	},
 	"home": {
 		"createNew": "Создать новый",
@@ -9,6 +12,7 @@
 		"treeSettings": "Настройки дерева",
 		"dataSettings": "Настройки данных",
 		"project": "Проект",
+		"parentTemplate": "Шаблон",
 		"сreationDate": "Дата создания",
 		"lastUpdateDate": "Дата последнего обновления",
 		"actions": "Действия",
@@ -23,14 +27,34 @@
 		"groupName": "Группа",
 		"minimalStudyCount": "Минимальное кол.во предметов",
 		"courseName": "Курс",
-		"backgroundColor": "Цвет фона"
+		"backgroundColor": "Цвет фона",
+		"parentTreeId": "Родительский предмет",
+		"actions": "Действия",
+		"addNew": "Добавить",
+		"delete": "Удалить"
+	},
+	"project": {
+		"createNewProject": "Создать новый проект",
+		"name": "Название",
+		"parentTemplate": "Шаблон",
+		"default": "Стандартный",
+		"settings": "Настройки",
+		"export": "Экспорт",
+		"study": "Предмет",
+		"studies": "Предметы",
+		"projecttree": "Дерево проекта",
+		"class10": "10. класс",
+		"class11": "11. класс",
+		"class12": "12. класс"
 	},
 	"errors": {
-		"notEnoughCreditPointsInYear": "There are not enough credit points in some study years",
-		"tooManyCreditPointsInYear": "There are too many credit points in some study years",
-		"obligatoryStudiesNotFilled": "Some obligatory studies are not filled in",
-		"groupMinimalStudyCountNotMet": "Some groups don't have minimal required study count filled in",
-		"tooManyCreditPointsInStudy": "Some studies have too many credit points",
+		"error": "Ошибка",
+		"warning": "Внимание",
+		"notEnoughCreditPointsInYear": "Количество кредитных пунктов не достигает допустимого значения",
+		"tooManyCreditPointsInYear": "Количество кредитных пунктов превышает допустимое значение",
+		"obligatoryStudiesNotFilled": "Некоторые обязательные предметы не заполнены",
+		"groupMinimalStudyCountNotMet": "Некоторые группы не имеют минимальное необходимое количество предметов",
+		"tooManyCreditPointsInStudy": "Некоторые предметы имеют слишком много кредитных пунктов",
 		"parentStudiesNotFilled": "Some studies have parent studies not filled in"
 	}
 }

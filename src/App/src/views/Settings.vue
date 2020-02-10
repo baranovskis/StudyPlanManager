@@ -548,7 +548,7 @@ export default {
 
 	  this.initOptions = function(){
 		gStudies.forEach((obj) => {
-			if (obj.id != args.item.id  && (obj.parentTreeId == null || obj.parentTreeId == '')) {
+			if (obj.id != args.item.id) {
 			  $select.append(
 			   "<option value=\"" + obj.id + "\">" + obj.studyName + "</option>"
 			  );
