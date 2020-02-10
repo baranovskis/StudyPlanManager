@@ -13,8 +13,6 @@
 	"home": {
 		"createNew": "Create New",
 		"settings": "Settings",
-		"treeSettings": "Tree settings",
-		"dataSettings": "Data settings",
 		"project": "Project",
 		"сreationDate": "Creation Date",
 		"lastUpdateDate": "Last Update Date",
@@ -44,6 +42,7 @@
 	},
 	"settings": {
 		"actions": "Actions",
+		"parentTreeId": "Parent study",
 		"studyName": "Study",
 		"addNew": "Add New",
 		"delete": "Delete",

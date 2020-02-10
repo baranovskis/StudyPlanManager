@@ -1,16 +1,67 @@
 {
+	"base": {
+		"cancel": "Atcelt",
+		"restore": "Atjaunot",
+		"save": "Saglabāt",
+		"close": "Aizvērt",
+		"create": "Izveidot",
+		"confirmation": "Apstiprinājums",
+		"yes": "Jā",
+		"no": "Nē",
+		"empty": "Tukšs"
+	},
 	"home": {
-		"createNew": "Izveidot jaunu"
+		"createNew": "Izveidot jaunu",
+		"settings": "Iestatījumi",
+		"project": "Projekts",
+		"сreationDate": "Izveidošanas datums",
+		"lastUpdateDate": "Pēdējās atjaunināšanas datums",
+		"actions": "Darbības",
+		"edit": "Rediģēt",
+		"delete": "Dzēst",
+		"export": "Eksportēt",
+		"parentTemplate": "Vecāku veidne",
+		"areYouSureDeleteProject": "Vai jūs tiešām vēlaties dzēst šo projektu?"
 	},
 	"project": {
-		"study": "Priekšmets"
+		"default": "Pēc noklusējuma",
+		"createNewProject": "Izveidot jaunu projektu",
+		"projectTree": "Projekta koks",
+		"settings": "Iestatījumi",
+		"name": "Nosaukums",
+		"studies": "Nodarbības",
+		"groups": "Jomas",
+		"courses": "Kursi",
+		"study": "Nodarbība",
+		"treeSettings": "Koka iestatījumi",
+		"export": "Eksportēt",
+		"items": "priekšmeti",
+		"total": "Kopā",
+		"areYouSureRestore": "Vai tiešām vēlaties atjaunot šo projektu?",
+		"allChangesWillBeLost": "Visas izmaiņas tiks zaudētas!"
+	},
+	"settings": {
+		"actions": "Darbības",
+		"parentTreeId": "Vecāka nodarbība",
+		"studyName": "Nodarbība",
+		"addNew": "Pievieno jaunu",
+		"delete": "Dzēst",
+		"creditPointLimit": "Kredītpunktu limits",
+		"isObligatory": "Ir obligāts",
+		"groupName": "Joma",
+		"minimalStudyCount": "Minimālais nodarbību skaits",
+		"courseName": "Kurss",
+		"backgroundColor": "Fona krāsa"
 	},
 	"errors": {
-		"notEnoughCreditPointsInYear": "There are not enough credit points in some study years",
-		"tooManyCreditPointsInYear": "There are too many credit points in some study years",
-		"obligatoryStudiesNotFilled": "Some obligatory studies are not filled in",
-		"groupMinimalStudyCountNotMet": "Some groups don't have minimal required study count filled in",
-		"tooManyCreditPointsInStudy": "Some studies have too many credit points",
-		"parentStudiesNotFilled": "Some studies have parent studies not filled in"
+		"error": "Kļūda!",
+		"warning": "Brīdinājums!",
+		"info": "Informācija!",
+		"notEnoughCreditPointsInYear": "Dažos studiju gados kredītpunktu nav pietiekami",
+		"tooManyCreditPointsInYear": "Dažos studiju gados ir par daudz kredītpunktu",
+		"obligatoryStudiesNotFilled": "Dažas obligātas nodarbības nav aizpildītas",
+		"groupMinimalStudyCountNotMet": "Dažās jomās nav aizpildīts minimālais nepieciešamais nodarbību skaits",
+		"tooManyCreditPointsInStudy": "Dažam nodarbībam ir pārāk daudz kredītpunktu",
+		"parentStudiesNotFilled": "Dažam nodarbībam vecāku nodarbības nav aizpildītas"
 	}
 }
