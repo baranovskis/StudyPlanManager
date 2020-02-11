@@ -164,6 +164,7 @@ namespace StudyPlanManager.Logic
             studyProject.Name = name;
             studyProject.CreationDate = DateTime.Now;
             studyProject.LastUpdatedDate = DateTime.Now;
+            studyProject.FileName = Guid.NewGuid().ToString("N") + ".xml";
 
             // Add to list
             StudyProjects.Add(studyProject);
