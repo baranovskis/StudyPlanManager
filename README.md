@@ -2,10 +2,10 @@
 - [x] Check if web server is already running.
 - [x] Create & connect to a local database.
 - [x] Retrieve data from database in API controller.
-- [ ] Drag&drop study tree builder (StudyCourse -> StudyGroup -> Study).
+- [x] Drag&drop study tree builder (StudyCourse -> StudyGroup -> Study).
 - [x] Save changes from frontend to database.
 - [x] Data validation (min/max points ...).
-- [ ] Excel export.
+- [x] Excel export.
 - [x] Error logging.
 
 ## Quick start (frontend)
